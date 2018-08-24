@@ -81,7 +81,7 @@
     <div class="tagcloud-mask"></div>  
 <div class="tagcloud" id="tagcloud">
   <div class="tagcloud-inner">
-    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a>
+    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a>
   </div>
 </div>  
   
@@ -201,7 +201,7 @@
             </div>
             <div class="mobile-nav-tagcloud">
               <div class="mobile-tagcloud-inner">
-                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a>
+                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a>
               </div>
             </div>
           </div>
@@ -290,14 +290,151 @@
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
         <div class="post-time-wrapper">
-          <span>2018-08-22</span>
+          <span>2018-08-24</span>
           
           
         </div>
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          <a href="/2018/08/22/反射与动态代理/">反射与动态代理</a>
+          <a href="/2018/08/24/jpa深入/">JPA深入</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-JpaRepository继承关系"><a href="#1-JpaRepository继承关系" class="headerlink" title="1. JpaRepository继承关系"></a>1. JpaRepository继承关系</h2><p>JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：<br><strong>PagingAndSortingRepository</strong> 支持分页与排序，包含方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Iterable&lt;T&gt; <span class="title">findAll</span><span class="params">(Sort sort)</span></span>;</span><br><span class="line"><span class="comment">//Pageable包含分页信息</span></span><br><span class="line"><span class="function">Page&lt;T&gt; <span class="title">findAll</span><span class="params">(Pageable pageable)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>使用示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sort sort = <span class="keyword">new</span> Sort(Direction.DESC, <span class="string">"id"</span>);</span><br><span class="line">PageRequest pageRequest = <span class="keyword">new</span> PageRequest(pageNo, pageSize, sort);</span><br><span class="line">Page page = userRepository.findAll(pageRequest);</span><br></pre></td></tr></table></figure>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/24/jpa深入/#more">
+          <span>Read More...</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-08-24</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/24/jpa简单实践/">JPA初步</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>Spring data jpa是JPA规范的再次封装抽象，底层使用了Hibernate的JPA技术实现，引用JPQL（Java Persistence Query Language查询语言，属于 Spring 的整个生态体系的一部分。Spring Data JPA作为Spring生态的部分，使用起来比较方便，加快了开发的效率，使开发者不需要关系和配置更多的东西，完全可以沉浸在 Spring 的完整生态标准的实现下，上手简单、开发效率高，对象的支持比较好，有较大的灵活性，市场的认可度越来越高。</p>
+<h2 id="2-Spring-boot集成JPA"><a href="#2-Spring-boot集成JPA" class="headerlink" title="2. Spring boot集成JPA"></a>2. Spring boot集成JPA</h2><p>gradle添加依赖：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">	<span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-web'</span>)</span><br><span class="line">	<span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-data-jpa'</span>)</span><br><span class="line">	<span class="keyword">runtime</span>(<span class="string">'mysql:mysql-connector-java'</span>)</span><br><span class="line">	testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/24/jpa简单实践/#more">
+          <span>Read More...</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-08-24</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/24/java类加载/">java类加载机制</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-类加载过程-加载—-gt-链接—-gt-初始化"><a href="#1-类加载过程-加载—-gt-链接—-gt-初始化" class="headerlink" title="1. 类加载过程(加载—&gt;链接—&gt;初始化)"></a>1. 类加载过程(加载—&gt;链接—&gt;初始化)</h2><p><strong>加载：</strong> 是指查找字节流，并且据此创建类的过程。<br><strong>链接：</strong> 是指将创建成的类合并至 Java 虚拟机中，使之能够执行的过程。它可分为验证、准备以及解析三个阶段。</p>
+<ul>
+<li>验证：确保被加载类能够满足 Java 虚拟机的约束条件。</li>
+<li>准备：为被加载类的静态字段分配内存。Java 代码中对静态字段的具体初始化，则会在稍后的初始化阶段中进行。</li>
+<li>解析：将符号引用解析成为实际引用，如果符号引用指向一个未被加载的类，或者未被加载类的字段或方法，那么解析将触发这个类的加载</li>
+</ul>
+<p><strong>初始化：</strong> 是指给常量值的字段赋值，以及执行 &lt; clinit &gt; 方法的过程。Java 虚拟机会通过加锁来确保类的 &lt; clinit &gt; 方法仅被执行一次。初始化完成之后，类才正式成为可执行的状态。<br>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/24/java类加载/#more">
+          <span>Read More...</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-08-24</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/24/反射与动态代理/">反射与动态代理</a>
         
       </h1>
     </header>
@@ -316,144 +453,7 @@
       
     
       <p class="content-link">
-        <a href="/2018/08/22/反射与动态代理/#more">
-          <span>Read More...</span>
-        </a>
-      </p>
-    
-    </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-21</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/21/java类加载/">java类加载机制</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-类加载过程-加载—-gt-链接—-gt-初始化"><a href="#1-类加载过程-加载—-gt-链接—-gt-初始化" class="headerlink" title="1. 类加载过程(加载—&gt;链接—&gt;初始化)"></a>1. 类加载过程(加载—&gt;链接—&gt;初始化)</h2><p><strong>加载：</strong> 是指查找字节流，并且据此创建类的过程。<br><strong>链接：</strong> 是指将创建成的类合并至 Java 虚拟机中，使之能够执行的过程。它可分为验证、准备以及解析三个阶段。</p>
-<ul>
-<li>验证：确保被加载类能够满足 Java 虚拟机的约束条件。</li>
-<li>准备：为被加载类的静态字段分配内存。Java 代码中对静态字段的具体初始化，则会在稍后的初始化阶段中进行。</li>
-<li>解析：将符号引用解析成为实际引用，如果符号引用指向一个未被加载的类，或者未被加载类的字段或方法，那么解析将触发这个类的加载</li>
-</ul>
-<p><strong>初始化：</strong> 是指给常量值的字段赋值，以及执行 &lt; clinit &gt; 方法的过程。Java 虚拟机会通过加锁来确保类的 &lt; clinit &gt; 方法仅被执行一次。初始化完成之后，类才正式成为可执行的状态。<br>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/21/java类加载/#more">
-          <span>Read More...</span>
-        </a>
-      </p>
-    
-    </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-21</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/21/jpa深入/">JPA深入</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-JpaRepository继承关系"><a href="#1-JpaRepository继承关系" class="headerlink" title="1. JpaRepository继承关系"></a>1. JpaRepository继承关系</h2><p>JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：<br><strong>PagingAndSortingRepository</strong> 支持分页与排序，包含方法:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Iterable&lt;T&gt; <span class="title">findAll</span><span class="params">(Sort sort)</span></span>;</span><br><span class="line"><span class="comment">//Pageable包含分页信息</span></span><br><span class="line"><span class="function">Page&lt;T&gt; <span class="title">findAll</span><span class="params">(Pageable pageable)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>使用示例如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sort sort = <span class="keyword">new</span> Sort(Direction.DESC, <span class="string">"id"</span>);</span><br><span class="line">PageRequest pageRequest = <span class="keyword">new</span> PageRequest(pageNo, pageSize, sort);</span><br><span class="line">Page page = userRepository.findAll(pageRequest);</span><br></pre></td></tr></table></figure>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/21/jpa深入/#more">
-          <span>Read More...</span>
-        </a>
-      </p>
-    
-    </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-21</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/21/jpa简单实践/">JPA初步</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>Spring data jpa是JPA规范的再次封装抽象，底层使用了Hibernate的JPA技术实现，引用JPQL（Java Persistence Query Language查询语言，属于 Spring 的整个生态体系的一部分。Spring Data JPA作为Spring生态的部分，使用起来比较方便，加快了开发的效率，使开发者不需要关系和配置更多的东西，完全可以沉浸在 Spring 的完整生态标准的实现下，上手简单、开发效率高，对象的支持比较好，有较大的灵活性，市场的认可度越来越高。</p>
-<h2 id="2-Spring-boot集成JPA"><a href="#2-Spring-boot集成JPA" class="headerlink" title="2. Spring boot集成JPA"></a>2. Spring boot集成JPA</h2><p>gradle添加依赖：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">	<span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-web'</span>)</span><br><span class="line">	<span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-data-jpa'</span>)</span><br><span class="line">	<span class="keyword">runtime</span>(<span class="string">'mysql:mysql-connector-java'</span>)</span><br><span class="line">	testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/21/jpa简单实践/#more">
+        <a href="/2018/08/24/反射与动态代理/#more">
           <span>Read More...</span>
         </a>
       </p>
