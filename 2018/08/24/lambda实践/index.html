@@ -67,10 +67,9 @@
 
 
 
-  <title>
-  Ares
-  
-</title>
+  <meta name="keywords" content="java, lambda, Nlvi" />
+
+  <title> java类加载机制 · Ares </title>
 </head>
 <body>
   <div class="progress">
@@ -235,15 +234,11 @@
       <main class="main" id="main">
         <div class="main-wrapper">
           
-  
-
-<section class="posts">
-  
     
   
   <article class="
   post
-  
+   is_post 
   ">
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
@@ -251,18 +246,27 @@
           <span>2018-08-24</span>
           
           
+            
+              <aside class="post-tags syuanpi fadeInUpShort back-3">
+              
+                <a href="/tags/java/">java</a>
+              
+                <a href="/tags/lambda/">lambda</a>
+              
+              </aside>
+            
+          
         </div>
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          <a href="/2018/08/24/lambda实践/">java类加载机制</a>
+          java类加载机制
         
       </h1>
     </header>
     <div class="post-content syuanpi fadeInUpShort back-3">
       
-        
-          <h2 id="1-按key值过滤："><a href="#1-按key值过滤：" class="headerlink" title="1. 按key值过滤："></a>1. 按key值过滤：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Predicate&lt;T&gt; <span class="title">distinctByKey</span><span class="params">(Function&lt;? <span class="keyword">super</span> T, Object&gt; function)</span> </span>&#123;</span><br><span class="line">    Map&lt;Object, Boolean&gt; map = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">return</span> t -&gt; map.putIfAbsent(function.apply(t), Boolean.TRUE) == <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="1-按key值过滤："><a href="#1-按key值过滤：" class="headerlink" title="1. 按key值过滤："></a>1. 按key值过滤：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Predicate&lt;T&gt; <span class="title">distinctByKey</span><span class="params">(Function&lt;? <span class="keyword">super</span> T, Object&gt; function)</span> </span>&#123;</span><br><span class="line">    Map&lt;Object, Boolean&gt; map = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">return</span> t -&gt; map.putIfAbsent(function.apply(t), Boolean.TRUE) == <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    User user1 = <span class="keyword">new</span> User(<span class="number">1L</span>, <span class="string">"test1"</span>);</span><br><span class="line">    User user2 = <span class="keyword">new</span> User(<span class="number">2L</span>, <span class="string">"test2"</span>);</span><br><span class="line">    User user3 = <span class="keyword">new</span> User(<span class="number">1L</span>, <span class="string">"test1"</span>);</span><br><span class="line">    List&lt;User&gt; users = Arrays.asList(user1, user2, user3);</span><br><span class="line">    List&lt;User&gt; userList = users.stream()</span><br><span class="line">        .filter(CollectionUtils.distinctByKey(u -&gt; u.getUserId().toString() + u.getUserName()))</span><br><span class="line">        .collect(Collectors.toList());</span><br><span class="line">    userList.forEach(System.out::println);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>输出结果如下：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User:&#123;userId:1, userName:test1&#125;</span><br><span class="line">User:&#123;userId:2, userName:test2&#125;</span><br></pre></td></tr></table></figure>
@@ -271,251 +275,76 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExceptionsUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Logger logger = LoggerFactory.getLogger(ExceptionsUtils.class);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@FunctionalInterface</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UncheckedFunction</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//带默认值的异常封装</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T, R&gt; <span class="function">Function&lt;T, R&gt; <span class="title">of</span><span class="params">(UncheckedFunction&lt;T, R&gt; function, R defaultR)</span> </span>&#123;</span><br><span class="line">    Objects.requireNonNull(function);</span><br><span class="line">    <span class="keyword">return</span> t -&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> function.apply(t);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">        logger.error(<span class="string">"处理异常"</span>, ex);</span><br><span class="line">        <span class="keyword">return</span> defaultR;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@FunctionalInterface</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UncheckedConsumer</span>&lt;<span class="title">T</span>, <span class="title">E</span> <span class="keyword">extends</span> <span class="title">Exception</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(T t)</span> <span class="keyword">throws</span> E</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//不带默认值的异常封装</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Consumer&lt;T&gt; <span class="title">of</span><span class="params">(UncheckedConsumer&lt;T, Exception&gt; consumer)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> i -&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        consumer.accept(i);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">        logger.error(<span class="string">"处理异常"</span>, ex);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>优化后客户端处理：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//带默认值</span></span><br><span class="line">List&lt;String&gt; strings = users.stream()</span><br><span class="line">        .map(ExceptionsUtils.of(u -&gt; getUserName(u), <span class="string">"exception handle"</span>))</span><br><span class="line">        .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"><span class="comment">//不带默认值</span></span><br><span class="line">users.forEach(ExceptionsUtils.of(u-&gt;printUserInfo(u)));</span><br></pre></td></tr></table></figure></p>
 
-        
       
     
     </div>
     
-  </article>
-  
-  
-    
-  
+      
 
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-24</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/24/lambda实现机制分析/">lambda实现机制分析</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
       
-        
-          <h2 id="1-lambda代码与反编译"><a href="#1-lambda代码与反编译" class="headerlink" title="1. lambda代码与反编译"></a>1. lambda代码与反编译</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Lambda</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    println1();</span><br><span class="line">    println2();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Consumer&lt;String&gt; consumer = System.out::println;</span><br><span class="line">    consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Consumer&lt;String&gt; consumer = str -&gt; System.out.println(str);</span><br><span class="line">    consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/24/lambda实现机制分析/#more">
-          <span>Read More...</span>
-        </a>
-      </p>
-    
+  <hr class="copy-line">
+  <div class="post-copyright">
+    <div class="copy-author">
+      <span>Author :</span>
+      <span>Ares</span>
     </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-24</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/24/jpa简单实践/">JPA初步</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>Spring data jpa是JPA规范的再次封装抽象，底层使用了Hibernate的JPA技术实现，引用JPQL（Java Persistence Query Language查询语言，属于 Spring 的整个生态体系的一部分。Spring Data JPA作为Spring生态的部分，使用起来比较方便，加快了开发的效率，使开发者不需要关系和配置更多的东西，完全可以沉浸在 Spring 的完整生态标准的实现下，上手简单、开发效率高，对象的支持比较好，有较大的灵活性，市场的认可度越来越高。</p>
-<h2 id="2-Spring-boot集成JPA"><a href="#2-Spring-boot集成JPA" class="headerlink" title="2. Spring boot集成JPA"></a>2. Spring boot集成JPA</h2><p>gradle添加依赖：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">	<span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-web'</span>)</span><br><span class="line">	<span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-data-jpa'</span>)</span><br><span class="line">	<span class="keyword">runtime</span>(<span class="string">'mysql:mysql-connector-java'</span>)</span><br><span class="line">	testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/24/jpa简单实践/#more">
-          <span>Read More...</span>
-        </a>
-      </p>
-    
+    <div class="copy-url">
+      <span>Url :</span>
+      <a href="http://www.xxzp.tech/2018/08/24/lambda实践/">http://www.xxzp.tech/2018/08/24/lambda实践/</a>
     </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-24</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/24/jpa深入/">JPA深入</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-JpaRepository继承关系"><a href="#1-JpaRepository继承关系" class="headerlink" title="1. JpaRepository继承关系"></a>1. JpaRepository继承关系</h2><p>JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：<br><strong>PagingAndSortingRepository</strong> 支持分页与排序，包含方法:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Iterable&lt;T&gt; <span class="title">findAll</span><span class="params">(Sort sort)</span></span>;</span><br><span class="line"><span class="comment">//Pageable包含分页信息</span></span><br><span class="line"><span class="function">Page&lt;T&gt; <span class="title">findAll</span><span class="params">(Pageable pageable)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>使用示例如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sort sort = <span class="keyword">new</span> Sort(Direction.DESC, <span class="string">"id"</span>);</span><br><span class="line">PageRequest pageRequest = <span class="keyword">new</span> PageRequest(pageNo, pageSize, sort);</span><br><span class="line">Page page = userRepository.findAll(pageRequest);</span><br></pre></td></tr></table></figure>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/24/jpa深入/#more">
-          <span>Read More...</span>
-        </a>
-      </p>
-    
+    <div class="copy-origin">
+      <span>Origin :</span>
+      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
     </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-24</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/24/java类加载/">java类加载机制</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
+    <div class="copy-license">
       
-        
-          <h2 id="1-类加载过程-加载—-gt-链接—-gt-初始化"><a href="#1-类加载过程-加载—-gt-链接—-gt-初始化" class="headerlink" title="1. 类加载过程(加载—&gt;链接—&gt;初始化)"></a>1. 类加载过程(加载—&gt;链接—&gt;初始化)</h2><p><strong>加载：</strong> 是指查找字节流，并且据此创建类的过程。<br><strong>链接：</strong> 是指将创建成的类合并至 Java 虚拟机中，使之能够执行的过程。它可分为验证、准备以及解析三个阶段。</p>
-<ul>
-<li>验证：确保被加载类能够满足 Java 虚拟机的约束条件。</li>
-<li>准备：为被加载类的静态字段分配内存。Java 代码中对静态字段的具体初始化，则会在稍后的初始化阶段中进行。</li>
-<li>解析：将符号引用解析成为实际引用，如果符号引用指向一个未被加载的类，或者未被加载类的字段或方法，那么解析将触发这个类的加载</li>
-</ul>
-<p><strong>初始化：</strong> 是指给常量值的字段赋值，以及执行 &lt; clinit &gt; 方法的过程。Java 虚拟机会通过加锁来确保类的 &lt; clinit &gt; 方法仅被执行一次。初始化完成之后，类才正式成为可执行的状态。<br>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/24/java类加载/#more">
-          <span>Read More...</span>
-        </a>
-      </p>
-    
+      著作权归作者所有，转载请联系作者获得授权。
     </div>
+  </div>
+
     
   </article>
   
-  
     
-  
-
-  
+  <nav class="article-page">
     
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-24</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/24/反射与动态代理/">反射与动态代理</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-反射概述"><a href="#1-反射概述" class="headerlink" title="1. 反射概述"></a>1. 反射概述</h2><p>Java反射机制可以动态地获取类的结构，动态地调用对象的方法，是java语言一个动态化的机制。其功能场景：</p>
-<ul>
-<li>运行时构造一个类的对象</li>
-<li>运行时获取一个类信息，如方法，属性</li>
-<li>实现动态代理，很多框架都有基于动态代理实现</li>
-</ul>
-<h3 id="1-1-反射获取类信息"><a href="#1-1-反射获取类信息" class="headerlink" title="1.1 反射获取类信息"></a>1.1 反射获取类信息</h3><p>获取类信息方式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;TestReflect&gt; clazz1 = TestReflect.class;</span><br><span class="line">Class&lt;?&gt; clazz2 = Class.forName(<span class="string">"com.xxzp.ares.utils.reflect.TestReflect"</span>);</span><br><span class="line">TestReflect testReflect = <span class="keyword">new</span> TestReflect();</span><br><span class="line">Class&lt;?&gt; clazz3 = testReflect.getClass();</span><br></pre></td></tr></table></figure>
-        
-      
     
-      <p class="content-link">
-        <a href="/2018/08/24/反射与动态代理/#more">
-          <span>Read More...</span>
-        </a>
-      </p>
+      <a href="/2018/08/24/lambda实现机制分析/" id="art-right" class="art-right">
+        <span class="prev-title"> 
+          lambda实现机制分析<i class="iconfont icon-right"></i>  
+        </span>
+      </a>
     
-    </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-</section>
-  
-  <nav class="pagination">
-      <span class="page-number current">1</span>
   </nav>
+
+    
+  <i id="com-switch" class="iconfont icon-more jumping-in long infinite" style="font-size:24px;display:block;text-align:center;transform:rotate(180deg);"></i>
+  <div class="post-comments" id="post-comments" style="display: block;margin: auto 16px;">
+    
+    
+    
+
+    
+
+  </div>
+
+
+
+  
+  
+    
+  
+  <aside class="post-toc">
+    <span class="title" id="toc-switch"><span>Index</span></span>
+    <div class="toc-inner syuanpi back-1" style="display:none;">
+      <li class="title-link"><a href="javascript:;" class="toTop">java类加载机制</a></li>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-按key值过滤："><span class="toc-text">1. 按key值过滤：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-lambda自定义捕获异常"><span class="toc-text">2. lambda自定义捕获异常</span></a></li></ol>
+    </div>
+  </aside>
+
+
+
+  
 
 
         </div>
