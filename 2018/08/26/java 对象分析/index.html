@@ -285,7 +285,7 @@
 <p><strong>Klass:</strong> 对象指向它的类的元数据的指针,但是并不是所有的虚拟机实现都必须在对象数据上保留类型指针，查找对象的元数据信息并不一定要经过对象本身。如java数组，对象头中还必须有一块用于记录数组长度的数据，因为虚拟机可以通过普通Java对象的元数据信息确定Java对象的大小，但是从数组的元数据中无法确定数组的大小。</p>
 <h3 id="3-2-Instance-Data"><a href="#3-2-Instance-Data" class="headerlink" title="3.2 Instance Data"></a>3.2 Instance Data</h3><p>实例数据部分是对象真正存储的有效信息，即程序代码里面所定义的各种类型的字段内容，无论是从父类继承下来的，还是在子类中定义的都需要记录下来。 这部分的存储顺序会受到虚拟机分配策略参数（FieldsAllocationStyle）和字段在Java源码中定义顺序的影响。HotSpot虚拟机 默认的分配策略为longs/doubles、ints、shorts/chars、bytes/booleans、oops（Ordinary Object Pointers），从分配策略中可以看出，相同宽度的字段总是被分配到一起。在满足这个前提条件的情况下，在父类中定义的变量会出现在子类之前。如果 CompactFields参数值为true（默认为true），那子类之中较窄的变量也可能会插入到父类变量的空隙之中。</p>
 <h3 id="3-3-Padding"><a href="#3-3-Padding" class="headerlink" title="3.3 Padding"></a>3.3 Padding</h3><p>对齐填充并不是必然存在的，也没有特别的含义，它仅仅起着占位符的作用。由于HotSpot VM的自动内存管理系统要求对象起始地址必须是8字节的整数倍，换句话说就是对象的大小必须是8字节的整数倍。对象头正好是8字节的倍数（1倍或者2倍），因此当对象实例数据部分没有对齐的话，就需要通过对齐填充来补全。</p>
-<p><strong>指针压缩与重排序：</strong></p>
+<p><strong>指针压缩与内存对齐：</strong></p>
 <p>64 位的 Java 虚拟机中，对象头的标记字段占 64 位，而类型指针又占了 64 位。也就是说，每一个 Java 对象在内存中的额外开销就是 16 个字节。64 位 Java 虚拟机引入了压缩指针，将堆中原本 64 位的 Java 对象指针压缩成 32 位。对象头中的类型指针也会被压缩成 32 位，使得对象头的大小从 16 字节降至 12 字节。</p>
 <p>Java 虚拟机重新分配字段的先后顺序，以达到内存对齐的目的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PandingTestA</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">long</span> a=<span class="number">10</span>;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> b=<span class="number">20</span>;</span><br><span class="line">  <span class="keyword">private</span> Long c=<span class="number">30L</span>;</span><br><span class="line">  <span class="keyword">private</span> Integer d=<span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    System.out.println(ClassLayout.parseInstance(<span class="keyword">new</span> PandingTestA()).toPrintable());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
 <p>对象内存结构测试结果：</p>
@@ -313,9 +313,9 @@
     
   <nav class="article-page">
     
-      <a href="/2018/08/28/java 锁机制/" id="art-left" class="art-left">
+      <a href="/2018/08/28/java 内存模型/" id="art-left" class="art-left">
         <span class="next-title">
-          <i class="iconfont icon-left"></i>java 锁机制分析
+          <i class="iconfont icon-left"></i>java 内存模型
         </span>
       </a>
     
