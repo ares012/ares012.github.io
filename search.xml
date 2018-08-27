@@ -3,23 +3,6 @@
   
     
     <entry>
-      <title>java 内存模型</title>
-      <link href="/2018/08/28/java%20%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
-      <url>/2018/08/28/java%20%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</url>
-      <content type="html"><![CDATA[]]></content>
-      
-      
-        <tags>
-            
-            <tag> jvm </tag>
-            
-            <tag> java </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    <entry>
       <title>java 对象分析</title>
       <link href="/2018/08/26/java%20%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90/"/>
       <url>/2018/08/26/java%20%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90/</url>
