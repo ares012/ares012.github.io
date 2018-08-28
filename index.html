@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="zh-CN">
 <head>
   <link rel="stylesheet" href="/style/style.css">
 <script>
@@ -48,12 +48,12 @@
 
 
 
-  <script type="text/javascript">
+  <script>
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
       hm.src = "https://hm.baidu.com/hm.js?1ffff9b13489707bf74f86f6b4b54368";
-      var s = document.getElementsByTagName("script")[0];
+      var s = document.getElementsByTagName("script")[0]; 
       s.parentNode.insertBefore(hm, s);
     })();
   </script>
@@ -112,7 +112,7 @@
   
     <li class="menu-item">
       <a href="javascript:;" id="search">
-        <span>Search</span>
+        <span>搜索</span>
         
           <span class="menu-item-label">search</span>
         
@@ -125,7 +125,7 @@
     
     <li class="menu-item">
       <a href="/" id="article">
-        <span class="base-name">Article</span>
+        <span class="base-name">文章</span>
         
           <span class="menu-item-label">article</span>
         
@@ -137,7 +137,7 @@
     
     <li class="menu-item">
       <a href="/archives" id="archives">
-        <span class="base-name">Archives</span>
+        <span class="base-name">归档</span>
         
           <span class="menu-item-label">archives</span>
         
@@ -149,7 +149,7 @@
     
     <li class="menu-item">
       <a href="javascript:;" id="tags">
-        <span class="base-name">Tags</span>
+        <span class="base-name">标签</span>
         
           <span class="menu-item-label">tags</span>
         
@@ -161,7 +161,7 @@
     
     <li class="menu-item">
       <a href="/about" id="about">
-        <span class="base-name">About</span>
+        <span class="base-name">关于</span>
         
           <span class="menu-item-label">about</span>
         
@@ -183,8 +183,9 @@
         
             <div class="mobile-nav-item">
                 <a href="/">
-                    <span>Article</span>
+                    <span>文章</span>
                     
+                        <span class="menu-item-label">article</span>
                     
                 </a>
             </div>
@@ -193,8 +194,9 @@
         
             <div class="mobile-nav-item">
                 <a href="/archives">
-                    <span>Archives</span>
+                    <span>归档</span>
                     
+                        <span class="menu-item-label">archives</span>
                     
                 </a>
             </div>
@@ -204,8 +206,9 @@
           <div class="mobile-nav-item inner-cloud">
             <div class="mobile-nav-tag">
               <a href="javascript:;" id="mobile-tags">
-                <span>Tags</span>
+                <span>标签</span>
                 
+                    <span class="menu-item-label">tags</span>
                 
               </a>
             </div>
@@ -220,8 +223,9 @@
         
             <div class="mobile-nav-item">
                 <a href="/about">
-                    <span>About</span>
+                    <span>关于</span>
                     
+                        <span class="menu-item-label">about</span>
                     
                 </a>
             </div>
@@ -258,6 +262,48 @@
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
         <div class="post-time-wrapper">
+          <span>2018-08-29</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/29/ synchronized 实现机制分析/">synchronized 实现机制分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>synchronized 关键字用来对程序进行加锁，它既可以用来声明一个 synchronized 代码块，也可以直接标记静态方法或者实例方法，被 synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。先通过一段代码看下 jvm 层面的控制：<br>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/29/ synchronized 实现机制分析/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
           <span>2018-08-28</span>
           
           
@@ -278,7 +324,7 @@
     
       <p class="content-link">
         <a href="/2018/08/28/volatile 实现机制分析/#more">
-          <span>Read More...</span>
+          <span>继续阅读</span>
         </a>
       </p>
     
@@ -326,7 +372,7 @@
     
       <p class="content-link">
         <a href="/2018/08/27/java 内存模型/#more">
-          <span>Read More...</span>
+          <span>继续阅读</span>
         </a>
       </p>
     
@@ -368,7 +414,7 @@
     
       <p class="content-link">
         <a href="/2018/08/26/java 对象分析/#more">
-          <span>Read More...</span>
+          <span>继续阅读</span>
         </a>
       </p>
     
@@ -410,49 +456,7 @@
     
       <p class="content-link">
         <a href="/2018/08/23/lambda实践/#more">
-          <span>Read More...</span>
-        </a>
-      </p>
-    
-    </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-22</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/22/lambda实现机制分析/">lambda实现机制分析</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-lambda代码与反编译"><a href="#1-lambda代码与反编译" class="headerlink" title="1. lambda代码与反编译"></a>1. lambda代码与反编译</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Lambda</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    println1();</span><br><span class="line">    println2();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Consumer&lt;String&gt; consumer = System.out::println;</span><br><span class="line">    consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Consumer&lt;String&gt; consumer = str -&gt; System.out.println(str);</span><br><span class="line">    consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/22/lambda实现机制分析/#more">
-          <span>Read More...</span>
+          <span>继续阅读</span>
         </a>
       </p>
     
@@ -468,7 +472,7 @@
 </section>
   
   <nav class="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next ></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 ></a>
   </nav>
 
 
@@ -510,11 +514,11 @@
     </div>
     <div class="theme">
         <span>
-            Powered by
+            动力来源于
             <a href="http://hexo.io/" target="_blank">Hexo </a>
         </span>
         <span>
-            Theme
+            主题
             <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
         </span>
     </div>
