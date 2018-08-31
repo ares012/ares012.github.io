@@ -267,6 +267,50 @@
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
         <div class="post-time-wrapper">
+          <span>2018-08-30</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/30/AQS 初步/">AQS 初步</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>AQS：AbstractQueuedSynchronizer，即队列同步器，是构建锁或者其他同步组件的基础框架，JUC并发包的实现基础。下图都是基于 aqs 实现的，Semaphore，ReentrantLock，ReentrantReadWriteLock，Worker 等。</p>
+<p><img src="/img/aqs.png" alt=""></p>
+<p>AQS主要使用方式是继承，子类通过继承同步器并实现它的抽象方法来管理同步状态。在内部使用（volatile int） state来表示同步状态，当state&gt;0时表示已经获取了锁，当state = 0时表示释放了锁。同时提供了getState()、setState(int newState)、compareAndSetState(int expect,int update）来对同步状态state进行操作。通过 FIFO 同步队列来完成线程的排队，如果当前线程获取同步状态失败（锁）时，AQS则会将当前线程以及等待状态等信息构造成一个节点（Node）并将其加入同步队列，同时会阻塞当前线程，当同步状态释放时，则会把节点中的线程唤醒，使其再次尝试获取同步状态。<br>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/30/AQS 初步/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
           <span>2018-08-29</span>
           
           
@@ -419,48 +463,6 @@
     
       <p class="content-link">
         <a href="/2018/08/27/java 内存模型/#more">
-          <span>继续阅读</span>
-        </a>
-      </p>
-    
-    </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-26</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/26/java 对象分析/">java 对象分析</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-常见-java-对象创建方式"><a href="#1-常见-java-对象创建方式" class="headerlink" title="1. 常见 java 对象创建方式"></a>1. 常见 java 对象创建方式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User user1 = User.class.newInstance();</span><br><span class="line">User user2 = (User) Class.forName(<span class="string">"com.xxzp.ares.utils.reflect.TestReflect"</span>).newInstance();</span><br><span class="line">User user3 = User.class.getConstructor().newInstance(<span class="number">1245L</span>, <span class="string">"test"</span>);</span><br><span class="line">User user4 = (User) user1.clone();<span class="comment">//需继承Cloneable与重写clone()方法</span></span><br></pre></td></tr></table></figure>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/26/java 对象分析/#more">
           <span>继续阅读</span>
         </a>
       </p>

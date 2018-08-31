@@ -267,6 +267,51 @@
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
         <div class="post-time-wrapper">
+          <span>2018-08-19</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/19/jpa深入/">JPA深入</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-JpaRepository继承关系"><a href="#1-JpaRepository继承关系" class="headerlink" title="1. JpaRepository继承关系"></a>1. JpaRepository继承关系</h2><p>JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：<br><strong>PagingAndSortingRepository</strong> 支持分页与排序，包含方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Iterable&lt;T&gt; <span class="title">findAll</span><span class="params">(Sort sort)</span></span>;</span><br><span class="line"><span class="comment">//Pageable包含分页信息</span></span><br><span class="line"><span class="function">Page&lt;T&gt; <span class="title">findAll</span><span class="params">(Pageable pageable)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>使用示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sort sort = <span class="keyword">new</span> Sort(Direction.DESC, <span class="string">"id"</span>);</span><br><span class="line">PageRequest pageRequest = <span class="keyword">new</span> PageRequest(pageNo, pageSize, sort);</span><br><span class="line">Page page = userRepository.findAll(pageRequest);</span><br></pre></td></tr></table></figure>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/19/jpa深入/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
           <span>2018-08-18</span>
           
           
