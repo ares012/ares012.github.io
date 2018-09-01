@@ -86,7 +86,7 @@
     <div class="tagcloud-mask"></div>  
 <div class="tagcloud" id="tagcloud">
   <div class="tagcloud-inner">
-    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
   </div>
 </div>
   
@@ -209,7 +209,7 @@
             </div>
             <div class="mobile-nav-tagcloud">
               <div class="mobile-tagcloud-inner">
-                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
               </div>
             </div>
           </div>
@@ -247,6 +247,52 @@
   
 
 <section class="posts">
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-08-31</span>
+          
+            
+              <span class="post-category"><a href="/categories/gc/">gc</a></span>
+            
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/31/GC 算法概述/">GC 初步</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-GC-概述"><a href="#1-GC-概述" class="headerlink" title="1. GC 概述"></a>1. GC 概述</h2><h3 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h3><p>GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去关注 gc，然而在遇到各种内存溢出、内存泄漏问题时，当垃圾收集称为系统达到更高并发量的瓶颈时，只有深入理解 gc 和内存分配，才能对这些“自动化”的技术实施必要的监控和调节。 在深入之前我们先看几个基础概念：<br>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/31/GC 算法概述/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
   
     
   
@@ -350,48 +396,6 @@
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          <a href="/2018/08/28/ synchronized 实现机制分析/">synchronized 实现机制分析</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>synchronized 关键字用来对程序进行加锁，它既可以用来声明一个 synchronized 代码块，也可以直接标记静态方法或者实例方法，被 synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。先通过一段代码看下 jvm 层面的控制：<br>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/28/ synchronized 实现机制分析/#more">
-          <span>继续阅读</span>
-        </a>
-      </p>
-    
-    </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-28</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
           <a href="/2018/08/28/volatile 实现机制分析/">volatile 实现机制分析</a>
         
       </h1>
@@ -427,32 +431,26 @@
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
         <div class="post-time-wrapper">
-          <span>2018-08-27</span>
+          <span>2018-08-28</span>
           
           
         </div>
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          <a href="/2018/08/27/java 内存模型/">java 内存模型分析</a>
+          <a href="/2018/08/28/ synchronized 实现机制分析/">synchronized 实现机制分析</a>
         
       </h1>
     </header>
     <div class="post-content syuanpi fadeInUpShort back-3">
       
         
-          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>在多核系统中，处理器一般都会有一层或者多层的缓存，这些的缓存通过加速数据访问和降低共享内存在总线上的通讯来提高CPU性能。这就导致并发编程必须面临两个关键问题：线程通信及线程同步。</p>
-<p><strong>线程通信</strong> 命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。</p>
-<ul>
-<li>共享内存：线程之间共享程序的公共状态，线程之间通过写-读内存中的公共状态来隐式进行通信。</li>
-<li>消息传递的并发模型里：线程之间没有公共状态，线程之间必须通过明确的发送消息来显式进行通信。</li>
-</ul>
-<p><strong>线程同步</strong> 指程序用于控制不同线程之间操作发生相对顺序的机制。<br>Java 的并发模型采用的是共享内存模型，Java 线程之间的通信总是隐式进行，整个通信过程对程序员完全透明。JMM 通过控制主内存与每个线程的本地内存之间的交互，来为 java 程序员提供内存可见性保证。<br>
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>synchronized 关键字用来对程序进行加锁，它既可以用来声明一个 synchronized 代码块，也可以直接标记静态方法或者实例方法，被 synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。先通过一段代码看下 jvm 层面的控制：<br>
         
       
     
       <p class="content-link">
-        <a href="/2018/08/27/java 内存模型/#more">
+        <a href="/2018/08/28/ synchronized 实现机制分析/#more">
           <span>继续阅读</span>
         </a>
       </p>
