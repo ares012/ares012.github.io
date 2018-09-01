@@ -13,7 +13,7 @@
       animate: true,
       search: true,
       friends: false,
-      reward: true,
+      reward: false,
       lazy: false
     }
   }
@@ -50,18 +50,6 @@
 
 
 
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?1ffff9b13489707bf74f86f6b4b54368";
-      var s = document.getElementsByTagName("script")[0]; 
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 <meta charset="UTF-8"/>
@@ -84,23 +72,23 @@
 
   <meta name="keywords" content="java, 并发, Nlvi" />
 
-  <title> AQS 分析 · Ares </title>
+  <title> AQS 深入分析 · Ares </title>
 </head>
 <body>
   <div class="progress">
   <div class="progress-inner"></div>
 </div>
-  
+
   
     <div class="tagcloud-mask"></div>  
 <div class="tagcloud" id="tagcloud">
   <div class="tagcloud-inner">
     <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
   </div>
-</div>  
+</div>
   
 
-  <div class="container">
+  <div class="container" style="display:none;">
 
     <header class="header" id="header">
   <div class="header-wrapper">
@@ -279,7 +267,7 @@
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          AQS 分析
+          AQS 深入分析
         
       </h1>
     </header>
@@ -317,19 +305,28 @@
     </div>
     
       
-  <div class="post-reward">
-    <span class="reward-btn" id="reward-btn">支付宝赞赏</span>
-    <div class="reward-wrapper syuanpi" id="reward-wrapper" style="display:none;">
+
       
-      <div class="reward-item reward-alipay">
-        <img src="/img/alipay.jpeg">
-      </div>
+  <hr class="copy-line">
+  <div class="post-copyright">
+    <div class="copy-author">
+      <span>作者 :</span>
+      <span>Ares</span>
+    </div>
+    <div class="copy-url">
+      <span>地址 :</span>
+      <a href="http://www.xxzp.tech/2018/08/30/AQS 深入分析/">http://www.xxzp.tech/2018/08/30/AQS 深入分析/</a>
+    </div>
+    <div class="copy-origin">
+      <span>来源 :</span>
+      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
+    </div>
+    <div class="copy-license">
       
+      著作权归作者所有，转载请联系作者获得授权。
     </div>
   </div>
 
-
-      
     
   </article>
   
@@ -337,7 +334,7 @@
   <nav class="article-page">
     
     
-      <a href="/2018/08/29/CAS 深入/" id="art-right" class="art-right">
+      <a href="/2018/08/29/CAS 深入分析/" id="art-right" class="art-right">
         <span class="prev-title"> 
           CAS 深入分析<i class="iconfont icon-right"></i>  
         </span>
@@ -349,6 +346,22 @@
   <i id="com-switch" class="iconfont icon-more jumping-in long infinite" style="font-size:24px;display:block;text-align:center;transform:rotate(180deg);"></i>
   <div class="post-comments" id="post-comments" style="display: block;margin: auto 16px;">
     
+<!-- Gitment Comments -->
+<div id="gitment"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: "ares012",
+  repo: 'ares012.github.io',
+  oauth: {
+    client_id: 'db63bc3565b2826f0c2e',
+    client_secret: 'd4c16ed3b7218968b966676ed60bb4b57e711c2c',
+  },
+})
+gitment.render('gitment')
+</script>
+
     
     
 
@@ -365,7 +378,7 @@
   <aside class="post-toc">
     <span class="title" id="toc-switch"><span>文章导航</span></span>
     <div class="toc-inner syuanpi back-1" style="display:none;">
-      <li class="title-link"><a href="javascript:;" class="toTop">AQS 分析</a></li>
+      <li class="title-link"><a href="javascript:;" class="toTop">AQS 深入分析</a></li>
       <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-AQS-数据模型"><span class="toc-text">2. AQS 数据模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-AQS-操作"><span class="toc-text">3. AQS 操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-总结"><span class="toc-text">4. 总结</span></a></li></ol>
     </div>
   </aside>
@@ -392,7 +405,7 @@
     
     
         
-            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
+            <a href="https://github.com/" class="iconfont icon-github" title="github"></a>
         
         
         
@@ -422,13 +435,6 @@
         </span>
     </div>
     
-    <div class="visit_count">
-        <i class="iconfont icon-visit"></i>
-        <span id="busuanzi_value_site_uv"></span>
-        <i class="iconfont icon-people"></i>
-        <span id="busuanzi_value_site_pv"></span>
-    </div>
-    
 </div>
 
     </div>
@@ -442,9 +448,6 @@
   <script src="/script/lib/lightbox/js/lightbox.min.js"></script>
 
 
-
-  <script src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  <script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"], ["\\(","\\)"]]}});</script>
 
 
 
