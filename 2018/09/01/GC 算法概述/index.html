@@ -293,7 +293,7 @@
     </header>
     <div class="post-content syuanpi fadeInUpShort back-3">
       
-        <h2 id="1-GC-概述"><a href="#1-GC-概述" class="headerlink" title="1. GC 概述"></a>1. GC 概述</h2><h3 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h3><p>GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去关注 gc，然而在遇到各种内存溢出、内存泄漏问题时，当垃圾收集称为系统达到更高并发量的瓶颈时，只有深入理解 gc 和内存分配，才能对这些“自动化”的技术实施必要的监控和调节。 在深入之前我们先看几个基础概念：<br><a id="more"></a><br><strong>对象：</strong> 在前面深入分析了 <a href="https://www.xxzp.tech/2018/08/26/java%20%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90/">java对象</a> ，其中对象包含了 gc 信息</p>
+        <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><h3 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h3><p>GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去关注 gc，然而在遇到各种内存溢出、内存泄漏问题时，当垃圾收集称为系统达到更高并发量的瓶颈时，只有深入理解 gc 和内存分配，才能对这些“自动化”的技术实施必要的监控和调节。 在深入之前我们先看几个基础概念：<br><a id="more"></a><br><strong>对象：</strong> 在前面深入分析了 <a href="https://www.xxzp.tech/2018/08/26/java%20%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90/">java对象</a> ，其中对象包含了 gc 信息</p>
 <p><strong>指针：</strong> 大部分语言默认指针是指向对象的首地址，这样不仅指针在语言的应用变得简单，而且使 gc 过程也变得简单</p>
 <p><strong>堆：</strong> 对象存放内存空间，对于很多语言垃圾回收主要针对堆内存进行回收，这主要是因为 gc 过程是针对对象来处理的</p>
 <p><strong>根Root：</strong> 对象被引用的起始点</p>
@@ -376,7 +376,7 @@
     <span class="title" id="toc-switch"><span>文章导航</span></span>
     <div class="toc-inner syuanpi back-1" style="display:none;">
       <li class="title-link"><a href="javascript:;" class="toTop">GC 初步</a></li>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-GC-概述"><span class="toc-text">1. GC 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本概念"><span class="toc-text">1.1 基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-gc-指标"><span class="toc-text">1.2 gc 指标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-对象存活判定"><span class="toc-text">2. 对象存活判定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-引用计数"><span class="toc-text">2.1 引用计数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-可达性分析"><span class="toc-text">2.2 可达性分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-基本回收算法"><span class="toc-text">3. 基本回收算法</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-text">1. 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本概念"><span class="toc-text">1.1 基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-gc-指标"><span class="toc-text">1.2 gc 指标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-对象存活判定"><span class="toc-text">2. 对象存活判定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-引用计数"><span class="toc-text">2.1 引用计数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-可达性分析"><span class="toc-text">2.2 可达性分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-基本回收算法"><span class="toc-text">3. 基本回收算法</span></a></li></ol>
     </div>
   </aside>
 
