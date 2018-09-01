@@ -348,19 +348,19 @@
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          <a href="/2018/08/28/volatile 实现机制分析/">volatile 实现机制分析</a>
+          <a href="/2018/08/28/ synchronized 实现机制分析/">synchronized 实现机制分析</a>
         
       </h1>
     </header>
     <div class="post-content syuanpi fadeInUpShort back-3">
       
         
-          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>在上篇总结了<a href="http://localhost:4000/2018/08/27/java%20%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" target="_blank" rel="noopener">JMM</a>理论基础，在本篇要分析 volatile 的实现机制。首先看下下面代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyInitializedSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> LazyInitializedSingleton instance;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">LazyInitializedSingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LazyInitializedSingleton <span class="title">getInstanceUsingDoubleLocking</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Objects.isNull(instance )) &#123;</span><br><span class="line">      <span class="keyword">synchronized</span> (LazyInitializedSingleton.class) &#123;</span><br><span class="line">        <span class="keyword">if</span> (Objects.isNull(instance )) &#123;</span><br><span class="line">          <span class="comment">//可能出现重排序导致线程安全问题</span></span><br><span class="line">          instance = <span class="keyword">new</span> LazyInitializedSingleton();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>synchronized 关键字用来对程序进行加锁，它既可以用来声明一个 synchronized 代码块，也可以直接标记静态方法或者实例方法，被 synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。先通过一段代码看下 jvm 层面的控制：<br>
         
       
     
       <p class="content-link">
-        <a href="/2018/08/28/volatile 实现机制分析/#more">
+        <a href="/2018/08/28/ synchronized 实现机制分析/#more">
           <span>继续阅读</span>
         </a>
       </p>
@@ -390,19 +390,19 @@
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          <a href="/2018/08/28/ synchronized 实现机制分析/">synchronized 实现机制分析</a>
+          <a href="/2018/08/28/volatile 实现机制分析/">volatile 实现机制分析</a>
         
       </h1>
     </header>
     <div class="post-content syuanpi fadeInUpShort back-3">
       
         
-          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>synchronized 关键字用来对程序进行加锁，它既可以用来声明一个 synchronized 代码块，也可以直接标记静态方法或者实例方法，被 synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。先通过一段代码看下 jvm 层面的控制：<br>
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>在上篇总结了<a href="http://localhost:4000/2018/08/27/java%20%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" target="_blank" rel="noopener">JMM</a>理论基础，在本篇要分析 volatile 的实现机制。首先看下下面代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyInitializedSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> LazyInitializedSingleton instance;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">LazyInitializedSingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LazyInitializedSingleton <span class="title">getInstanceUsingDoubleLocking</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Objects.isNull(instance )) &#123;</span><br><span class="line">      <span class="keyword">synchronized</span> (LazyInitializedSingleton.class) &#123;</span><br><span class="line">        <span class="keyword">if</span> (Objects.isNull(instance )) &#123;</span><br><span class="line">          <span class="comment">//可能出现重排序导致线程安全问题</span></span><br><span class="line">          instance = <span class="keyword">new</span> LazyInitializedSingleton();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
         
       
     
       <p class="content-link">
-        <a href="/2018/08/28/ synchronized 实现机制分析/#more">
+        <a href="/2018/08/28/volatile 实现机制分析/#more">
           <span>继续阅读</span>
         </a>
       </p>
@@ -488,7 +488,7 @@
     
     
         
-            <a href="https://github.com/" class="iconfont icon-github" title="github"></a>
+            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
         
         
         
