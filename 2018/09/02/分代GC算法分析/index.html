@@ -311,7 +311,13 @@
 <li><p>空间分配担保：在发生Minor GC之前，虚拟机会先检查老年大最大可用连续空间是否大于新生代所有对象总空间，如果条件成立，那么Minor GC是安全的。如果不成立，则虚拟机会检查HandlePrimotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，则尝试一次Minor GC，尽管这次Minor GC是有风险的。如果小于，或者HandlePrimotionFailure设置不允许冒险，那么这时也要改为进行一次Full GC。</p>
 </li>
 </ul>
-<h2 id="4-gc-策略"><a href="#4-gc-策略" class="headerlink" title="4. gc 策略"></a>4. gc 策略</h2><h3 id="4-1-默认-gc-策略"><a href="#4-1-默认-gc-策略" class="headerlink" title="4.1 默认 gc 策略"></a>4.1 默认 gc 策略</h3><p>JVM针对上述不同的分代区域，默认使用的 GC 策略如下：</p>
+<h2 id="4-gc-收集器与策略"><a href="#4-gc-收集器与策略" class="headerlink" title="4. gc 收集器与策略"></a>4. gc 收集器与策略</h2><h3 id="4-1-垃圾收集器"><a href="#4-1-垃圾收集器" class="headerlink" title="4.1 垃圾收集器"></a>4.1 垃圾收集器</h3><p><strong>Serial收集器：</strong>单线程收集器，新生代采用复制算法，老年代采用标记-整理，会暂停所有用户线程</p>
+<p><strong>ParNew收集器：</strong>多线程收集器，新生代采用复制算法，老年代采用标记-整理，会暂停所有用户线程。可以与CMS收集器配合工作</p>
+<p><strong>Serial Old 收集器：</strong>Serial收集器的老年代版本，单线程收集器，采用的是“标记–整理”算法</p>
+<p><strong>Parallel Old 收集器：</strong>Parallel收集器的老年代版本，多线程收集器，采用的是“标记–整理”算法。在注重吞吐量以及CPU资源敏感的场合，可以考虑Parallel Scavenge和 Parallel Old 组合。</p>
+<p><strong>CMS 收集器：</strong>并发收集器，低停顿。经过4个步骤：①初始标记②并发标记③重新标记④并发清除。采用“标记–清除算法”。不足：会产生大量空间碎片。①、③仍然需要stop the World</p>
+<p><strong>G1收集器：</strong>G1将堆拆成一系列的分区，这样在一个时间段内，大部分的垃圾收集操作就只是在一个分区内执行，而不是整个堆或整个（老年）代。</p>
+<h3 id="4-2-gc-策略"><a href="#4-2-gc-策略" class="headerlink" title="4.2 gc 策略"></a>4.2 gc 策略</h3><p><strong>默认策略：</strong>JVM针对上述不同的分代区域，默认使用的 GC 策略如下：</p>
 <table>
 <thead>
 <tr>
@@ -334,7 +340,7 @@
 </tbody>
 </table>
 <p>平时我们运行Java程序，没有指定任何选项的时候，默认根据上面的GC策略搭配进行GC。</p>
-<h3 id="4-1-gc-策略组合"><a href="#4-1-gc-策略组合" class="headerlink" title="4.1 gc 策略组合"></a>4.1 gc 策略组合</h3><p>JVM调优的过程中，并非任何一种新生代GC策略都可以和另一种年老代GC策略进行配合工作，如下是常用使用组合：</p>
+<p><strong>gc 策略组合：</strong>JVM调优的过程中，并非任何一种新生代GC策略都可以和另一种年老代GC策略进行配合工作，如下是常用使用组合：</p>
 <table>
 <thead>
 <tr>
@@ -437,7 +443,7 @@
     <span class="title" id="toc-switch"><span>文章导航</span></span>
     <div class="toc-inner syuanpi back-1" style="display:none;">
       <li class="title-link"><a href="javascript:;" class="toTop">分代 GC 分析</a></li>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-jvm-分代策略"><span class="toc-text">2. jvm 分代策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-新生代"><span class="toc-text">2.1 新生代</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-老年代"><span class="toc-text">2.2 老年代</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-内存分配过程"><span class="toc-text">3. 内存分配过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-gc-策略"><span class="toc-text">4. gc 策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-默认-gc-策略"><span class="toc-text">4.1 默认 gc 策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-gc-策略组合"><span class="toc-text">4.1 gc 策略组合</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-jvm-分代策略"><span class="toc-text">2. jvm 分代策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-新生代"><span class="toc-text">2.1 新生代</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-老年代"><span class="toc-text">2.2 老年代</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-内存分配过程"><span class="toc-text">3. 内存分配过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-gc-收集器与策略"><span class="toc-text">4. gc 收集器与策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-垃圾收集器"><span class="toc-text">4.1 垃圾收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-gc-策略"><span class="toc-text">4.2 gc 策略</span></a></li></ol></li></ol>
     </div>
   </aside>
 
