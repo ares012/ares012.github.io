@@ -268,6 +268,10 @@
         <div class="post-time-wrapper">
           <span>2018-09-02</span>
           
+            
+              <span class="post-category"><a href="/categories/gc/">gc</a></span>
+            
+          
           
             
               <aside class="post-tags syuanpi fadeInUpShort back-3">
@@ -307,8 +311,7 @@
 <li><p>空间分配担保：在发生Minor GC之前，虚拟机会先检查老年大最大可用连续空间是否大于新生代所有对象总空间，如果条件成立，那么Minor GC是安全的。如果不成立，则虚拟机会检查HandlePrimotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，则尝试一次Minor GC，尽管这次Minor GC是有风险的。如果小于，或者HandlePrimotionFailure设置不允许冒险，那么这时也要改为进行一次Full GC。</p>
 </li>
 </ul>
-<h2 id="4-gc-策略"><a href="#4-gc-策略" class="headerlink" title="4. gc 策略"></a>4. gc 策略</h2><p><strong>默认 gc 策略：</strong></p>
-<p>JVM针对上述不同的分代区域，默认使用的 GC 策略如下：</p>
+<h2 id="4-gc-策略"><a href="#4-gc-策略" class="headerlink" title="4. gc 策略"></a>4. gc 策略</h2><h3 id="4-1-默认-gc-策略"><a href="#4-1-默认-gc-策略" class="headerlink" title="4.1 默认 gc 策略"></a>4.1 默认 gc 策略</h3><p>JVM针对上述不同的分代区域，默认使用的 GC 策略如下：</p>
 <table>
 <thead>
 <tr>
@@ -331,8 +334,7 @@
 </tbody>
 </table>
 <p>平时我们运行Java程序，没有指定任何选项的时候，默认根据上面的GC策略搭配进行GC。</p>
-<p><strong>GC策略组合：</strong></p>
-<p>JVM调优的过程中，并非任何一种新生代GC策略都可以和另一种年老代GC策略进行配合工作，如下是常用使用组合：</p>
+<h3 id="4-1-gc-策略组合"><a href="#4-1-gc-策略组合" class="headerlink" title="4.1 gc 策略组合"></a>4.1 gc 策略组合</h3><p>JVM调优的过程中，并非任何一种新生代GC策略都可以和另一种年老代GC策略进行配合工作，如下是常用使用组合：</p>
 <table>
 <thead>
 <tr>
@@ -435,7 +437,7 @@
     <span class="title" id="toc-switch"><span>文章导航</span></span>
     <div class="toc-inner syuanpi back-1" style="display:none;">
       <li class="title-link"><a href="javascript:;" class="toTop">分代 GC 分析</a></li>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-jvm-分代策略"><span class="toc-text">2. jvm 分代策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-新生代"><span class="toc-text">2.1 新生代</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-老年代"><span class="toc-text">2.2 老年代</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-内存分配过程"><span class="toc-text">3. 内存分配过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-gc-策略"><span class="toc-text">4. gc 策略</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-jvm-分代策略"><span class="toc-text">2. jvm 分代策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-新生代"><span class="toc-text">2.1 新生代</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-老年代"><span class="toc-text">2.2 老年代</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-内存分配过程"><span class="toc-text">3. 内存分配过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-gc-策略"><span class="toc-text">4. gc 策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-默认-gc-策略"><span class="toc-text">4.1 默认 gc 策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-gc-策略组合"><span class="toc-text">4.1 gc 策略组合</span></a></li></ol></li></ol>
     </div>
   </aside>
 
