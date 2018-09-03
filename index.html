@@ -122,18 +122,6 @@
       
     
     <li class="menu-item">
-      <a href="/archives" id="archives">
-        <span class="base-name">archives</span>
-        
-          <span class="menu-item-label">archives</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
       <a href="/categories/gc/" id="gc">
         <span class="base-name">gc</span>
         
@@ -184,17 +172,6 @@
                     <span>文章</span>
                     
                         <span class="menu-item-label">article</span>
-                    
-                </a>
-            </div>
-        
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/archives">
-                    <span>归档</span>
-                    
-                        <span class="menu-item-label">archives</span>
                     
                 </a>
             </div>
@@ -491,10 +468,226 @@
   
 
   
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-08-28</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/28/ synchronized 实现机制分析/">synchronized 实现机制分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>synchronized 关键字用来对程序进行加锁，它既可以用来声明一个 synchronized 代码块，也可以直接标记静态方法或者实例方法，被 synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。先通过一段代码看下 jvm 层面的控制：<br>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/28/ synchronized 实现机制分析/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-08-28</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/28/volatile 实现机制分析/">volatile 实现机制分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>在上篇总结了<a href="http://localhost:4000/2018/08/27/java%20%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" target="_blank" rel="noopener">JMM</a>理论基础，在本篇要分析 volatile 的实现机制。首先看下下面代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyInitializedSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> LazyInitializedSingleton instance;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">LazyInitializedSingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LazyInitializedSingleton <span class="title">getInstanceUsingDoubleLocking</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Objects.isNull(instance )) &#123;</span><br><span class="line">      <span class="keyword">synchronized</span> (LazyInitializedSingleton.class) &#123;</span><br><span class="line">        <span class="keyword">if</span> (Objects.isNull(instance )) &#123;</span><br><span class="line">          <span class="comment">//可能出现重排序导致线程安全问题</span></span><br><span class="line">          instance = <span class="keyword">new</span> LazyInitializedSingleton();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/28/volatile 实现机制分析/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-08-27</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/27/java 内存模型/">java 内存模型分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>在多核系统中，处理器一般都会有一层或者多层的缓存，这些的缓存通过加速数据访问和降低共享内存在总线上的通讯来提高CPU性能。这就导致并发编程必须面临两个关键问题：线程通信及线程同步。</p>
+<p><strong>线程通信</strong> 命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。</p>
+<ul>
+<li>共享内存：线程之间共享程序的公共状态，线程之间通过写-读内存中的公共状态来隐式进行通信。</li>
+<li>消息传递的并发模型里：线程之间没有公共状态，线程之间必须通过明确的发送消息来显式进行通信。</li>
+</ul>
+<p><strong>线程同步</strong> 指程序用于控制不同线程之间操作发生相对顺序的机制。<br>Java 的并发模型采用的是共享内存模型，Java 线程之间的通信总是隐式进行，整个通信过程对程序员完全透明。JMM 通过控制主内存与每个线程的本地内存之间的交互，来为 java 程序员提供内存可见性保证。<br>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/27/java 内存模型/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-08-26</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/26/java 对象分析/">java 对象分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-常见-java-对象创建方式"><a href="#1-常见-java-对象创建方式" class="headerlink" title="1. 常见 java 对象创建方式"></a>1. 常见 java 对象创建方式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User user1 = User.class.newInstance();</span><br><span class="line">User user2 = (User) Class.forName(<span class="string">"com.xxzp.ares.utils.reflect.TestReflect"</span>).newInstance();</span><br><span class="line">User user3 = User.class.getConstructor().newInstance(<span class="number">1245L</span>, <span class="string">"test"</span>);</span><br><span class="line">User user4 = (User) user1.clone();<span class="comment">//需继承Cloneable与重写clone()方法</span></span><br></pre></td></tr></table></figure>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/26/java 对象分析/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-08-23</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/23/lambda实践/">lambda 实践总结</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-按key值过滤："><a href="#1-按key值过滤：" class="headerlink" title="1. 按key值过滤："></a>1. 按key值过滤：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Predicate&lt;T&gt; <span class="title">distinctByKey</span><span class="params">(Function&lt;? <span class="keyword">super</span> T, Object&gt; function)</span> </span>&#123;</span><br><span class="line">    Map&lt;Object, Boolean&gt; map = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">return</span> t -&gt; map.putIfAbsent(function.apply(t), Boolean.TRUE) == <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/23/lambda实践/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
 </section>
   
   <nav class="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页 ></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 ></a>
   </nav>
 
 

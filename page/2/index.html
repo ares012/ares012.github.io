@@ -122,18 +122,6 @@
       
     
     <li class="menu-item">
-      <a href="/archives" id="archives">
-        <span class="base-name">archives</span>
-        
-          <span class="menu-item-label">archives</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
       <a href="/categories/gc/" id="gc">
         <span class="base-name">gc</span>
         
@@ -184,17 +172,6 @@
                     <span>文章</span>
                     
                         <span class="menu-item-label">article</span>
-                    
-                </a>
-            </div>
-        
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/archives">
-                    <span>归档</span>
-                    
-                        <span class="menu-item-label">archives</span>
                     
                 </a>
             </div>
@@ -271,26 +248,26 @@
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
         <div class="post-time-wrapper">
-          <span>2018-08-28</span>
+          <span>2018-08-22</span>
           
           
         </div>
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          <a href="/2018/08/28/ synchronized 实现机制分析/">synchronized 实现机制分析</a>
+          <a href="/2018/08/22/lambda实现机制分析/">lambda实现机制分析</a>
         
       </h1>
     </header>
     <div class="post-content syuanpi fadeInUpShort back-3">
       
         
-          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>synchronized 关键字用来对程序进行加锁，它既可以用来声明一个 synchronized 代码块，也可以直接标记静态方法或者实例方法，被 synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。先通过一段代码看下 jvm 层面的控制：<br>
+          <h2 id="1-lambda代码与反编译"><a href="#1-lambda代码与反编译" class="headerlink" title="1. lambda代码与反编译"></a>1. lambda代码与反编译</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Lambda</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    println1();</span><br><span class="line">    println2();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Consumer&lt;String&gt; consumer = System.out::println;</span><br><span class="line">    consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Consumer&lt;String&gt; consumer = str -&gt; System.out.println(str);</span><br><span class="line">    consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         
       
     
       <p class="content-link">
-        <a href="/2018/08/28/ synchronized 实现机制分析/#more">
+        <a href="/2018/08/22/lambda实现机制分析/#more">
           <span>继续阅读</span>
         </a>
       </p>
@@ -313,74 +290,33 @@
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
         <div class="post-time-wrapper">
-          <span>2018-08-28</span>
+          <span>2018-08-21</span>
           
           
         </div>
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          <a href="/2018/08/28/volatile 实现机制分析/">volatile 实现机制分析</a>
+          <a href="/2018/08/21/反射与动态代理/">反射与动态代理</a>
         
       </h1>
     </header>
     <div class="post-content syuanpi fadeInUpShort back-3">
       
         
-          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>在上篇总结了<a href="http://localhost:4000/2018/08/27/java%20%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" target="_blank" rel="noopener">JMM</a>理论基础，在本篇要分析 volatile 的实现机制。首先看下下面代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyInitializedSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> LazyInitializedSingleton instance;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">LazyInitializedSingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LazyInitializedSingleton <span class="title">getInstanceUsingDoubleLocking</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Objects.isNull(instance )) &#123;</span><br><span class="line">      <span class="keyword">synchronized</span> (LazyInitializedSingleton.class) &#123;</span><br><span class="line">        <span class="keyword">if</span> (Objects.isNull(instance )) &#123;</span><br><span class="line">          <span class="comment">//可能出现重排序导致线程安全问题</span></span><br><span class="line">          instance = <span class="keyword">new</span> LazyInitializedSingleton();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/28/volatile 实现机制分析/#more">
-          <span>继续阅读</span>
-        </a>
-      </p>
-    
-    </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-27</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/27/java 内存模型/">java 内存模型分析</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>在多核系统中，处理器一般都会有一层或者多层的缓存，这些的缓存通过加速数据访问和降低共享内存在总线上的通讯来提高CPU性能。这就导致并发编程必须面临两个关键问题：线程通信及线程同步。</p>
-<p><strong>线程通信</strong> 命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。</p>
+          <h2 id="1-反射概述"><a href="#1-反射概述" class="headerlink" title="1. 反射概述"></a>1. 反射概述</h2><p>Java反射机制可以动态地获取类的结构，动态地调用对象的方法，是java语言一个动态化的机制。其功能场景：</p>
 <ul>
-<li>共享内存：线程之间共享程序的公共状态，线程之间通过写-读内存中的公共状态来隐式进行通信。</li>
-<li>消息传递的并发模型里：线程之间没有公共状态，线程之间必须通过明确的发送消息来显式进行通信。</li>
+<li>运行时构造一个类的对象</li>
+<li>运行时获取一个类信息，如方法，属性</li>
+<li>实现动态代理，很多框架都有基于动态代理实现</li>
 </ul>
-<p><strong>线程同步</strong> 指程序用于控制不同线程之间操作发生相对顺序的机制。<br>Java 的并发模型采用的是共享内存模型，Java 线程之间的通信总是隐式进行，整个通信过程对程序员完全透明。JMM 通过控制主内存与每个线程的本地内存之间的交互，来为 java 程序员提供内存可见性保证。<br>
+<h3 id="1-1-反射获取类信息"><a href="#1-1-反射获取类信息" class="headerlink" title="1.1 反射获取类信息"></a>1.1 反射获取类信息</h3><p>获取类信息方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;TestReflect&gt; clazz1 = TestReflect.class;</span><br><span class="line">Class&lt;?&gt; clazz2 = Class.forName(<span class="string">"com.xxzp.ares.utils.reflect.TestReflect"</span>);</span><br><span class="line">TestReflect testReflect = <span class="keyword">new</span> TestReflect();</span><br><span class="line">Class&lt;?&gt; clazz3 = testReflect.getClass();</span><br></pre></td></tr></table></figure>
         
       
     
       <p class="content-link">
-        <a href="/2018/08/27/java 内存模型/#more">
+        <a href="/2018/08/21/反射与动态代理/#more">
           <span>继续阅读</span>
         </a>
       </p>
@@ -403,26 +339,32 @@
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
         <div class="post-time-wrapper">
-          <span>2018-08-26</span>
+          <span>2018-08-20</span>
           
           
         </div>
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          <a href="/2018/08/26/java 对象分析/">java 对象分析</a>
+          <a href="/2018/08/20/java类加载/">java类加载机制</a>
         
       </h1>
     </header>
     <div class="post-content syuanpi fadeInUpShort back-3">
       
         
-          <h2 id="1-常见-java-对象创建方式"><a href="#1-常见-java-对象创建方式" class="headerlink" title="1. 常见 java 对象创建方式"></a>1. 常见 java 对象创建方式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User user1 = User.class.newInstance();</span><br><span class="line">User user2 = (User) Class.forName(<span class="string">"com.xxzp.ares.utils.reflect.TestReflect"</span>).newInstance();</span><br><span class="line">User user3 = User.class.getConstructor().newInstance(<span class="number">1245L</span>, <span class="string">"test"</span>);</span><br><span class="line">User user4 = (User) user1.clone();<span class="comment">//需继承Cloneable与重写clone()方法</span></span><br></pre></td></tr></table></figure>
+          <h2 id="1-类加载过程-加载—-gt-链接—-gt-初始化"><a href="#1-类加载过程-加载—-gt-链接—-gt-初始化" class="headerlink" title="1. 类加载过程(加载—&gt;链接—&gt;初始化)"></a>1. 类加载过程(加载—&gt;链接—&gt;初始化)</h2><p><strong>加载：</strong> 是指查找字节流，并且据此创建类的过程。<br><strong>链接：</strong> 是指将创建成的类合并至 Java 虚拟机中，使之能够执行的过程。它可分为验证、准备以及解析三个阶段。</p>
+<ul>
+<li>验证：确保被加载类能够满足 Java 虚拟机的约束条件。</li>
+<li>准备：为被加载类的静态字段分配内存。Java 代码中对静态字段的具体初始化，则会在稍后的初始化阶段中进行。</li>
+<li>解析：将符号引用解析成为实际引用，如果符号引用指向一个未被加载的类，或者未被加载类的字段或方法，那么解析将触发这个类的加载</li>
+</ul>
+<p><strong>初始化：</strong> 是指给常量值的字段赋值，以及执行 &lt; clinit &gt; 方法的过程。Java 虚拟机会通过加锁来确保类的 &lt; clinit &gt; 方法仅被执行一次。初始化完成之后，类才正式成为可执行的状态。<br>
         
       
     
       <p class="content-link">
-        <a href="/2018/08/26/java 对象分析/#more">
+        <a href="/2018/08/20/java类加载/#more">
           <span>继续阅读</span>
         </a>
       </p>
@@ -445,26 +387,73 @@
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
         <div class="post-time-wrapper">
-          <span>2018-08-23</span>
+          <span>2018-08-19</span>
           
           
         </div>
       </div>
       <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          <a href="/2018/08/23/lambda实践/">lambda 实践总结</a>
+          <a href="/2018/08/19/jpa深入/">JPA深入</a>
         
       </h1>
     </header>
     <div class="post-content syuanpi fadeInUpShort back-3">
       
         
-          <h2 id="1-按key值过滤："><a href="#1-按key值过滤：" class="headerlink" title="1. 按key值过滤："></a>1. 按key值过滤：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Predicate&lt;T&gt; <span class="title">distinctByKey</span><span class="params">(Function&lt;? <span class="keyword">super</span> T, Object&gt; function)</span> </span>&#123;</span><br><span class="line">    Map&lt;Object, Boolean&gt; map = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">return</span> t -&gt; map.putIfAbsent(function.apply(t), Boolean.TRUE) == <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h2 id="1-JpaRepository继承关系"><a href="#1-JpaRepository继承关系" class="headerlink" title="1. JpaRepository继承关系"></a>1. JpaRepository继承关系</h2><p>JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：<br><strong>PagingAndSortingRepository</strong> 支持分页与排序，包含方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Iterable&lt;T&gt; <span class="title">findAll</span><span class="params">(Sort sort)</span></span>;</span><br><span class="line"><span class="comment">//Pageable包含分页信息</span></span><br><span class="line"><span class="function">Page&lt;T&gt; <span class="title">findAll</span><span class="params">(Pageable pageable)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>使用示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sort sort = <span class="keyword">new</span> Sort(Direction.DESC, <span class="string">"id"</span>);</span><br><span class="line">PageRequest pageRequest = <span class="keyword">new</span> PageRequest(pageNo, pageSize, sort);</span><br><span class="line">Page page = userRepository.findAll(pageRequest);</span><br></pre></td></tr></table></figure>
         
       
     
       <p class="content-link">
-        <a href="/2018/08/23/lambda实践/#more">
+        <a href="/2018/08/19/jpa深入/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-08-18</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/08/18/jpa简单实践/">JPA初步</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>Spring data jpa是JPA规范的再次封装抽象，底层使用了Hibernate的JPA技术实现，引用JPQL（Java Persistence Query Language查询语言，属于 Spring 的整个生态体系的一部分。Spring Data JPA作为Spring生态的部分，使用起来比较方便，加快了开发的效率，使开发者不需要关系和配置更多的东西，完全可以沉浸在 Spring 的完整生态标准的实现下，上手简单、开发效率高，对象的支持比较好，有较大的灵活性，市场的认可度越来越高。</p>
+<h2 id="2-Spring-boot集成JPA"><a href="#2-Spring-boot集成JPA" class="headerlink" title="2. Spring boot集成JPA"></a>2. Spring boot集成JPA</h2><p>gradle添加依赖：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">	<span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-web'</span>)</span><br><span class="line">	<span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-data-jpa'</span>)</span><br><span class="line">	<span class="keyword">runtime</span>(<span class="string">'mysql:mysql-connector-java'</span>)</span><br><span class="line">	testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/08/18/jpa简单实践/#more">
           <span>继续阅读</span>
         </a>
       </p>
@@ -481,7 +470,7 @@
 </section>
   
   <nav class="pagination">
-      <a class="extend prev" rel="prev" href="/">< 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页 ></a>
+      <a class="extend prev" rel="prev" href="/">< 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
   </nav>
 
 
