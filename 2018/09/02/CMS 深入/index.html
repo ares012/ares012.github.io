@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <link rel="stylesheet" href="/style/style.css">
+<script>
+  var nlviconfig = {
+    title: "Ares",
+    author: "Ares",
+    baseUrl: "/",
+    theme: {
+      scheme: "banderole",
+      lightbox: true,
+      animate: true,
+      search: false,
+      friends: false,
+      reward: false,
+      lazy: false
+    }
+  }
+</script>
+
+
+
+
+    <link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
+
+
+
+
+    <link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
+
+
+
+
+    <link rel="icon" href="/img/favicon.png">
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98059014-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-124198848-1');
+</script>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="browsermode" content="application">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ares">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="msapplication-navbutton-color" content="#666666">
+<meta name= "format-detection" content="telephone=no" />
+<meta name="keywords" content="nlvi, Nlvi" />
+
+  <link rel="apple-touch-icon"  sizes="72x72"  href="/img/favicon.png">
+  <link rel="apple-touch-icon-precomposed"  sizes="72x72"  href="/img/favicon.png">
+
+
+
+
+
+  <meta name="keywords" content="jvm, gc, Nlvi" />
+
+  <title> CMS 深入分析 · Ares </title>
+</head>
+<body>
+  <div class="progress">
+  <div class="progress-inner"></div>
+</div>
+
+  
+    <div class="tagcloud-mask"></div>  
+<div class="tagcloud" id="tagcloud">
+  <div class="tagcloud-inner">
+    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+  </div>
+</div>
+  
+
+  <div class="container" style="display:none;">
+
+    <header class="header" id="header">
+  <div class="header-wrapper">
+    <div class="logo">
+  <div class="logo-inner syuanpi tvIn">
+    <span><a href="/">Ares</a></span>
+    
+  </div>
+</div>
+    <nav class="main-nav">
+  
+  <ul class="main-nav-list syuanpi tvIn">
+  
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/" id="article">
+        <span class="base-name">article</span>
+        
+          <span class="menu-item-label">article</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/archives" id="archives">
+        <span class="base-name">archives</span>
+        
+          <span class="menu-item-label">archives</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/categories/gc/" id="gc">
+        <span class="base-name">gc</span>
+        
+          <span class="menu-item-label">gc</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="javascript:;" id="tags">
+        <span class="base-name">tags</span>
+        
+          <span class="menu-item-label">tags</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/about" id="about">
+        <span class="base-name">about</span>
+        
+          <span class="menu-item-label">about</span>
+        
+      </a>
+    </li>
+  
+  </ul>
+  
+</nav>
+
+    
+    
+  </div>
+</header>
+<div class="mobile-header">
+  <div class="mobile-header-body">
+    <div class="mobile-header-list">
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/">
+                    <span>文章</span>
+                    
+                        <span class="menu-item-label">article</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/archives">
+                    <span>归档</span>
+                    
+                        <span class="menu-item-label">archives</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/categories/gc/">
+                    <span>nav.gc</span>
+                    
+                        <span class="menu-item-label">gc</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+          <div class="mobile-nav-item inner-cloud">
+            <div class="mobile-nav-tag">
+              <a href="javascript:;" id="mobile-tags">
+                <span>标签</span>
+                
+                    <span class="menu-item-label">tags</span>
+                
+              </a>
+            </div>
+            <div class="mobile-nav-tagcloud">
+              <div class="mobile-tagcloud-inner">
+                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+              </div>
+            </div>
+          </div>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/about">
+                    <span>关于</span>
+                    
+                        <span class="menu-item-label">about</span>
+                    
+                </a>
+            </div>
+        
+      
+    </div>
+  </div>
+  <div class="mobile-header-nav">
+    <div class="mobile-header-item" id="mobile-left">
+      <div class="header-menu-item">
+        <span class="header-menu-line"></span>
+      </div>
+    </div>
+    <h1 class="mobile-header-title">
+      <a href="/">Ares</a>
+    </h1>
+    <div class="mobile-header-item"></div>
+  </div>
+</div>
+    <div class="container-inner">
+      <main class="main" id="main">
+        <div class="main-wrapper">
+          
+    
+  
+  <article class="
+  post
+   is_post 
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-09-02</span>
+          
+            
+              <span class="post-category"><a href="/categories/gc/">gc</a></span>
+            
+          
+          
+            
+              <aside class="post-tags syuanpi fadeInUpShort back-3">
+              
+                <a href="/tags/jvm/">jvm</a>
+              
+                <a href="/tags/gc/">gc</a>
+              
+              </aside>
+            
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          CMS 深入分析
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>CMS(Concurrent Mark Sweep): 并发收集器，，作用于老年代，通常与ParNew配合使用。CMS收集器工作的整个流程分为以下4个步骤：</p>
+<ul>
+<li>初始标记（CMS initial mark）：仅仅只是标记一下GC Roots能直接关联到的对象，速度很快，需要 Stop The World</li>
+<li>并发标记（CMS concurrent mark）：进行GC Roots Tracing的过程，在整个过程中耗时最长</li>
+<li>重新标记（CMS remark）：为了修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长一些，但远比并发标记的时间短。此阶段也需要 Stop The World</li>
+<li>并发清除（CMS concurrent sweep）<a id="more"></a>
+从总体上来说，CMS收集器的内存回收过程是与用户线程一起并发执行的，下图为 CMS 与应用线程关系如下图：</li>
+</ul>
+<p><img src="/img/cms.png" alt=""></p>
+<p><strong>优点：</strong> 并发收集、低停顿</p>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>对CPU资源非常敏感：CMS默认启动的回收线程数是（CPU数量+3）/4，也就是当CPU在4个以上时，并发回收时垃圾收集线程不少于25%的CPU资源，并且随着CPU数量的增加而下降。但是当CPU不足4个时（比如2个），CMS对用户程序的影响就可能变得很大，如果本来CPU负载就比较大，还要分出一半的运算能力去执行收集器线程。</li>
+<li>无法处理浮动垃圾：由于CMS并发清理阶段用户线程还在运行着，伴随程序运行自然就还会有新的垃圾不断产生。这一部分垃圾出现在标记过程之后，CMS无法再当次收集中处理掉它们，只好留待下一次GC时再清理掉。</li>
+<li>标记-清除算法导致的空间碎片：CMS是一款基于“标记-清除”算法实现的收集器，这意味着收集结束时会有大量空间碎片产生。空间碎片过多时，将会给大对象分配带来很大麻烦，往往出现老年代空间剩余，但无法找到足够大连续空间来分配当前对象。</li>
+</ul>
+<h2 id="2-cms-实践"><a href="#2-cms-实践" class="headerlink" title="2. cms 实践"></a>2. cms 实践</h2><p>下图为 cms gc log:</p>
+<p><img src="/img/cms-gc-log.png" alt=""></p>
+<p>从上图可看到，日志包含 gc 相关参数与 gc 动作与内存信息，下面将进行详细分析。</p>
+<h3 id="2-1-cms-日志解析"><a href="#2-1-cms-日志解析" class="headerlink" title="2.1 cms 日志解析"></a>2.1 cms 日志解析</h3><p>先看这一段：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">0.627: [Full GC (Allocation Failure) 0.627: [CMS: 215379K-&gt;215367K(327680K), 0.0206276 secs] 215379K-&gt;215367K(504640K), [Metaspace: 2694K-&gt;2694K(1056768K)], 0.0207120 secs] [Times: user=0.02 sys=0.00, real=0.02 secs]</span><br><span class="line">0.649: [GC (CMS Initial Mark) [1 CMS-initial-mark: 215367K(327680K)] 215367K(504640K), 0.0001627 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]</span><br><span class="line">0.649: [CMS-concurrent-mark-start]</span><br><span class="line">0.889: [CMS-concurrent-mark: 0.002/0.240 secs] [Times: user=0.01 sys=0.11, real=0.24 secs]</span><br><span class="line">0.889: [CMS-concurrent-preclean-start]</span><br><span class="line">0.890: [CMS-concurrent-preclean: 0.001/0.001 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]</span><br><span class="line">0.890: [CMS-concurrent-abortable-preclean-start]</span><br></pre></td></tr></table></figure>
+<p>上面的日志对应 cms 的四个过程（概述中说明）。包含具体的空间信息和执行时间</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.227: [GC (Allocation Failure) 0.228: [ParNew: 111838K-&gt;10608K(176960K), 0.0749171 secs] 111838K-&gt;102770K(504640K), 0.0750134 secs] [Times: user=0.24 sys=0.04, real=0.07 secs]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>GC：用来区分(distinguish)是 Minor GC 还是 Full GC 的标志(Flag). 这里的 GC 表明本次发生的是 Minor GC</li>
+<li>Allocation Failure：引起垃圾回收的原因，本次GC是因为年轻代中没有任何合适的区域能够存放需要分配的数据结构而触发的</li>
+<li>ParNew：使用的垃圾收集器的名字，多线程收集器，新生代采用复制算法，老年代采用标记-整理，会产生 stop-the-world</li>
+<li>111838K-&gt;10608K(176960K), 0.0749171 secs] 111838K-&gt;102770K(504640K)：堆内存变化情况</li>
+<li>0.0750134 secs：gc时间</li>
+<li>[Times: user=0.24 sys=0.04, real=0.07 secs]：<br>  user – 此次垃圾回收, 垃圾收集线程消耗的所有CPU时间(Total CPU time)<br>  sys – 操作系统调用(OS call) 以及等待系统事件的时间(waiting for system event)<br>  real – 应用程序暂停的时间(Clock time)</li>
+</ul>
+<h3 id="2-2-cms-常用参数"><a href="#2-2-cms-常用参数" class="headerlink" title="2.2 cms 常用参数"></a>2.2 cms 常用参数</h3><p>首先看下上面示例中的参数配置，这些参数包含 gc 日志相关和堆相关：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:CMSInitiatingOccupancyFraction=85 -XX:CMSMaxAbortablePrecleanTime=5000 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/data/logs/gc/HeapDumpOnOutOfMemoryError.log -XX:InitialHeapSize=536870912 -XX:MaxHeapSize=536870912 -XX:MaxNewSize=201326592 -XX:MaxTenuringThreshold=6 -XX:NewSize=201326592 -XX:OldPLABSize=16 -XX:ParallelGCThreads=4 -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:ThreadStackSize=256 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseConcMarkSweepGC -XX:+UseParNewGC</span><br></pre></td></tr></table></figure>
+<p>老年代 gc 采用的是 CMS，新生代 gc 为 ParNew。下面为 CMS 一些相关参数说明：<br><strong>CMS initiating options：</strong></p>
+<ul>
+<li>-XX:+UseCMSInitiatingOccupancyOnly：仅使用预定义的占用率作为启动CMS集合的唯一标准，禁止 JVM 自适应行为</li>
+<li>-XX:CMSInitiatingOccupancyFraction=70：设置CMS收集开始的百分比。默认值是-1，负值表示使用 -XX:CMSTriggerRatio 选项来定义这个百分比数</li>
+<li>-XX:CMSBootstrapOccupancy=50</li>
+<li>-XX:CMSTriggerRatio=70：设置由-XX:MinHeapFreeRatio指定值的百分比的值</li>
+<li>-XX:CMSTriggerInterval=60000：gc 触发周期，默认为 -1 表示不执行</li>
+</ul>
+<p><strong>CMS Stop-the-World pauses tuning：</strong></p>
+<ul>
+<li>-XX:CMSWaitDuration=30000：CMSThread默认2秒钟扫描一次，判断是否需要CMS，这个参数可以更改这个扫描时间间隔</li>
+<li>-XX:+CMSScavengeBeforeRemark：CMS GC会以新生代作为GC Root的一部分, 强制新生代在 remark 之前做一次YGC, 能够一定程度上减少GC Root扫描的开销, 从而减少CMS remark时间</li>
+<li>-XX:+CMSScheduleRemarkEdenSizeThreshold：预清理阶段发生的前提是，新生代Eden区的内存使用量大于参数CMSScheduleRemarkEdenSizeThreshold 默认是2M，如果新生代的对象太少，就没有必要执行预清理阶段，直接执行重新标记阶段</li>
+<li>-XX:CMSScheduleRemarkEdenPenetration=20：如果Eden区的内存使用率达到了阈值CMSScheduleRemarkEdenPenetration指定的百分比，默认50%，会退出预清理循环</li>
+<li>-XX:CMSScheduleRemarkSamplingRatio=4 新生代达到预计的比例时开始标记</li>
+</ul>
+<p><strong>CMS Concurrency options：</strong></p>
+<ul>
+<li>-XX:+CMSParallelInitialMarkEnabled：JDK8默认为true，其含义是CMS GC初始化标记阶段并行执行</li>
+<li>-XX:+CMSParallelRemarkEnabled：GC重新标记阶段并行执行，JDK7&amp;JDK8中默认值都是true</li>
+<li>-XX:+CMSParallelSurvivorRemarkEnabled：新生代并发标记，默认值为true</li>
+<li>-XX:+CMSConcurrentMTEnabled：使用多线程标记</li>
+</ul>
+
+      
+    
+    </div>
+    
+      
+
+      
+  <hr class="copy-line">
+  <div class="post-copyright">
+    <div class="copy-author">
+      <span>作者 :</span>
+      <span>Ares</span>
+    </div>
+    <div class="copy-url">
+      <span>地址 :</span>
+      <a href="http://www.xxzp.tech/2018/09/02/CMS 深入/">http://www.xxzp.tech/2018/09/02/CMS 深入/</a>
+    </div>
+    <div class="copy-origin">
+      <span>来源 :</span>
+      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
+    </div>
+    <div class="copy-license">
+      
+      著作权归作者所有，转载请联系作者获得授权。
+    </div>
+  </div>
+
+    
+  </article>
+  
+    
+  <nav class="article-page">
+    
+    
+      <a href="/2018/09/02/分代GC算法分析/" id="art-right" class="art-right">
+        <span class="prev-title"> 
+          分代 GC 分析<i class="iconfont icon-right"></i>  
+        </span>
+      </a>
+    
+  </nav>
+
+    
+
+
+  
+  
+    
+  
+  <aside class="post-toc">
+    <span class="title" id="toc-switch"><span>文章导航</span></span>
+    <div class="toc-inner syuanpi back-1" style="display:none;">
+      <li class="title-link"><a href="javascript:;" class="toTop">CMS 深入分析</a></li>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-cms-实践"><span class="toc-text">2. cms 实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-cms-日志解析"><span class="toc-text">2.1 cms 日志解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-cms-常用参数"><span class="toc-text">2.2 cms 常用参数</span></a></li></ol></li></ol>
+    </div>
+  </aside>
+
+
+
+  
+
+
+        </div>
+      </main>
+
+      <footer class="footer syuanpi fadeIn" id="footer">
+  <hr>
+  <div class="footer-wrapper">
+    <div class="left">
+      <div class="contact-icon">
+    
+    
+    
+    
+    
+    
+    
+    
+        
+            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
+        
+        
+        
+        
+        
+        
+        
+    
+</div>
+    </div>
+    <div class="right">
+      <div class="copyright">
+    <div class="info">
+        <span>&copy;</span>
+        <span>2018 ~ 2018</span>
+        <span>❤</span>
+        <span>Ares</span>
+    </div>
+    <div class="theme">
+        <span>
+            动力来源于
+            <a href="http://hexo.io/" target="_blank">Hexo </a>
+        </span>
+        <span>
+            主题
+            <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
+        </span>
+    </div>
+    
+    <div class="visit_count">
+        <i class="iconfont icon-visit"></i>
+        <span id="busuanzi_value_site_uv"></span>
+        <i class="iconfont icon-people"></i>
+        <span id="busuanzi_value_site_pv"></span>
+    </div>
+    
+</div>
+
+    </div>
+  </div>
+</footer>
+    </div>
+  </div>
+  <script src="/script/lib/jquery/jquery-3.2.1.min.js"></script>
+
+
+  <script src="/script/lib/lightbox/js/lightbox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/script/src/nlvi.js"></script>
+
+  <script src="/script/scheme/banderole.js"></script>
+
+<script src="/script/bootstarp.js"></script>
+
+
+<div class="backtop syuanpi melt toTop" id="backtop">
+    <i class="iconfont icon-up"></i>
+    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
+</div>
+
+
+
+</body>
+</html>
