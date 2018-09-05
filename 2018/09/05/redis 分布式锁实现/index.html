@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <link rel="stylesheet" href="/style/style.css">
+<script>
+  var nlviconfig = {
+    title: "Ares",
+    author: "Ares",
+    baseUrl: "/",
+    theme: {
+      scheme: "banderole",
+      lightbox: true,
+      animate: true,
+      search: false,
+      friends: false,
+      reward: false,
+      lazy: false
+    }
+  }
+</script>
+
+
+
+
+    <link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
+
+
+
+
+    <link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
+
+
+
+
+    <link rel="icon" href="/img/favicon.png">
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98059014-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-124198848-1');
+</script>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="browsermode" content="application">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ares">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="msapplication-navbutton-color" content="#666666">
+<meta name= "format-detection" content="telephone=no" />
+<meta name="keywords" content="nlvi, Nlvi" />
+
+  <link rel="apple-touch-icon"  sizes="72x72"  href="/img/favicon.png">
+  <link rel="apple-touch-icon-precomposed"  sizes="72x72"  href="/img/favicon.png">
+
+
+
+
+
+  <meta name="keywords" content="java, redis, Nlvi" />
+
+  <title> redis 分布式锁实现 · Ares </title>
+</head>
+<body>
+  <div class="progress">
+  <div class="progress-inner"></div>
+</div>
+
+  
+    <div class="tagcloud-mask"></div>  
+<div class="tagcloud" id="tagcloud">
+  <div class="tagcloud-inner">
+    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+  </div>
+</div>
+  
+
+  <div class="container" style="display:none;">
+
+    <header class="header" id="header">
+  <div class="header-wrapper">
+    <div class="logo">
+  <div class="logo-inner syuanpi tvIn">
+    <span><a href="/">Ares</a></span>
+    
+  </div>
+</div>
+    <nav class="main-nav">
+  
+  <ul class="main-nav-list syuanpi tvIn">
+  
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/" id="article">
+        <span class="base-name">article</span>
+        
+          <span class="menu-item-label">article</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/categories/gc/" id="gc">
+        <span class="base-name">gc</span>
+        
+          <span class="menu-item-label">gc</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="javascript:;" id="tags">
+        <span class="base-name">tags</span>
+        
+          <span class="menu-item-label">tags</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/about" id="about">
+        <span class="base-name">about</span>
+        
+          <span class="menu-item-label">about</span>
+        
+      </a>
+    </li>
+  
+  </ul>
+  
+</nav>
+
+    
+    
+  </div>
+</header>
+<div class="mobile-header">
+  <div class="mobile-header-body">
+    <div class="mobile-header-list">
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/">
+                    <span>文章</span>
+                    
+                        <span class="menu-item-label">article</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/categories/gc/">
+                    <span>nav.gc</span>
+                    
+                        <span class="menu-item-label">gc</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+          <div class="mobile-nav-item inner-cloud">
+            <div class="mobile-nav-tag">
+              <a href="javascript:;" id="mobile-tags">
+                <span>标签</span>
+                
+                    <span class="menu-item-label">tags</span>
+                
+              </a>
+            </div>
+            <div class="mobile-nav-tagcloud">
+              <div class="mobile-tagcloud-inner">
+                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+              </div>
+            </div>
+          </div>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/about">
+                    <span>关于</span>
+                    
+                        <span class="menu-item-label">about</span>
+                    
+                </a>
+            </div>
+        
+      
+    </div>
+  </div>
+  <div class="mobile-header-nav">
+    <div class="mobile-header-item" id="mobile-left">
+      <div class="header-menu-item">
+        <span class="header-menu-line"></span>
+      </div>
+    </div>
+    <h1 class="mobile-header-title">
+      <a href="/">Ares</a>
+    </h1>
+    <div class="mobile-header-item"></div>
+  </div>
+</div>
+    <div class="container-inner">
+      <main class="main" id="main">
+        <div class="main-wrapper">
+          
+    
+  
+  <article class="
+  post
+   is_post 
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-09-05</span>
+          
+            
+              <span class="post-category"><a href="/categories/java/">java</a></span>
+            
+              <span class="post-category"><a href="/categories/java/redis/">redis</a></span>
+            
+          
+          
+            
+              <aside class="post-tags syuanpi fadeInUpShort back-3">
+              
+                <a href="/tags/java/">java</a>
+              
+                <a href="/tags/redis/">redis</a>
+              
+              </aside>
+            
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          redis 分布式锁实现
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>我们对于 redis 设计的原则是，在设计 key 时必须设置过期时间，因此在用 setnx 和 expire 时是两个操作，不符合锁的原子性操作，所以我们在设计分布式锁的时候必须把两个命令一起提交给 redis 服务端，而不是在客户端操作。基于 redis 是单线程运行，而 lua 脚本执行过程是顺序执行的，所以我们可以考虑结合 lua 脚本提交，保证客户端的操作是原子的，而 redis 服务端可以保证提交的操作是原子性和顺序性。</p>
+<a id="more"></a>
+<h2 id="2-redis-分布式锁实现"><a href="#2-redis-分布式锁实现" class="headerlink" title="2. redis 分布式锁实现"></a>2. redis 分布式锁实现</h2><h3 id="2-1-spring-boot-配置"><a href="#2-1-spring-boot-配置" class="headerlink" title="2.1 spring-boot 配置"></a>2.1 spring-boot 配置</h3><p>此篇是基于 spring-data-redis 实现，在进行分布式实现之前先实现与 spring-boot 集成。</p>
+<p><strong>引入依赖：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compile(<span class="string">'org.springframework.boot:spring-boot-starter-data-redis'</span>)</span><br><span class="line">compile(<span class="string">'org.apache.commons:commons-pool2'</span>)</span><br><span class="line">compile(<span class="string">'org.apache.commons:commons-lang3'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>上面引入 commons-pools2 为了使用 luttce 连接池，commons-lang3 为了使用一些工具包。</p>
+<p><strong>配置：</strong><br>在 application.yml 文件中配置：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">    redis:</span></span><br><span class="line"><span class="attr">        host:</span> <span class="string">localhost</span></span><br><span class="line"><span class="attr">        port:</span> <span class="number">6379</span></span><br><span class="line"><span class="attr">        lettuce:</span></span><br><span class="line"><span class="attr">            pool:</span></span><br><span class="line"><span class="attr">                max-idle:</span> <span class="number">8</span></span><br><span class="line"><span class="attr">                max-active:</span> <span class="number">8</span></span><br><span class="line"><span class="attr">                max-wait:</span> <span class="bullet">-1</span></span><br><span class="line"><span class="attr">        timeout:</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>Redis配置类：</strong><br>这里定义一个 Bean 在项目加载时初始化。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="meta">@ConditionalOnClass</span>(RedisOperations.class)</span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(RedisProperties.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> <span class="keyword">extends</span> <span class="title">CachingConfigurerSupport</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="meta">@ConditionalOnMissingBean</span>(name = <span class="string">"stringRedisTemplate"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> StringRedisTemplate <span class="title">stringRedisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> StringRedisTemplate();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>到这基本上完成了基本配置，上面的配置没有使用自定义序列化与反序列化。</p>
+<h2 id="2-2-基于-redis-分布式锁实现"><a href="#2-2-基于-redis-分布式锁实现" class="headerlink" title="2.2 基于 redis 分布式锁实现"></a>2.2 基于 redis 分布式锁实现</h2><p>实现是基于接口的方式，思路来源于 juc 包中 Lock 的实现方式。</p>
+<p><strong>接口定义如下：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DistributeLock</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> TIMEOUT_SECONDS = <span class="number">60</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> RETRY_TIMES = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> SLEEP_MILLIS = <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">tryLockTime</span><span class="params">(String key, String value)</span><span class="keyword">throws</span> Exception</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">tryLockTimes</span><span class="params">(String key, String value, <span class="keyword">int</span> retryTimes)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">tryLockTimes</span><span class="params">(String key, String value, <span class="keyword">int</span> expire, <span class="keyword">int</span> retryTimes)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">tryLockTimes</span><span class="params">(String key, String value, <span class="keyword">int</span> expire, <span class="keyword">int</span> retryTimes, <span class="keyword">int</span> sleepMills)</span></span></span><br><span class="line"><span class="function">      <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">lock</span><span class="params">(String key, String value, <span class="keyword">int</span> expire)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">lock</span><span class="params">(String key, String value)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">releaseLock</span><span class="params">(String key, String value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面接口中 try 开头的是可以重试，lock 不带重试，实现都带过期时间,reentrantLock 为可重入锁。</p>
+<p><strong>抽象类：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractDistributeLock</span> <span class="keyword">implements</span> <span class="title">DistributeLock</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLockTime</span><span class="params">(String key, String value)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLockTimes</span><span class="params">(String key, String value, <span class="keyword">int</span> retryTimes)</span><span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> tryLockTimes(key, value, TIMEOUT_SECONDS, retryTimes, SLEEP_MILLIS);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLockTimes</span><span class="params">(String key, String value, <span class="keyword">int</span> expire, <span class="keyword">int</span> retryTimes)</span><span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> tryLockTimes(key, value, expire, retryTimes, SLEEP_MILLIS);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">lock</span><span class="params">(String key, String value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> lock(key, value, TIMEOUT_SECONDS);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>实现类如下：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisDistributedLock</span> <span class="keyword">extends</span> <span class="title">AbstractDistributeLock</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Resource</span></span><br><span class="line">  <span class="keyword">private</span> StringRedisTemplate stringRedisTemplate;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> RedisScript&lt;Boolean&gt; LOCK_SCRIPT;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> &#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    sb.append(<span class="string">"if (redis.call('setnx', KEYS[1], ARGV[1]) == 1) then\n"</span>);</span><br><span class="line">    sb.append(<span class="string">"\t\tredis.call('expire', KEYS[1], tonumber(ARGV[2]))\n"</span>);</span><br><span class="line">    sb.append(<span class="string">"\t\treturn true\n"</span>);</span><br><span class="line">    sb.append(<span class="string">"end\n"</span>);</span><br><span class="line">    sb.append(<span class="string">"return false"</span>);</span><br><span class="line">    LOCK_SCRIPT = <span class="keyword">new</span> DefaultRedisScript&lt;&gt;(sb.toString(), Boolean.class);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> RedisScript&lt;Boolean&gt; UN_LOCK_SCRIPT;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> &#123;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    sb.append(<span class="string">"if (redis.call('get', KEYS[1]) == ARGV[1]) then\n"</span>);</span><br><span class="line">    sb.append(<span class="string">"\t\tredis.call('del', KEYS[1])\n"</span>);</span><br><span class="line">    sb.append(<span class="string">"\t\treturn true\n"</span>);</span><br><span class="line">    sb.append(<span class="string">"end\n"</span>);</span><br><span class="line">    sb.append(<span class="string">"\t\treturn false\n"</span>);</span><br><span class="line">    UN_LOCK_SCRIPT = <span class="keyword">new</span> DefaultRedisScript&lt;&gt;(sb.toString(), Boolean.class);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">lock</span><span class="params">(String key, String value, <span class="keyword">int</span> expire)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> StringUtils.isNotBlank(key) &amp;&amp; StringUtils.isNotBlank(value) &amp;&amp; doLock(key, value,</span><br><span class="line">        expire);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//return StringUtils.isNotBlank(key) &amp;&amp; StringUtils.isNotBlank(value) &amp;&amp; doLock1(key, value,</span></span><br><span class="line">    <span class="comment">//expire);</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLockTimes</span><span class="params">(String key, String value, <span class="keyword">int</span> expire, <span class="keyword">int</span> retryTimes,</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">int</span> sleepMills)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> lock = doLock(key, value, expire);</span><br><span class="line">    <span class="keyword">while</span> (retryTimes &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">      TimeUnit.SECONDS.sleep(sleepMills);</span><br><span class="line">      lock = doLock(key, value, expire);</span><br><span class="line">      retryTimes--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> lock;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">doLock</span><span class="params">(String key, String value, <span class="keyword">int</span> expire)</span> </span>&#123;</span><br><span class="line">    Object object = stringRedisTemplate</span><br><span class="line">        .execute(LOCK_SCRIPT, Collections.singletonList(key), value, String.valueOf(expire));</span><br><span class="line">    <span class="keyword">if</span> (Objects.isNull(object)) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (Boolean) object;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> Boolean <span class="title">doLock1</span><span class="params">(String key, String value, <span class="keyword">int</span> expire)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> stringRedisTemplate.execute((RedisCallback&lt;Boolean&gt;) connection -&gt; &#123;</span><br><span class="line">      RedisStringCommands commands = connection.stringCommands();</span><br><span class="line">      Boolean lock = commands.set(key.getBytes(), value.getBytes(), Expiration.seconds(expire),</span><br><span class="line">          SetOption.SET_IF_ABSENT);</span><br><span class="line">      <span class="keyword">return</span> !Objects.isNull(lock);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">releaseLock</span><span class="params">(String key, String value)</span> </span>&#123;</span><br><span class="line">    Object object = stringRedisTemplate</span><br><span class="line">        .execute(UN_LOCK_SCRIPT, Collections.singletonList(key), value);</span><br><span class="line">    <span class="keyword">if</span> (Objects.isNull(object)) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (Boolean) object;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面实现了 doLock() 与 doLock1()，doLock() 通过 lua 脚本提交命令，具体操作交由 redis 服务端。doLock1() 是基于 StringRedisTemplate 实现，最终是通过 lettuce 实现。</p>
+<p><strong>测试如下：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource</span></span><br><span class="line"><span class="keyword">private</span> DistributeLock lock;</span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/redis/lock"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Boolean <span class="title">getLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  String uuid = UUID.randomUUID().toString();</span><br><span class="line">  <span class="keyword">return</span> lock.lock(<span class="string">"test_lock"</span>, uuid);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/redis/releaseLock"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Boolean <span class="title">releaseLock</span><span class="params">(String key, String value)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> lock.releaseLock(key, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>可重入锁：</strong> 通过 ThreadLocal 实现计数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">reentrantLock</span><span class="params">(String key, String value)</span> </span>&#123;</span><br><span class="line">    ConcurrentHashMap&lt;String, Integer&gt; map = currentLock();</span><br><span class="line">    Integer cnt = map.get(key);</span><br><span class="line">    <span class="keyword">if</span> (Objects.nonNull(cnt)) &#123;</span><br><span class="line">        cnt = cnt + <span class="number">1</span>;</span><br><span class="line">        map.put(key, cnt);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">boolean</span> lock = doLock(key, value, TIMEOUT_SECONDS);</span><br><span class="line">    <span class="keyword">if</span> (lock) &#123;</span><br><span class="line">        map.put(key, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> ConcurrentHashMap&lt;String, Integer&gt; <span class="title">currentLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ConcurrentHashMap&lt;String, Integer&gt; refs = lockers.get();</span><br><span class="line">    <span class="keyword">if</span> (refs != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> refs;</span><br><span class="line">    &#125;</span><br><span class="line">    lockers.set(<span class="keyword">new</span> ConcurrentHashMap&lt;&gt;());</span><br><span class="line">    <span class="keyword">return</span> lockers.get();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">unReentrantLock</span><span class="params">(String key, String value)</span> </span>&#123;</span><br><span class="line">    ConcurrentHashMap&lt;String, Integer&gt; map = currentLock();</span><br><span class="line">    Integer refCnt = map.get(key);</span><br><span class="line">    <span class="keyword">if</span> (Objects.isNull(refCnt)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    refCnt = refCnt - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (refCnt &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        map.put(key, refCnt);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        map.remove(key);</span><br><span class="line">        releaseLock(key, value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    
+    </div>
+    
+      
+
+      
+  <hr class="copy-line">
+  <div class="post-copyright">
+    <div class="copy-author">
+      <span>作者 :</span>
+      <span>Ares</span>
+    </div>
+    <div class="copy-url">
+      <span>地址 :</span>
+      <a href="http://www.xxzp.tech/2018/09/05/redis 分布式锁实现/">http://www.xxzp.tech/2018/09/05/redis 分布式锁实现/</a>
+    </div>
+    <div class="copy-origin">
+      <span>来源 :</span>
+      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
+    </div>
+    <div class="copy-license">
+      
+      著作权归作者所有，转载请联系作者获得授权。
+    </div>
+  </div>
+
+    
+  </article>
+  
+    
+  <nav class="article-page">
+    
+    
+      <a href="/2018/09/02/分代GC算法分析/" id="art-right" class="art-right">
+        <span class="prev-title"> 
+          分代 GC 分析<i class="iconfont icon-right"></i>  
+        </span>
+      </a>
+    
+  </nav>
+
+    
+
+
+  
+  
+    
+  
+  <aside class="post-toc">
+    <span class="title" id="toc-switch"><span>文章导航</span></span>
+    <div class="toc-inner syuanpi back-1" style="display:none;">
+      <li class="title-link"><a href="javascript:;" class="toTop">redis 分布式锁实现</a></li>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-redis-分布式锁实现"><span class="toc-text">2. redis 分布式锁实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-spring-boot-配置"><span class="toc-text">2.1 spring-boot 配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-基于-redis-分布式锁实现"><span class="toc-text">2.2 基于 redis 分布式锁实现</span></a></li></ol>
+    </div>
+  </aside>
+
+
+
+  
+
+
+        </div>
+      </main>
+
+      <footer class="footer syuanpi fadeIn" id="footer">
+  <hr>
+  <div class="footer-wrapper">
+    <div class="left">
+      <div class="contact-icon">
+    
+    
+    
+    
+    
+    
+    
+    
+        
+            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
+        
+        
+        
+        
+        
+        
+        
+    
+</div>
+    </div>
+    <div class="right">
+      <div class="copyright">
+    <div class="info">
+        <span>&copy;</span>
+        <span>2018 ~ 2018</span>
+        <span>❤</span>
+        <span>Ares</span>
+    </div>
+    <div class="theme">
+        <span>
+            动力来源于
+            <a href="http://hexo.io/" target="_blank">Hexo </a>
+        </span>
+        <span>
+            主题
+            <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
+        </span>
+    </div>
+    
+    <div class="visit_count">
+        <i class="iconfont icon-visit"></i>
+        <span id="busuanzi_value_site_uv"></span>
+        <i class="iconfont icon-people"></i>
+        <span id="busuanzi_value_site_pv"></span>
+    </div>
+    
+</div>
+
+    </div>
+  </div>
+</footer>
+    </div>
+  </div>
+  <script src="/script/lib/jquery/jquery-3.2.1.min.js"></script>
+
+
+  <script src="/script/lib/lightbox/js/lightbox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/script/src/nlvi.js"></script>
+
+  <script src="/script/scheme/banderole.js"></script>
+
+<script src="/script/bootstarp.js"></script>
+
+
+<div class="backtop syuanpi melt toTop" id="backtop">
+    <i class="iconfont icon-up"></i>
+    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
+</div>
+
+
+
+</body>
+</html>
