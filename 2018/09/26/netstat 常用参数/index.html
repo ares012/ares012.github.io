@@ -72,11 +72,9 @@
 
 
 
-  <title>
-  
-    JPA · Ares
-  
-</title>
+  <meta name="keywords" content="linux, shell, netstat, Nlvi" />
+
+  <title> netstat 参数说明 · Ares </title>
 </head>
 <body>
   <div class="progress">
@@ -237,50 +235,122 @@
         <div class="main-wrapper">
           
     
-    <div class="archive syuanpi fadeInUp" id="archive">
-        
-            <h2 class="archive-title"> 正在查看 </h2>
-            <span class="archive-name"> — JPA</span>
-        
-        <div class="archive-list">
-            <ul>
-        
+  
+  <article class="
+  post
+   is_post 
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-09-26</span>
+          
             
+              <span class="post-category"><a href="/categories/linux/">linux</a></span>
             
-            <li class="archive-post">
-                <span class="archive-post-time">
-                
-                    2018-08-19
-                
-                </span>
-                <span class="archive-post-link">
-                    <a href="/2018/08/19/jpa深入/">JPA深入</a>
-                </span>
-            </li>
-
-        
+          
+          
             
+              <aside class="post-tags syuanpi fadeInUpShort back-3">
+              
+                <a href="/tags/linux/">linux</a>
+              
+                <a href="/tags/shell/">shell</a>
+              
+                <a href="/tags/netstat/">netstat</a>
+              
+              </aside>
             
-            <li class="archive-post">
-                <span class="archive-post-time">
-                
-                    2018-08-18
-                
-                </span>
-                <span class="archive-post-link">
-                    <a href="/2018/08/18/jpa简单实践/">JPA初步</a>
-                </span>
-            </li>
-
-        
-            </ul>
+          
         </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          netstat 参数说明
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        <blockquote>
+<p>netstat - 打印网络连接、路由表、连接的数据统计、伪装连接以及广播域成员<br><a id="more"></a><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">netstat -help</span><br><span class="line">usage: netstat [-vWeenNcCF] [&lt;Af&gt;] -r         netstat &#123;-V|--version|-h|--help&#125;</span><br><span class="line">       netstat [-vWnNcaeol] [&lt;Socket&gt; ...]</span><br><span class="line">       netstat &#123; [-vWeenNac] -I[&lt;Iface&gt;] | [-veenNac] -i | [-cnNe] -M | -s [-6tuw] &#125; [delay]</span><br><span class="line"></span><br><span class="line">        -r, --route              display routing table</span><br><span class="line">        -I, --interfaces=&lt;Iface&gt; display interface table for &lt;Iface&gt;</span><br><span class="line">        -i, --interfaces         display interface table</span><br><span class="line">        -g, --groups             display multicast group memberships</span><br><span class="line">        -s, --statistics         display networking statistics (like SNMP)</span><br><span class="line">        -M, --masquerade         display masqueraded connections</span><br><span class="line"></span><br><span class="line">        -v, --verbose            be verbose</span><br><span class="line">        -W, --wide               don't truncate IP addresses</span><br><span class="line">        -n, --numeric            don't resolve names</span><br><span class="line">        --numeric-hosts          don't resolve host names</span><br><span class="line">        --numeric-ports          don't resolve port names</span><br><span class="line">        --numeric-users          don't resolve user names</span><br><span class="line">        -N, --symbolic           resolve hardware names</span><br><span class="line">        -e, --extend             display other/more information</span><br><span class="line">        -p, --programs           display PID/Program name for sockets</span><br><span class="line">        -o, --timers             display timers</span><br><span class="line">        -c, --continuous         continuous listing</span><br><span class="line"></span><br><span class="line">        -l, --listening          display listening server sockets</span><br><span class="line">        -a, --all                display all sockets (default: connected)</span><br><span class="line">        -F, --fib                display Forwarding Information Base (default)</span><br><span class="line">        -C, --cache              display routing cache instead of FIB</span><br><span class="line">        -Z, --context            display SELinux security context for sockets</span><br><span class="line"></span><br><span class="line">  &lt;Socket&gt;=&#123;-t|--tcp&#125; &#123;-u|--udp&#125; &#123;-U|--udplite&#125; &#123;-S|--sctp&#125; &#123;-w|--raw&#125;</span><br><span class="line">           &#123;-x|--unix&#125; --ax25 --ipx --netrom</span><br><span class="line">  &lt;AF&gt;=Use '-6|-4' or '-A &lt;af&gt;' or '--&lt;af&gt;'; default: inet</span><br><span class="line">  List of possible address families (which support routing):</span><br><span class="line">    inet (DARPA Internet) inet6 (IPv6) ax25 (AMPR AX.25)</span><br><span class="line">    netrom (AMPR NET/ROM) ipx (Novell IPX) ddp (Appletalk DDP)</span><br><span class="line">    x25 (CCITT X.25)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h2><ul>
+<li>netstat -a：列出所有当前的连接</li>
+<li>netstat -at： -t 列出 TCP 协议的连接</li>
+<li>netstat -au： -u 列出 UDP 协议的连接</li>
+<li>netstat -ant：-n 禁用域名解析功能</li>
+<li>netstat -tnl： -l 列出正在监听的套接字</li>
+<li>netstat -nlpt：查看进程信息</li>
+<li>netstat -ltpe：-ep 查看进程名和用户名</li>
+<li>netstat -s：列出所有网络包的统计情况</li>
+<li>netstat -rn：-r 选项打印内核路由信息</li>
+<li>netstat -i： 打印网络接口信息</li>
+<li>netstat -ie：同上，与ifconfig类似</li>
+<li>netstat -ct：-c 选项持续输出信息</li>
+<li>netstat -g：-g 会输出 IPv4 和 IPv6 的多播组信息</li>
+</ul>
+
+      
+    
     </div>
     
-  <nav class="pagination">
-      <span class="page-number current">1</span>
+      
+
+      
+  <hr class="copy-line">
+  <div class="post-copyright">
+    <div class="copy-author">
+      <span>作者 :</span>
+      <span>Ares</span>
+    </div>
+    <div class="copy-url">
+      <span>地址 :</span>
+      <a href="http://www.xxzp.tech/2018/09/26/netstat 常用参数/">http://www.xxzp.tech/2018/09/26/netstat 常用参数/</a>
+    </div>
+    <div class="copy-origin">
+      <span>来源 :</span>
+      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
+    </div>
+    <div class="copy-license">
+      
+      著作权归作者所有，转载请联系作者获得授权。
+    </div>
+  </div>
+
+    
+  </article>
+  
+    
+  <nav class="article-page">
+    
+    
+      <a href="/2018/09/26/grep 常用参数/" id="art-right" class="art-right">
+        <span class="prev-title"> 
+          grep 参数说明<i class="iconfont icon-right"></i>  
+        </span>
+      </a>
+    
   </nav>
 
+    
+
+
+  
+  
+    
+  
+  <aside class="post-toc">
+    <span class="title" id="toc-switch"><span>文章导航</span></span>
+    <div class="toc-inner syuanpi back-1" style="display:none;">
+      <li class="title-link"><a href="javascript:;" class="toTop">netstat 参数说明</a></li>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参数说明"><span class="toc-text">参数说明</span></a></li></ol>
+    </div>
+  </aside>
+
+
+
+  
 
 
         </div>
