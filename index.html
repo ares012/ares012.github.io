@@ -248,6 +248,53 @@
     <header class="post-header">
       <div class="post-time syuanpi fadeInUpShort back-1">
         <div class="post-time-wrapper">
+          <span>2018-09-26</span>
+          
+            
+              <span class="post-category"><a href="/categories/gc/">gc</a></span>
+            
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/09/26/java常用命令/">jvm 自带命令工具</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-jps"><a href="#1-jps" class="headerlink" title="1. jps"></a>1. jps</h2><p>java程序在启动以后，会在 java.io.tmpdir 指定的目录下，就是临时文件夹里，生成 /tmp/hsperfdata_{userName}/），这个目录下会放着所有对 java 进程的 pid。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">jps -h</span><br><span class="line">illegal argument: -h</span><br><span class="line">usage: jps [-help]</span><br><span class="line">       jps [-q] [-mlvV] [&lt;hostid&gt;]</span><br><span class="line"></span><br><span class="line">Definitions:</span><br><span class="line">    &lt;hostid&gt;:      &lt;hostname&gt;[:&lt;port&gt;]</span><br></pre></td></tr></table></figure>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/09/26/java常用命令/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
           <span>2018-09-05</span>
           
             
@@ -637,48 +684,6 @@
     
       <p class="content-link">
         <a href="/2018/08/27/java 内存模型/#more">
-          <span>继续阅读</span>
-        </a>
-      </p>
-    
-    </div>
-    
-  </article>
-  
-  
-    
-  
-
-  
-    
-  
-  <article class="
-  post
-  
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-26</span>
-          
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          <a href="/2018/08/26/java 对象分析/">java 对象分析</a>
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        
-          <h2 id="1-常见-java-对象创建方式"><a href="#1-常见-java-对象创建方式" class="headerlink" title="1. 常见 java 对象创建方式"></a>1. 常见 java 对象创建方式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User user1 = User.class.newInstance();</span><br><span class="line">User user2 = (User) Class.forName(<span class="string">"com.xxzp.ares.utils.reflect.TestReflect"</span>).newInstance();</span><br><span class="line">User user3 = User.class.getConstructor().newInstance(<span class="number">1245L</span>, <span class="string">"test"</span>);</span><br><span class="line">User user4 = (User) user1.clone();<span class="comment">//需继承Cloneable与重写clone()方法</span></span><br></pre></td></tr></table></figure>
-        
-      
-    
-      <p class="content-link">
-        <a href="/2018/08/26/java 对象分析/#more">
           <span>继续阅读</span>
         </a>
       </p>
