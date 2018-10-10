@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <link rel="stylesheet" href="/style/style.css">
+<script>
+  var nlviconfig = {
+    title: "Ares",
+    author: "Ares",
+    baseUrl: "/",
+    theme: {
+      scheme: "banderole",
+      lightbox: true,
+      animate: true,
+      search: false,
+      friends: false,
+      reward: false,
+      lazy: false
+    }
+  }
+</script>
+
+
+
+
+    <link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
+
+
+
+
+    <link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
+
+
+
+
+    <link rel="icon" href="/img/favicon.png">
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98059014-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-124198848-1');
+</script>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="browsermode" content="application">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ares">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="msapplication-navbutton-color" content="#666666">
+<meta name= "format-detection" content="telephone=no" />
+<meta name="keywords" content="nlvi, Nlvi" />
+
+  <link rel="apple-touch-icon"  sizes="72x72"  href="/img/favicon.png">
+  <link rel="apple-touch-icon-precomposed"  sizes="72x72"  href="/img/favicon.png">
+
+
+
+
+
+  <meta name="keywords" content="java, jvm, gc, Nlvi" />
+
+  <title> java服务线上问题排查思路 · Ares </title>
+</head>
+<body>
+  <div class="progress">
+  <div class="progress-inner"></div>
+</div>
+
+  
+    <div class="tagcloud-mask"></div>  
+<div class="tagcloud" id="tagcloud">
+  <div class="tagcloud-inner">
+    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+  </div>
+</div>
+  
+
+  <div class="container" style="display:none;">
+
+    <header class="header" id="header">
+  <div class="header-wrapper">
+    <div class="logo">
+  <div class="logo-inner syuanpi tvIn">
+    <span><a href="/">Ares</a></span>
+    
+  </div>
+</div>
+    <nav class="main-nav">
+  
+  <ul class="main-nav-list syuanpi tvIn">
+  
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/" id="article">
+        <span class="base-name">article</span>
+        
+          <span class="menu-item-label">article</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/categories/gc/" id="gc">
+        <span class="base-name">gc</span>
+        
+          <span class="menu-item-label">gc</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="javascript:;" id="tags">
+        <span class="base-name">tags</span>
+        
+          <span class="menu-item-label">tags</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/about" id="about">
+        <span class="base-name">about</span>
+        
+          <span class="menu-item-label">about</span>
+        
+      </a>
+    </li>
+  
+  </ul>
+  
+</nav>
+
+    
+    
+  </div>
+</header>
+<div class="mobile-header">
+  <div class="mobile-header-body">
+    <div class="mobile-header-list">
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/">
+                    <span>文章</span>
+                    
+                        <span class="menu-item-label">article</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/categories/gc/">
+                    <span>nav.gc</span>
+                    
+                        <span class="menu-item-label">gc</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+          <div class="mobile-nav-item inner-cloud">
+            <div class="mobile-nav-tag">
+              <a href="javascript:;" id="mobile-tags">
+                <span>标签</span>
+                
+                    <span class="menu-item-label">tags</span>
+                
+              </a>
+            </div>
+            <div class="mobile-nav-tagcloud">
+              <div class="mobile-tagcloud-inner">
+                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+              </div>
+            </div>
+          </div>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/about">
+                    <span>关于</span>
+                    
+                        <span class="menu-item-label">about</span>
+                    
+                </a>
+            </div>
+        
+      
+    </div>
+  </div>
+  <div class="mobile-header-nav">
+    <div class="mobile-header-item" id="mobile-left">
+      <div class="header-menu-item">
+        <span class="header-menu-line"></span>
+      </div>
+    </div>
+    <h1 class="mobile-header-title">
+      <a href="/">Ares</a>
+    </h1>
+    <div class="mobile-header-item"></div>
+  </div>
+</div>
+    <div class="container-inner">
+      <main class="main" id="main">
+        <div class="main-wrapper">
+          
+    
+  
+  <article class="
+  post
+   is_post 
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-10-10</span>
+          
+          
+            
+              <aside class="post-tags syuanpi fadeInUpShort back-3">
+              
+                <a href="/tags/java/">java</a>
+              
+                <a href="/tags/jvm/">jvm</a>
+              
+                <a href="/tags/gc/">gc</a>
+              
+              </aside>
+            
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          java服务线上问题排查思路
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        <h2 id="1-常见问题"><a href="#1-常见问题" class="headerlink" title="1. 常见问题"></a>1. 常见问题</h2><p>Java 服务的线上问题从系统表象来看归结起来总共有四方面：CPU、内存、磁盘、网络，可以分为两大类：</p>
+<ul>
+<li>系统问题：CPU 使用率过高、CPU 上下文切换频率次数较高、磁盘空间不够、磁盘 I/O 频繁、网络流量异常、系统可用内存过低等</li>
+<li>业务问题：PV 量过高、服务调用耗时异常、线程死锁、多线程并发问题、频繁进行 Full GC等<a id="more"></a>
+</li>
+</ul>
+<h2 id="2-问题定位思路"><a href="#2-问题定位思路" class="headerlink" title="2. 问题定位思路"></a>2. 问题定位思路</h2><p>一边从操作系统开始，先排除操作系统和网络问题而导致的线上服务问题，这些问题可以很快从系统的监控工具看到。进而关注 jvm 相关参数，而这一步相对来说比较难排查。下面从系统问题和业务问题角度去分析一下常用的排查命令。</p>
+<h2 id="2-1-系统问题排查"><a href="#2-1-系统问题排查" class="headerlink" title="2.1 系统问题排查"></a>2.1 系统问题排查</h2><p>关注点：cpu、内存、网络、磁盘</p>
+<p>常用命令:</p>
+<ul>
+<li><p>top/htop: 显示当前系统正在执行的进程的相关信息，包括进程ID、内存占用率、CPU占用率等</p>
+<ul>
+<li>-b: 批处理</li>
+<li>-c: 显示完整的治命令</li>
+<li>-I: 忽略失效过程</li>
+<li>-s: 保密模式</li>
+<li>-S: 累积模式</li>
+<li>-i&lt;时间&gt;: 设置间隔时间</li>
+<li>-u&lt;用户名&gt;: 指定用户名</li>
+<li>-p&lt;进程号&gt;: 指定进程</li>
+<li>-n&lt;次数&gt;: 循环显示的次数</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>free: 显示当前系统未使用的和已使用的内存数目，还可以显示被内核使用的内存缓冲区</li>
+</ul>
+<hr>
+<ul>
+<li><p>vmstat: 详细的内存、cpu、进程、I/O等系统整体运行状态<br>Procs:</p>
+<ul>
+<li>r: 运行队列中进程数量，这个值也可以判断是否需要增加CPU。（长期大于1）</li>
+<li>b: 等待IO的进程数量。</li>
+</ul>
+<p>Memory:</p>
+<ul>
+<li>swpd: 使用虚拟内存大小，如果swpd的值不为0，但是SI，SO的值长期为0，这种情况不会影响系统性能。</li>
+<li>free: 空闲物理内存大小。</li>
+<li>buff: 用作缓冲的内存大小。</li>
+<li>cache: 用作缓存的内存大小，如果cache的值大的时候，说明cache处的文件数多，如果频繁访问到的文件都能被cache处，那么磁盘的读IO bi会非常小。</li>
+</ul>
+<p>Swap:</p>
+<ul>
+<li>si: 每秒从交换区写到内存的大小，由磁盘调入内存。</li>
+<li>so: 每秒写入交换区的内存大小，由内存调入磁盘。</li>
+</ul>
+<p>IO:</p>
+<ul>
+<li>bi: 每秒读取的块数</li>
+<li>bo: 每秒写入的块数</li>
+</ul>
+<p>system:</p>
+<ul>
+<li>in: 每秒中断数，包括时钟中断。</li>
+<li>cs: 每秒上下文切换数。</li>
+</ul>
+<p>CPU：</p>
+<ul>
+<li>us: 用户进程执行时间百分比(user time)。us的值比较高时，说明用户进程消耗的CPU时间多，但是如果长期超50%的使用，那么我们就该考虑优化程序算法或者进行加速。</li>
+<li>sy: 内核系统进程执行时间百分比(system time)。sy的值高时，说明系统内核消耗的CPU资源多，这并不是良性表现，我们应该检查原因。</li>
+<li>wa: IO等待时间百分比。wa的值高时，说明IO等待比较严重，这可能由于磁盘大量作随机访问造成，也有可能磁盘出现瓶颈（块操作）。</li>
+<li>id: 空闲时间百分比</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>iostat: 系统输入输出设备和CPU的使用情况，统计磁盘活动统计情况，同时也会汇报出CPU使用情况</li>
+</ul>
+<hr>
+<ul>
+<li><p>lsof: 查看进程开打的文件，打开文件的进程，进程打开的端口，同时可找回/恢复删除的文件</p>
+<ul>
+<li>-a：列出打开文件存在的进程；</li>
+<li>-c&lt;进程名&gt;：列出指定进程所打开的文件；</li>
+<li>-g：列出GID号进程详情；</li>
+<li>-d&lt;文件号&gt;：列出占用该文件号的进程；</li>
+<li>+d&lt;目录&gt;：列出目录下被打开的文件；</li>
+<li>+D&lt;目录&gt;：递归列出目录下被打开的文件；</li>
+<li>-n&lt;目录&gt;：列出使用NFS的文件；</li>
+<li>-i&lt;条件&gt;：列出符合条件的进程</li>
+<li>-p&lt;进程号&gt;：列出指定进程号所打开的文件；</li>
+<li>-u：列出UID号进程详情；</li>
+<li>-h：显示帮助信息；</li>
+<li>-v：显示版本信息。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -i:8080 #查看8080端口的进程</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<ul>
+<li>dstat: 系统信息统计工具<ul>
+<li>-c：显示CPU系统占用，用户占用，空闲，等待，中断，软件中断等信息。</li>
+<li>-C：当有多个CPU时候，此参数可按需分别显示cpu状态，例：-C 0,1 是显示cpu0和cpu1的信息。</li>
+<li>-d：显示磁盘读写数据大小。</li>
+<li>-D hda,total：include hda and total。</li>
+<li>-n：显示网络状态。</li>
+<li>-N eth1,total：有多块网卡时，指定要显示的网卡。</li>
+<li>-l：显示系统负载情况。</li>
+<li>-m：显示内存使用情况。</li>
+<li>-g：显示页面使用情况。</li>
+<li>-p：显示进程状态。</li>
+<li>-s：显示交换分区使用情况。</li>
+<li>-S：类似D/N。</li>
+<li>-r：I/O请求情况。</li>
+<li>-y：系统状态。</li>
+<li>–ipc：显示ipc消息队列，信号等信息。</li>
+<li>–socket：用来显示tcp udp端口状态。</li>
+<li>-a：此为默认选项，等同于-cdngy。</li>
+<li>-v：等同于 -pmgdsc -D total。</li>
+<li>–output file：可以把状态信息以csv的格式重定向到指定的文件中。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>pstack: 打印输出此进程的堆栈信息。可以输出所有线程的调用关系栈。</li>
+</ul>
+<hr>
+<ul>
+<li>pstree:以树状图的方式展现进程之间的派生关系，显示效果比较直观。<ul>
+<li>-a：显示每个程序的完整指令，包含路径，参数或是常驻服务的标示。</li>
+<li>-c：不使用精简标示法。</li>
+<li>-G：使用VT100终端机的列绘图字符。</li>
+<li>-h：列出树状图时，特别标明现在执行的程序。</li>
+<li>-H：此参数的效果和指定”-h”参数类似，但特别标明指定的程序。</li>
+<li>-l：采用长列格式显示树状图。</li>
+<li>-n：用程序识别码排序。预设是以程序名称来排序。</li>
+<li>-p：显示程序识别码。</li>
+<li>-u：显示用户名称。</li>
+<li>-U：使用UTF-8列绘图字符。</li>
+<li>-V：显示版本信息。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>strace: 是一个集诊断、调试、统计与一体的工具，我们可以使用strace对应用的系统调用和信号传递的跟踪结果来对应用进行分析<ul>
+<li>-c 统计每一系统调用的所执行的时间,次数和出错的次数等.</li>
+<li>-d 输出strace关于标准错误的调试信息.</li>
+<li>-f 跟踪由fork调用所产生的子进程.</li>
+<li>-ff 如果提供-o filename,则所有进程的跟踪结果输出到相应的filename.pid中,pid是各进程的进程号.</li>
+<li>-F 尝试跟踪vfork调用.在-f时,vfork不被跟踪.</li>
+<li>-h 输出简要的帮助信息.</li>
+<li>-i 输出系统调用的入口指针.</li>
+<li>-q 禁止输出关于脱离的消息.</li>
+<li>-r 打印出相对时间关于,,每一个系统调用.</li>
+<li>-t 在输出中的每一行前加上时间信息.</li>
+<li>-tt 在输出中的每一行前加上时间信息,微秒级.</li>
+<li>-ttt 微秒级输出,以秒了表示时间.</li>
+<li>-T 显示每一调用所耗的时间.</li>
+<li>-v 输出所有的系统调用.一些调用关于环境变量,状态,输入输出等调用由于使用频繁,默认不输出.</li>
+<li>-V 输出strace的版本信息.</li>
+<li>-x 以十六进制形式输出非标准字符串</li>
+<li>-xx 所有字符串以十六进制形式输出.</li>
+<li>-a column 设置返回值的输出位置.默认 为40.</li>
+<li>-e expr 指定一个表达式,用来控制如何跟踪.格式：[qualifier=][!]value1[,value2]…<br>qualifier只能是 trace,abbrev,verbose,raw,signal,read,write其中之一.value是用来限定的符号或数字.默认的 qualifier是 trace.感叹号是否定符号.例如:-eopen等价于 -e trace=open,表示只跟踪open调用.而-etrace!=open 表示跟踪除了open以外的其他调用.有两个特殊的符号 all 和 none. 注意有些shell使用!来执行历史记录里的命令,所以要使用\.</li>
+<li>-e trace=set 只跟踪指定的系统 调用.例如:-e trace=open,close,rean,write表示只跟踪这四个系统调用.默认的为set=all.</li>
+<li>-e trace=file 只跟踪有关文件操作的系统调用.</li>
+<li>-e trace=process 只跟踪有关进程控制的系统调用.</li>
+<li>-e trace=network 跟踪与网络有关的所有系统调用.</li>
+<li>-e strace=signal 跟踪所有与系统信号有关的 系统调用</li>
+<li>-e trace=ipc 跟踪所有与进程通讯有关的系统调用</li>
+<li>-e abbrev=set 设定strace输出的系统调用的结果集.-v 等与 abbrev=none.默认为abbrev=all.</li>
+<li>-e raw=set 将指定的系统调用的参数以十六进制显示.</li>
+<li>-e signal=set 指定跟踪的系统信号.默认为all.如 signal=!SIGIO(或者signal=!io),表示不跟踪SIGIO信号.</li>
+<li>-e read=set 输出从指定文件中读出 的数据.例如: -e read=3,5</li>
+<li>-e write=set 输出写入到指定文件中的数据.</li>
+<li>-o filename 将strace的输出写入文件filename</li>
+<li>-p pid 跟踪指定的进程pid.</li>
+<li>-s strsize 指定输出的字符串的最大长度.默认为32.文件名一直全部输出.</li>
+<li>-u username 以username的UID和GID执行被跟踪的命令</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>netstat: 用于显示各种网络相关信息<ul>
+<li>-a：列出所有当前的连接</li>
+<li>-at： -t 列出 TCP 协议的连接</li>
+<li>-au： -u 列出 UDP 协议的连接</li>
+<li>-ant：-n 禁用域名解析功能</li>
+<li>-tnl： -l 列出正在监听的套接字</li>
+<li>-nlpt：查看进程信息</li>
+<li>-ltpe：-ep 查看进程名和用户名</li>
+<li>-s：列出所有网络包的统计情况</li>
+<li>-rn：-r 选项打印内核路由信息</li>
+<li>-i： 打印网络接口信息</li>
+<li>-ie：同上，与ifconfig类似</li>
+<li>-ct：-c 选项持续输出信息</li>
+<li>-g：-g 会输出 IPv4 和 IPv6 的多播组信息</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-2-业务异常排查"><a href="#2-2-业务异常排查" class="headerlink" title="2.2 业务异常排查"></a>2.2 业务异常排查</h2><p>思路：线程状态 –&gt; gc log –&gt; 堆 –&gt; 业务log, 其中 full gc 相对比较明显，而线程状态主要查询是否有 locked等。<br>线程状态：</p>
+<ul>
+<li>jstack:(<a href="https://www.xxzp.tech/2018/09/25/java%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">详细参数查看</a>)</li>
+</ul>
+<p>gc 信息：</p>
+<ul>
+<li><p>jstat:(<a href="https://www.xxzp.tech/2018/09/25/java%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">详细参数查看</a>)</p>
+</li>
+<li><p>jmap:(<a href="https://www.xxzp.tech/2018/09/25/java%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">详细参数查看</a>)</p>
+</li>
+</ul>
+
+      
+    
+    </div>
+    
+      
+
+      
+  <hr class="copy-line">
+  <div class="post-copyright">
+    <div class="copy-author">
+      <span>作者 :</span>
+      <span>Ares</span>
+    </div>
+    <div class="copy-url">
+      <span>地址 :</span>
+      <a href="http://www.xxzp.tech/2018/10/10/java服务线上问题排查思路/">http://www.xxzp.tech/2018/10/10/java服务线上问题排查思路/</a>
+    </div>
+    <div class="copy-origin">
+      <span>来源 :</span>
+      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
+    </div>
+    <div class="copy-license">
+      
+      著作权归作者所有，转载请联系作者获得授权。
+    </div>
+  </div>
+
+    
+  </article>
+  
+    
+  <nav class="article-page">
+    
+    
+      <a href="/2018/09/25/java常用命令/" id="art-right" class="art-right">
+        <span class="prev-title"> 
+          jvm 自带命令工具<i class="iconfont icon-right"></i>  
+        </span>
+      </a>
+    
+  </nav>
+
+    
+
+
+  
+  
+    
+  
+  <aside class="post-toc">
+    <span class="title" id="toc-switch"><span>文章导航</span></span>
+    <div class="toc-inner syuanpi back-1" style="display:none;">
+      <li class="title-link"><a href="javascript:;" class="toTop">java服务线上问题排查思路</a></li>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-常见问题"><span class="toc-text">1. 常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-问题定位思路"><span class="toc-text">2. 问题定位思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-系统问题排查"><span class="toc-text">2.1 系统问题排查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-业务异常排查"><span class="toc-text">2.2 业务异常排查</span></a></li></ol>
+    </div>
+  </aside>
+
+
+
+  
+
+
+        </div>
+      </main>
+
+      <footer class="footer syuanpi fadeIn" id="footer">
+  <hr>
+  <div class="footer-wrapper">
+    <div class="left">
+      <div class="contact-icon">
+    
+    
+    
+    
+    
+    
+    
+    
+        
+            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
+        
+        
+        
+        
+        
+        
+        
+    
+</div>
+    </div>
+    <div class="right">
+      <div class="copyright">
+    <div class="info">
+        <span>&copy;</span>
+        <span>2018 ~ 2018</span>
+        <span>❤</span>
+        <span>Ares</span>
+    </div>
+    <div class="theme">
+        <span>
+            动力来源于
+            <a href="http://hexo.io/" target="_blank">Hexo </a>
+        </span>
+        <span>
+            主题
+            <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
+        </span>
+    </div>
+    
+    <div class="visit_count">
+        <i class="iconfont icon-visit"></i>
+        <span id="busuanzi_value_site_uv"></span>
+        <i class="iconfont icon-people"></i>
+        <span id="busuanzi_value_site_pv"></span>
+    </div>
+    
+</div>
+
+    </div>
+  </div>
+</footer>
+    </div>
+  </div>
+  <script src="/script/lib/jquery/jquery-3.2.1.min.js"></script>
+
+
+  <script src="/script/lib/lightbox/js/lightbox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="/script/src/nlvi.js"></script>
+
+  <script src="/script/scheme/banderole.js"></script>
+
+<script src="/script/bootstarp.js"></script>
+
+
+<div class="backtop syuanpi melt toTop" id="backtop">
+    <i class="iconfont icon-up"></i>
+    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
+</div>
+
+
+
+</body>
+</html>
