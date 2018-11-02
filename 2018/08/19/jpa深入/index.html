@@ -1,274 +1,184 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-  <link rel="stylesheet" href="/style/style.css">
-<script>
-  var nlviconfig = {
-    title: "Ares",
-    author: "Ares",
-    baseUrl: "/",
-    theme: {
-      scheme: "banderole",
-      lightbox: true,
-      animate: true,
-      search: false,
-      friends: false,
-      reward: false,
-      lazy: false
-    }
-  }
-</script>
+    
+
+    
+
+    
 
 
 
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>JPA深入 | Ares</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#339999">
+    
+    
+    <meta name="keywords" content="java,JPA,spring boot">
+    <meta name="description" content="1. JpaRepository继承关系JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：PagingAndSortingRepository 支持分页与排序，包含方法: 123Iterable&amp;lt;T&amp;gt; findAll(Sort sort);//Pageable包含分页信息Page&amp;lt;T&amp;">
+<meta name="keywords" content="java,JPA,spring boot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JPA深入">
+<meta property="og:url" content="http://www.xxzp.tech/2018/08/19/jpa深入/index.html">
+<meta property="og:site_name" content="Ares">
+<meta property="og:description" content="1. JpaRepository继承关系JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：PagingAndSortingRepository 支持分页与排序，包含方法: 123Iterable&amp;lt;T&amp;gt; findAll(Sort sort);//Pageable包含分页信息Page&amp;lt;T&amp;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-27T12:50:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JPA深入">
+<meta name="twitter:description" content="1. JpaRepository继承关系JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：PagingAndSortingRepository 支持分页与排序，包含方法: 123Iterable&amp;lt;T&amp;gt; findAll(Sort sort);//Pageable包含分页信息Page&amp;lt;T&amp;">
+    
+        <link rel="alternate" type="application/atom+xml" title="Ares" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
 
-    <link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
+    <!-- custom head -->
+    
 
-
-
-
-    <link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
-
-
-
-
-    <link rel="icon" href="/img/favicon.png">
-
-
-
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98059014-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-124198848-1');
-</script>
-
-
-
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="browsermode" content="application">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Ares">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="msapplication-navbutton-color" content="#666666">
-<meta name= "format-detection" content="telephone=no" />
-<meta name="keywords" content="nlvi, Nlvi" />
-
-  <link rel="apple-touch-icon"  sizes="72x72"  href="/img/favicon.png">
-  <link rel="apple-touch-icon-precomposed"  sizes="72x72"  href="/img/favicon.png">
-
-
-
-
-
-  <meta name="keywords" content="java, JPA, spring boot, Nlvi" />
-
-  <title> JPA深入 · Ares </title>
 </head>
+
 <body>
-  <div class="progress">
-  <div class="progress-inner"></div>
-</div>
+    <div id="loading" class="active"></div>
 
-  
-    <div class="tagcloud-mask"></div>  
-<div class="tagcloud" id="tagcloud">
-  <div class="tagcloud-inner">
-    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
-  </div>
-</div>
-  
-
-  <div class="container" style="display:none;">
-
-    <header class="header" id="header">
-  <div class="header-wrapper">
-    <div class="logo">
-  <div class="logo-inner syuanpi tvIn">
-    <span><a href="/">Ares</a></span>
-    
-  </div>
-</div>
-    <nav class="main-nav">
-  
-  <ul class="main-nav-list syuanpi tvIn">
-  
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="/" id="article">
-        <span class="base-name">article</span>
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Ares</h5>
+          <a href="mailto:ares012@sina.com" title="ares012@sina.com" class="mail">ares012@sina.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-          <span class="menu-item-label">article</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="/categories/gc/" id="gc">
-        <span class="base-name">gc</span>
-        
-          <span class="menu-item-label">gc</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="javascript:;" id="tags">
-        <span class="base-name">tags</span>
-        
-          <span class="menu-item-label">tags</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="/about" id="about">
-        <span class="base-name">about</span>
-        
-          <span class="menu-item-label">about</span>
-        
-      </a>
-    </li>
-  
-  </ul>
-  
-</nav>
-
-    
-    
-  </div>
-</header>
-<div class="mobile-header">
-  <div class="mobile-header-body">
-    <div class="mobile-header-list">
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/">
-                    <span>文章</span>
-                    
-                        <span class="menu-item-label">article</span>
-                    
-                </a>
-            </div>
-        
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/categories/gc/">
-                    <span>nav.gc</span>
-                    
-                        <span class="menu-item-label">gc</span>
-                    
-                </a>
-            </div>
-        
-      
-        
-          <div class="mobile-nav-item inner-cloud">
-            <div class="mobile-nav-tag">
-              <a href="javascript:;" id="mobile-tags">
-                <span>标签</span>
-                
-                    <span class="menu-item-label">tags</span>
-                
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
               </a>
-            </div>
-            <div class="mobile-nav-tagcloud">
-              <div class="mobile-tagcloud-inner">
-                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
-              </div>
-            </div>
-          </div>
+            </li>
         
-      
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
         
-            <div class="mobile-nav-item">
-                <a href="/about">
-                    <span>关于</span>
-                    
-                        <span class="menu-item-label">about</span>
-                    
-                </a>
-            </div>
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
         
-      
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ares012" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
     </div>
   </div>
-  <div class="mobile-header-nav">
-    <div class="mobile-header-item" id="mobile-left">
-      <div class="header-menu-item">
-        <span class="header-menu-line"></span>
-      </div>
-    </div>
-    <h1 class="mobile-header-title">
-      <a href="/">Ares</a>
-    </h1>
-    <div class="mobile-header-item"></div>
-  </div>
-</div>
-    <div class="container-inner">
-      <main class="main" id="main">
-        <div class="main-wrapper">
-          
-    
-  
-  <article class="
-  post
-   is_post 
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-19</span>
-          
-          
-            
-              <aside class="post-tags syuanpi fadeInUpShort back-3">
-              
-                <a href="/tags/java/">java</a>
-              
-                <a href="/tags/JPA/">JPA</a>
-              
-                <a href="/tags/spring-boot/">spring boot</a>
-              
-              </aside>
-            
-          
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JPA深入</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
         </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          JPA深入
         
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        <h2 id="1-JpaRepository继承关系"><a href="#1-JpaRepository继承关系" class="headerlink" title="1. JpaRepository继承关系"></a>1. JpaRepository继承关系</h2><p>JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：<br><strong>PagingAndSortingRepository</strong> 支持分页与排序，包含方法:</p>
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JPA深入</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-08-18T16:00:00.000Z" itemprop="datePublished" class="page-time">
+  2018-08-19
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-JpaRepository继承关系"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. JpaRepository继承关系</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-SimpleJpaRepository"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. SimpleJpaRepository</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-查询方法生成"><span class="post-toc-number">3.</span> <span class="post-toc-text">3. 查询方法生成</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-Query使用"><span class="post-toc-number">4.</span> <span class="post-toc-text">4. @Query使用</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-jpa深入"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JPA深入</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-08-19 00:00:00" datetime="2018-08-18T16:00:00.000Z"  itemprop="datePublished">2018-08-19</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="1-JpaRepository继承关系"><a href="#1-JpaRepository继承关系" class="headerlink" title="1. JpaRepository继承关系"></a>1. JpaRepository继承关系</h2><p>JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：<br><strong>PagingAndSortingRepository</strong> 支持分页与排序，包含方法:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Iterable&lt;T&gt; <span class="title">findAll</span><span class="params">(Sort sort)</span></span>;</span><br><span class="line"><span class="comment">//Pageable包含分页信息</span></span><br><span class="line"><span class="function">Page&lt;T&gt; <span class="title">findAll</span><span class="params">(Pageable pageable)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>使用示例如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sort sort = <span class="keyword">new</span> Sort(Direction.DESC, <span class="string">"id"</span>);</span><br><span class="line">PageRequest pageRequest = <span class="keyword">new</span> PageRequest(pageNo, pageSize, sort);</span><br><span class="line">Page page = userRepository.findAll(pageRequest);</span><br></pre></td></tr></table></figure>
@@ -290,158 +200,168 @@
 <p>更新示例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="meta">@Modifying</span>(clearAutomatically = <span class="keyword">true</span>)</span><br><span class="line"><span class="meta">@Query</span>(value = <span class="string">"UPDATE user SET user_name=?1 WHERE id=?2"</span>,nativeQuery = <span class="keyword">true</span>)</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">updateUserNameById</span><span class="params">(String userName,Long id)</span></span>;</span><br></pre></td></tr></table></figure>
 
-      
-    
-    </div>
-    
-      
+        </div>
 
-      
-  <hr class="copy-line">
-  <div class="post-copyright">
-    <div class="copy-author">
-      <span>作者 :</span>
-      <span>Ares</span>
-    </div>
-    <div class="copy-url">
-      <span>地址 :</span>
-      <a href="http://www.xxzp.tech/2018/08/19/jpa深入/">http://www.xxzp.tech/2018/08/19/jpa深入/</a>
-    </div>
-    <div class="copy-origin">
-      <span>来源 :</span>
-      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
-    </div>
-    <div class="copy-license">
-      
-      著作权归作者所有，转载请联系作者获得授权。
-    </div>
-  </div>
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="http://www.xxzp.tech">
+            <img src="/img/avatar.jpg" alt="Ares">
+            Ares
+        </a>
+    </footer>
+</blockquote>
 
-    
-  </article>
-  
-    
-  <nav class="article-page">
-    
-      <a href="/2018/08/20/java类加载/" id="art-left" class="art-left">
-        <span class="next-title">
-          <i class="iconfont icon-left"></i>java类加载机制
-        </span>
-      </a>
-    
-    
-      <a href="/2018/08/18/jpa简单实践/" id="art-right" class="art-right">
-        <span class="prev-title"> 
-          JPA初步<i class="iconfont icon-right"></i>  
-        </span>
-      </a>
-    
-  </nav>
-
-    
+        
 
 
-  
-  
-    
-  
-  <aside class="post-toc">
-    <span class="title" id="toc-switch"><span>文章导航</span></span>
-    <div class="toc-inner syuanpi back-1" style="display:none;">
-      <li class="title-link"><a href="javascript:;" class="toTop">JPA深入</a></li>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-JpaRepository继承关系"><span class="toc-text">1. JpaRepository继承关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-SimpleJpaRepository"><span class="toc-text">2. SimpleJpaRepository</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-查询方法生成"><span class="toc-text">3. 查询方法生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Query使用"><span class="toc-text">4. @Query使用</span></a></li></ol>
-    </div>
-  </aside>
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JPA/">JPA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/">spring boot</a></li></ul>
 
 
-
-  
+            
 
 
         </div>
-      </main>
+    </div>
 
-      <footer class="footer syuanpi fadeIn" id="footer">
-  <hr>
-  <div class="footer-wrapper">
-    <div class="left">
-      <div class="contact-icon">
     
-    
-    
-    
-    
-    
-    
-    
-        
-            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
-        
-        
-        
-        
-        
-        
-        
-    
-</div>
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/08/20/java类加载/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">java类加载机制</h4>
+      </a>
     </div>
-    <div class="right">
-      <div class="copyright">
-    <div class="info">
-        <span>&copy;</span>
-        <span>2018 ~ 2018</span>
-        <span>❤</span>
-        <span>Ares</span>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/08/18/jpa简单实践/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">JPA初步</h4>
+      </a>
     </div>
-    <div class="theme">
-        <span>
-            动力来源于
-            <a href="http://hexo.io/" target="_blank">Hexo </a>
-        </span>
-        <span>
-            主题
-            <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
-        </span>
-    </div>
+  
+</nav>
+
+
+
     
-    <div class="visit_count">
-        <i class="iconfont icon-visit"></i>
-        <span id="busuanzi_value_site_uv"></span>
-        <i class="iconfont icon-people"></i>
-        <span id="busuanzi_value_site_pv"></span>
-    </div>
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
 </div>
 
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
     </div>
-  </div>
+    <div class="bottom">
+        <p><span>Ares &copy; 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
-    </div>
-  </div>
-  <script src="/script/lib/jquery/jquery-3.2.1.min.js"></script>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
 
 
-  <script src="/script/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: false, REWARD: false };
 
 
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
 
 
-
-
-
-
-<script src="/script/src/nlvi.js"></script>
-
-  <script src="/script/scheme/banderole.js"></script>
-
-<script src="/script/bootstarp.js"></script>
-
-
-<div class="backtop syuanpi melt toTop" id="backtop">
-    <i class="iconfont icon-up"></i>
-    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
 </div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '快回来吧！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'ares';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
 
 
 

@@ -1,272 +1,188 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-  <link rel="stylesheet" href="/style/style.css">
-<script>
-  var nlviconfig = {
-    title: "Ares",
-    author: "Ares",
-    baseUrl: "/",
-    theme: {
-      scheme: "banderole",
-      lightbox: true,
-      animate: true,
-      search: false,
-      friends: false,
-      reward: false,
-      lazy: false
-    }
-  }
-</script>
+    
+
+    
+
+    
 
 
 
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>java 对象分析 | Ares</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#339999">
+    
+    
+    <meta name="keywords" content="java,jvm">
+    <meta name="description" content="1. 常见 java 对象创建方式1234User user1 = User.class.newInstance();User user2 = (User) Class.forName(&quot;com.xxzp.ares.utils.reflect.TestReflect&quot;).newInstance();User user3 = User.class.getConstructor().newInstan">
+<meta name="keywords" content="java,jvm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java 对象分析">
+<meta property="og:url" content="http://www.xxzp.tech/2018/08/26/java 对象分析/index.html">
+<meta property="og:site_name" content="Ares">
+<meta property="og:description" content="1. 常见 java 对象创建方式1234User user1 = User.class.newInstance();User user2 = (User) Class.forName(&quot;com.xxzp.ares.utils.reflect.TestReflect&quot;).newInstance();User user3 = User.class.getConstructor().newInstan">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.xxzp.tech/img/虚拟机对象头.png">
+<meta property="og:image" content="http://www.xxzp.tech/img/直接指针访问.jpg">
+<meta property="og:image" content="http://www.xxzp.tech/img/句柄池访问.jpg">
+<meta property="og:updated_time" content="2018-08-27T12:54:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java 对象分析">
+<meta name="twitter:description" content="1. 常见 java 对象创建方式1234User user1 = User.class.newInstance();User user2 = (User) Class.forName(&quot;com.xxzp.ares.utils.reflect.TestReflect&quot;).newInstance();User user3 = User.class.getConstructor().newInstan">
+<meta name="twitter:image" content="http://www.xxzp.tech/img/虚拟机对象头.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Ares" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
 
-    <link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
+    <!-- custom head -->
+    
 
-
-
-
-    <link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
-
-
-
-
-    <link rel="icon" href="/img/favicon.png">
-
-
-
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98059014-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-124198848-1');
-</script>
-
-
-
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="browsermode" content="application">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Ares">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="msapplication-navbutton-color" content="#666666">
-<meta name= "format-detection" content="telephone=no" />
-<meta name="keywords" content="nlvi, Nlvi" />
-
-  <link rel="apple-touch-icon"  sizes="72x72"  href="/img/favicon.png">
-  <link rel="apple-touch-icon-precomposed"  sizes="72x72"  href="/img/favicon.png">
-
-
-
-
-
-  <meta name="keywords" content="java, jvm, Nlvi" />
-
-  <title> java 对象分析 · Ares </title>
 </head>
+
 <body>
-  <div class="progress">
-  <div class="progress-inner"></div>
-</div>
+    <div id="loading" class="active"></div>
 
-  
-    <div class="tagcloud-mask"></div>  
-<div class="tagcloud" id="tagcloud">
-  <div class="tagcloud-inner">
-    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
-  </div>
-</div>
-  
-
-  <div class="container" style="display:none;">
-
-    <header class="header" id="header">
-  <div class="header-wrapper">
-    <div class="logo">
-  <div class="logo-inner syuanpi tvIn">
-    <span><a href="/">Ares</a></span>
-    
-  </div>
-</div>
-    <nav class="main-nav">
-  
-  <ul class="main-nav-list syuanpi tvIn">
-  
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="/" id="article">
-        <span class="base-name">article</span>
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Ares</h5>
+          <a href="mailto:ares012@sina.com" title="ares012@sina.com" class="mail">ares012@sina.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-          <span class="menu-item-label">article</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="/categories/gc/" id="gc">
-        <span class="base-name">gc</span>
-        
-          <span class="menu-item-label">gc</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="javascript:;" id="tags">
-        <span class="base-name">tags</span>
-        
-          <span class="menu-item-label">tags</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="/about" id="about">
-        <span class="base-name">about</span>
-        
-          <span class="menu-item-label">about</span>
-        
-      </a>
-    </li>
-  
-  </ul>
-  
-</nav>
-
-    
-    
-  </div>
-</header>
-<div class="mobile-header">
-  <div class="mobile-header-body">
-    <div class="mobile-header-list">
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/">
-                    <span>文章</span>
-                    
-                        <span class="menu-item-label">article</span>
-                    
-                </a>
-            </div>
-        
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/categories/gc/">
-                    <span>nav.gc</span>
-                    
-                        <span class="menu-item-label">gc</span>
-                    
-                </a>
-            </div>
-        
-      
-        
-          <div class="mobile-nav-item inner-cloud">
-            <div class="mobile-nav-tag">
-              <a href="javascript:;" id="mobile-tags">
-                <span>标签</span>
-                
-                    <span class="menu-item-label">tags</span>
-                
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
               </a>
-            </div>
-            <div class="mobile-nav-tagcloud">
-              <div class="mobile-tagcloud-inner">
-                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
-              </div>
-            </div>
-          </div>
+            </li>
         
-      
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
         
-            <div class="mobile-nav-item">
-                <a href="/about">
-                    <span>关于</span>
-                    
-                        <span class="menu-item-label">about</span>
-                    
-                </a>
-            </div>
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
         
-      
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ares012" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
     </div>
   </div>
-  <div class="mobile-header-nav">
-    <div class="mobile-header-item" id="mobile-left">
-      <div class="header-menu-item">
-        <span class="header-menu-line"></span>
-      </div>
-    </div>
-    <h1 class="mobile-header-title">
-      <a href="/">Ares</a>
-    </h1>
-    <div class="mobile-header-item"></div>
-  </div>
-</div>
-    <div class="container-inner">
-      <main class="main" id="main">
-        <div class="main-wrapper">
-          
-    
-  
-  <article class="
-  post
-   is_post 
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-26</span>
-          
-          
-            
-              <aside class="post-tags syuanpi fadeInUpShort back-3">
-              
-                <a href="/tags/java/">java</a>
-              
-                <a href="/tags/jvm/">jvm</a>
-              
-              </aside>
-            
-          
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">java 对象分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
         </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
         
-          java 对象分析
         
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        <h2 id="1-常见-java-对象创建方式"><a href="#1-常见-java-对象创建方式" class="headerlink" title="1. 常见 java 对象创建方式"></a>1. 常见 java 对象创建方式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User user1 = User.class.newInstance();</span><br><span class="line">User user2 = (User) Class.forName(<span class="string">"com.xxzp.ares.utils.reflect.TestReflect"</span>).newInstance();</span><br><span class="line">User user3 = User.class.getConstructor().newInstance(<span class="number">1245L</span>, <span class="string">"test"</span>);</span><br><span class="line">User user4 = (User) user1.clone();<span class="comment">//需继承Cloneable与重写clone()方法</span></span><br></pre></td></tr></table></figure>
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">java 对象分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-08-25T16:00:00.000Z" itemprop="datePublished" class="page-time">
+  2018-08-26
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-常见-java-对象创建方式"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 常见 java 对象创建方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-Java-对象的创建过程"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. Java 对象的创建过程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-java-对象内存"><span class="post-toc-number">3.</span> <span class="post-toc-text">3. java 对象内存</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-1-Object-head：Mark-Word-与-Klass"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">3.1 Object head：Mark Word 与 Klass</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-2-Instance-Data"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">3.2 Instance Data</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-3-Padding"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">3.3 Padding</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-对象的访问定位"><span class="post-toc-number">4.</span> <span class="post-toc-text">4. 对象的访问定位</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1-指针直接访问"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">4.1 指针直接访问</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2-句柄池访问"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">4.2 句柄池访问</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-java 对象分析"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">java 对象分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-08-26 00:00:00" datetime="2018-08-25T16:00:00.000Z"  itemprop="datePublished">2018-08-26</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="1-常见-java-对象创建方式"><a href="#1-常见-java-对象创建方式" class="headerlink" title="1. 常见 java 对象创建方式"></a>1. 常见 java 对象创建方式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User user1 = User.class.newInstance();</span><br><span class="line">User user2 = (User) Class.forName(<span class="string">"com.xxzp.ares.utils.reflect.TestReflect"</span>).newInstance();</span><br><span class="line">User user3 = User.class.getConstructor().newInstance(<span class="number">1245L</span>, <span class="string">"test"</span>);</span><br><span class="line">User user4 = (User) user1.clone();<span class="comment">//需继承Cloneable与重写clone()方法</span></span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <h2 id="2-Java-对象的创建过程"><a href="#2-Java-对象的创建过程" class="headerlink" title="2. Java 对象的创建过程"></a>2. Java 对象的创建过程</h2><p>java 语言中的数据类型主要分为基本类型和引用类型：<br>基本类型：由 jvm 直接定义<br>引用类型：类、接口、数组类和泛型参数，其中泛型会进行类型擦除，因此可以算作三种，类和接口直接生成对应的字节流，数组类是由 jvm 直接生成。</p>
 <p><strong>对象创建过程：</strong> </p>
@@ -300,158 +216,168 @@
 <li>直接指针来访问最大的好处就是速度更快，它节省了一次指针定位的时间开销，由于对象访问的在Java中非常频繁，因此这类开销积小成多也是一项非常可观的执行成本。HotSpot 使用直接指针来访问方式进行对象访问 </li>
 </ul>
 
-      
-    
-    </div>
-    
-      
+        </div>
 
-      
-  <hr class="copy-line">
-  <div class="post-copyright">
-    <div class="copy-author">
-      <span>作者 :</span>
-      <span>Ares</span>
-    </div>
-    <div class="copy-url">
-      <span>地址 :</span>
-      <a href="http://www.xxzp.tech/2018/08/26/java 对象分析/">http://www.xxzp.tech/2018/08/26/java 对象分析/</a>
-    </div>
-    <div class="copy-origin">
-      <span>来源 :</span>
-      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
-    </div>
-    <div class="copy-license">
-      
-      著作权归作者所有，转载请联系作者获得授权。
-    </div>
-  </div>
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="http://www.xxzp.tech">
+            <img src="/img/avatar.jpg" alt="Ares">
+            Ares
+        </a>
+    </footer>
+</blockquote>
 
-    
-  </article>
-  
-    
-  <nav class="article-page">
-    
-      <a href="/2018/08/27/java 内存模型/" id="art-left" class="art-left">
-        <span class="next-title">
-          <i class="iconfont icon-left"></i>java 内存模型分析
-        </span>
-      </a>
-    
-    
-      <a href="/2018/08/23/lambda实践/" id="art-right" class="art-right">
-        <span class="prev-title"> 
-          lambda 实践总结<i class="iconfont icon-right"></i>  
-        </span>
-      </a>
-    
-  </nav>
-
-    
+        
 
 
-  
-  
-    
-  
-  <aside class="post-toc">
-    <span class="title" id="toc-switch"><span>文章导航</span></span>
-    <div class="toc-inner syuanpi back-1" style="display:none;">
-      <li class="title-link"><a href="javascript:;" class="toTop">java 对象分析</a></li>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-常见-java-对象创建方式"><span class="toc-text">1. 常见 java 对象创建方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Java-对象的创建过程"><span class="toc-text">2. Java 对象的创建过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-java-对象内存"><span class="toc-text">3. java 对象内存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Object-head：Mark-Word-与-Klass"><span class="toc-text">3.1 Object head：Mark Word 与 Klass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Instance-Data"><span class="toc-text">3.2 Instance Data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Padding"><span class="toc-text">3.3 Padding</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-对象的访问定位"><span class="toc-text">4. 对象的访问定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-指针直接访问"><span class="toc-text">4.1 指针直接访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-句柄池访问"><span class="toc-text">4.2 句柄池访问</span></a></li></ol></li></ol>
-    </div>
-  </aside>
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li></ul>
 
 
-
-  
+            
 
 
         </div>
-      </main>
+    </div>
 
-      <footer class="footer syuanpi fadeIn" id="footer">
-  <hr>
-  <div class="footer-wrapper">
-    <div class="left">
-      <div class="contact-icon">
     
-    
-    
-    
-    
-    
-    
-    
-        
-            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
-        
-        
-        
-        
-        
-        
-        
-    
-</div>
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/08/27/java 内存模型/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">java 内存模型分析</h4>
+      </a>
     </div>
-    <div class="right">
-      <div class="copyright">
-    <div class="info">
-        <span>&copy;</span>
-        <span>2018 ~ 2018</span>
-        <span>❤</span>
-        <span>Ares</span>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/08/23/lambda实践/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">lambda 实践总结</h4>
+      </a>
     </div>
-    <div class="theme">
-        <span>
-            动力来源于
-            <a href="http://hexo.io/" target="_blank">Hexo </a>
-        </span>
-        <span>
-            主题
-            <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
-        </span>
-    </div>
+  
+</nav>
+
+
+
     
-    <div class="visit_count">
-        <i class="iconfont icon-visit"></i>
-        <span id="busuanzi_value_site_uv"></span>
-        <i class="iconfont icon-people"></i>
-        <span id="busuanzi_value_site_pv"></span>
-    </div>
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
 </div>
 
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
     </div>
-  </div>
+    <div class="bottom">
+        <p><span>Ares &copy; 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
-    </div>
-  </div>
-  <script src="/script/lib/jquery/jquery-3.2.1.min.js"></script>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
 
 
-  <script src="/script/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: false, REWARD: false };
 
 
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
 
 
-
-
-
-
-<script src="/script/src/nlvi.js"></script>
-
-  <script src="/script/scheme/banderole.js"></script>
-
-<script src="/script/bootstarp.js"></script>
-
-
-<div class="backtop syuanpi melt toTop" id="backtop">
-    <i class="iconfont icon-up"></i>
-    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
 </div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '快回来吧！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'ares';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
 
 
 
