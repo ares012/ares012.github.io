@@ -1,194 +1,280 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    
+  <link rel="stylesheet" href="/style/style.css">
+<script>
+  var nlviconfig = {
+    title: "Ares",
+    author: "Ares",
+    baseUrl: "/",
+    theme: {
+      scheme: "banderole",
+      lightbox: true,
+      animate: true,
+      search: false,
+      friends: false,
+      reward: false,
+      lazy: false
+    }
+  }
+</script>
 
-    
-
-    
 
 
 
-    <meta charset="utf-8">
-    
-    
-    
-    
-    <title>GC 初步 | Ares</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-    <meta name="theme-color" content="#3F51B5">
-    
-    
-    <meta name="keywords" content="jvm,gc">
-    <meta name="description" content="1. 概述1.1 基本概念GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去关注 gc，然而在遇到各种内存溢出、内存泄漏问题时，当垃圾收集称为系统达到更高并发量的瓶颈时，只有深入理解 gc 和内存分配，才能对这些“自动化”的技术实施必要的监控和调节。 在深入之前我们先看几个基础概念：">
-<meta name="keywords" content="jvm,gc">
-<meta property="og:type" content="article">
-<meta property="og:title" content="GC 初步">
-<meta property="og:url" content="http://www.xxzp.tech/2018/09/01/GC 算法概述/index.html">
-<meta property="og:site_name" content="Ares">
-<meta property="og:description" content="1. 概述1.1 基本概念GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去关注 gc，然而在遇到各种内存溢出、内存泄漏问题时，当垃圾收集称为系统达到更高并发量的瓶颈时，只有深入理解 gc 和内存分配，才能对这些“自动化”的技术实施必要的监控和调节。 在深入之前我们先看几个基础概念：">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.xxzp.tech/img/Reference-Count.png">
-<meta property="og:updated_time" content="2018-09-01T15:09:56.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GC 初步">
-<meta name="twitter:description" content="1. 概述1.1 基本概念GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去关注 gc，然而在遇到各种内存溢出、内存泄漏问题时，当垃圾收集称为系统达到更高并发量的瓶颈时，只有深入理解 gc 和内存分配，才能对这些“自动化”的技术实施必要的监控和调节。 在深入之前我们先看几个基础概念：">
-<meta name="twitter:image" content="http://www.xxzp.tech/img/Reference-Count.png">
-    
-        <link rel="alternate" type="application/atom+xml" title="Ares" href="/atom.xml">
-    
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
-    <script>window.lazyScripts=[]</script>
+    <link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
 
-    <!-- custom head -->
-    
 
+
+
+    <link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
+
+
+
+
+    <link rel="icon" href="/img/favicon.png">
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98059014-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-124198848-1');
+</script>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="browsermode" content="application">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ares">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="msapplication-navbutton-color" content="#666666">
+<meta name= "format-detection" content="telephone=no" />
+<meta name="keywords" content="nlvi, Nlvi" />
+
+  <link rel="apple-touch-icon"  sizes="72x72"  href="/img/favicon.png">
+  <link rel="apple-touch-icon-precomposed"  sizes="72x72"  href="/img/favicon.png">
+
+
+  <meta name="subtitle" content="Ares">
+
+
+
+
+  <meta name="keywords" content="jvm, gc, Nlvi" />
+
+  <title> GC 初步 · Ares </title>
 </head>
-
 <body>
-    <div id="loading" class="active"></div>
+  <div class="progress">
+  <div class="progress-inner"></div>
+</div>
 
-    <aside id="menu" class="hide" >
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/img/avatar.jpg">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname">Ares</h5>
-          <a href="mailto:634206017@qq.com" title="634206017@qq.com" class="mail">634206017@qq.com</a>
-        </hgroup>
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
+  
+    <div class="tagcloud-mask"></div>  
+<div class="tagcloud" id="tagcloud">
+  <div class="tagcloud-inner">
+    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+  </div>
+</div>
+  
+
+  <div class="container" style="display:none;">
+
+    <header class="header" id="header">
+  <div class="header-wrapper">
+    <div class="logo">
+  <div class="logo-inner syuanpi tvIn">
+    <span><a href="/">Ares</a></span>
+    
+      <span id="subtitle">Ares</span>
+    
+  </div>
+</div>
+    <nav class="main-nav">
+  
+  <ul class="main-nav-list syuanpi tvIn">
+  
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/" id="article">
+        <span class="base-name">article</span>
         
-            <li class="waves-block waves-effect">
-              <a href="/"  >
-                <i class="icon icon-lg icon-home"></i>
-                主页
+          <span class="menu-item-label">article</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/categories/gc/" id="gc">
+        <span class="base-name">gc</span>
+        
+          <span class="menu-item-label">gc</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="javascript:;" id="tags">
+        <span class="base-name">tags</span>
+        
+          <span class="menu-item-label">tags</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/about" id="about">
+        <span class="base-name">about</span>
+        
+          <span class="menu-item-label">about</span>
+        
+      </a>
+    </li>
+  
+  </ul>
+  
+</nav>
+
+    
+    
+  </div>
+</header>
+<div class="mobile-header">
+  <div class="mobile-header-body">
+    <div class="mobile-header-list">
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/">
+                    <span>文章</span>
+                    
+                        <span class="menu-item-label">article</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/categories/gc/">
+                    <span>nav.gc</span>
+                    
+                        <span class="menu-item-label">gc</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+          <div class="mobile-nav-item inner-cloud">
+            <div class="mobile-nav-tag">
+              <a href="javascript:;" id="mobile-tags">
+                <span>标签</span>
+                
+                    <span class="menu-item-label">tags</span>
+                
               </a>
-            </li>
+            </div>
+            <div class="mobile-nav-tagcloud">
+              <div class="mobile-tagcloud-inner">
+                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+              </div>
+            </div>
+          </div>
         
-            <li class="waves-block waves-effect">
-              <a href="/archives"  >
-                <i class="icon icon-lg icon-archives"></i>
-                Archives
-              </a>
-            </li>
+      
         
-            <li class="waves-block waves-effect">
-              <a href="/tags"  >
-                <i class="icon icon-lg icon-tags"></i>
-                Tags
-              </a>
-            </li>
+            <div class="mobile-nav-item">
+                <a href="/about">
+                    <span>关于</span>
+                    
+                        <span class="menu-item-label">about</span>
+                    
+                </a>
+            </div>
         
-            <li class="waves-block waves-effect">
-              <a href="/categories"  >
-                <i class="icon icon-lg icon-th-list"></i>
-                Categories
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="https://github.com/ares012" target="_blank" >
-                <i class="icon icon-lg icon-github"></i>
-                Github
-              </a>
-            </li>
-        
-      </ul>
+      
     </div>
   </div>
-</aside>
-
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row">
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">GC 初步</div>
-        
-        <div class="search-wrap" id="search-wrap">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
-                <i class="icon icon-lg icon-chevron-left"></i>
-            </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
-                <i class="icon icon-lg icon-search"></i>
-            </a>
-        </div>
-        
-        
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
-            <i class="icon icon-lg icon-share-alt"></i>
-        </a>
-        
+  <div class="mobile-header-nav">
+    <div class="mobile-header-item" id="mobile-left">
+      <div class="header-menu-item">
+        <span class="header-menu-line"></span>
+      </div>
     </div>
-</header>
-<header class="content-header post-header">
-
-    <div class="container fade-scale">
-        <h1 class="title">GC 初步</h1>
-        <h5 class="subtitle">
-            
-                <time datetime="2018-08-31T16:00:00.000Z" itemprop="datePublished" class="page-time">
-  2018-09-01
-</time>
-
-
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/gc/">gc</a></li></ul>
-
-            
-        </h5>
-    </div>
-
+    <h1 class="mobile-header-title">
+      <a href="/">Ares</a>
+    </h1>
+    <div class="mobile-header-item"></div>
+  </div>
+</div>
+    <div class="container-inner">
+      <main class="main" id="main">
+        <div class="main-wrapper">
+          
     
-
-
-</header>
-
-
-<div class="container body-wrap">
-    
-    <aside class="post-widget">
-        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-1-基本概念"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.1 基本概念</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-2-gc-指标"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">1.2 gc 指标</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-对象存活判定"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. 对象存活判定</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-引用计数"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1 引用计数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-可达性分析"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.2 可达性分析</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-基本回收算法"><span class="post-toc-number">3.</span> <span class="post-toc-text">3. 基本回收算法</span></a></li></ol>
-        </nav>
-    </aside>
-
-
-<article id="post-GC 算法概述"
-  class="post-article article-type-post fade" itemprop="blogPost">
-
-    <div class="post-card">
-        <h1 class="post-card-title">GC 初步</h1>
-        <div class="post-meta">
-            <time class="post-time" title="2018-09-01 00:00:00" datetime="2018-08-31T16:00:00.000Z"  itemprop="datePublished">2018-09-01</time>
-
+  
+  <article class="
+  post
+   is_post 
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-09-01</span>
+          
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/gc/">gc</a></li></ul>
-
-
-
+              <span class="post-category"><a href="/categories/gc/">gc</a></span>
             
-<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
-    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
-</span>
-
-
+          
+          
+            
+              <aside class="post-tags syuanpi fadeInUpShort back-3">
+              
+                <a href="/tags/jvm/">jvm</a>
+              
+                <a href="/tags/gc/">gc</a>
+              
+              </aside>
+            
+          
         </div>
-        <div class="post-content" id="post-content" itemprop="postContent">
-            <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><h3 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h3><p>GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去关注 gc，然而在遇到各种内存溢出、内存泄漏问题时，当垃圾收集称为系统达到更高并发量的瓶颈时，只有深入理解 gc 和内存分配，才能对这些“自动化”的技术实施必要的监控和调节。 在深入之前我们先看几个基础概念：<br><a id="more"></a><br><strong>对象：</strong> 在前面深入分析了 <a href="https://www.xxzp.tech/2018/08/26/java%20%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90/">java对象</a> ，其中对象包含了 gc 信息</p>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          GC 初步
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><h3 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h3><p>GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去关注 gc，然而在遇到各种内存溢出、内存泄漏问题时，当垃圾收集称为系统达到更高并发量的瓶颈时，只有深入理解 gc 和内存分配，才能对这些“自动化”的技术实施必要的监控和调节。 在深入之前我们先看几个基础概念：<br><a id="more"></a><br><strong>对象：</strong> 在前面深入分析了 <a href="https://www.xxzp.tech/2018/08/26/java%20%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90/">java对象</a> ，其中对象包含了 gc 信息</p>
 <p><strong>指针：</strong> 大部分语言默认指针是指向对象的首地址，这样不仅指针在语言的应用变得简单，而且使 gc 过程也变得简单</p>
 <p><strong>堆：</strong> 对象存放内存空间，对于很多语言垃圾回收主要针对堆内存进行回收，这主要是因为 gc 过程是针对对象来处理的</p>
 <p><strong>根Root：</strong> 对象被引用的起始点</p>
@@ -218,259 +304,158 @@
 <p><strong>复制算法：</strong>它将可用内存按容量分成大小相等的两块，每次只使用其中的一块。当这一块内存用完，就将还存活着的对象复制到另一块上面，然后再把已使用过的内存空间一次清理掉。</p>
 <p>复制收集方式中，只存在相当于标记清除方式中的标记阶段。由于清除阶段中需要对现存的所有对象进行扫描，在存在大量对象，且其中大部分都即将死亡的情况下，全部扫描一遍的开销实在是不小。而在复制收集方式中，就不存在这样的开销。</p>
 
+      
+    
+    </div>
+    
+      
+
+      
+  <hr class="copy-line">
+  <div class="post-copyright">
+    <div class="copy-author">
+      <span>作者 :</span>
+      <span>Ares</span>
+    </div>
+    <div class="copy-url">
+      <span>地址 :</span>
+      <a href="http://www.xxzp.tech/2018/09/01/GC 算法概述/">http://www.xxzp.tech/2018/09/01/GC 算法概述/</a>
+    </div>
+    <div class="copy-origin">
+      <span>来源 :</span>
+      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
+    </div>
+    <div class="copy-license">
+      
+      著作权归作者所有，转载请联系作者获得授权。
+    </div>
+  </div>
+
+    
+  </article>
+  
+    
+  <nav class="article-page">
+    
+      <a href="/2018/09/02/CMS 深入/" id="art-left" class="art-left">
+        <span class="next-title">
+          <i class="iconfont icon-left"></i>CMS 深入分析
+        </span>
+      </a>
+    
+    
+      <a href="/2018/08/30/AQS 深入分析/" id="art-right" class="art-right">
+        <span class="prev-title"> 
+          AQS 深入分析<i class="iconfont icon-right"></i>  
+        </span>
+      </a>
+    
+  </nav>
+
+    
+
+
+  
+  
+    
+  
+  <aside class="post-toc">
+    <span class="title" id="toc-switch"><span>文章导航</span></span>
+    <div class="toc-inner syuanpi back-1" style="display:none;">
+      <li class="title-link"><a href="javascript:;" class="toTop">GC 初步</a></li>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-text">1. 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本概念"><span class="toc-text">1.1 基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-gc-指标"><span class="toc-text">1.2 gc 指标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-对象存活判定"><span class="toc-text">2. 对象存活判定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-引用计数"><span class="toc-text">2.1 引用计数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-可达性分析"><span class="toc-text">2.2 可达性分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-基本回收算法"><span class="toc-text">3. 基本回收算法</span></a></li></ol>
+    </div>
+  </aside>
+
+
+
+  
+
+
         </div>
+      </main>
 
-        <blockquote class="post-copyright">
+      <footer class="footer syuanpi fadeIn" id="footer">
+  <hr>
+  <div class="footer-wrapper">
+    <div class="left">
+      <div class="contact-icon">
     
-    <footer>
-        <a href="http://www.xxzp.tech">
-            <img src="/img/avatar.jpg" alt="Ares">
-            Ares
-        </a>
-    </footer>
-</blockquote>
-
+    
+    
+    
+    
+    
+    
+    
         
-
-
-        <div class="post-footer">
-            
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gc/">gc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li></ul>
-
-
-            
-<div class="page-share-wrap">
+            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
+        
+        
+        
+        
+        
+        
+        
     
-
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.xxzp.tech/2018/09/01/GC 算法概述/&title=《GC 初步》 — Ares&pic=http://www.xxzp.tech/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.xxzp.tech/2018/09/01/GC 算法概述/&title=《GC 初步》 — Ares&source=1. 概述1.1 基本概念GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去..." data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.xxzp.tech/2018/09/01/GC 算法概述/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《GC 初步》 — Ares&url=http://www.xxzp.tech/2018/09/01/GC 算法概述/&via=http://www.xxzp.tech" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.xxzp.tech/2018/09/01/GC 算法概述/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
+</div>
+    </div>
+    <div class="right">
+      <div class="copyright">
+    <div class="info">
+        <span>&copy;</span>
+        <span>2018 ~ 2019</span>
+        <span>❤</span>
+        <span>Ares</span>
+    </div>
+    <div class="theme">
+        <span>
+            动力来源于
+            <a href="http://hexo.io/" target="_blank">Hexo </a>
+        </span>
+        <span>
+            主题
+            <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
+        </span>
+    </div>
+    
+    <div class="visit_count">
+        <i class="iconfont icon-visit"></i>
+        <span id="busuanzi_value_site_uv"></span>
+        <i class="iconfont icon-people"></i>
+        <span id="busuanzi_value_site_pv"></span>
+    </div>
+    
 </div>
 
-
-
-        </div>
     </div>
-
-    
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2018/09/02/分代GC算法分析/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">分代 GC 分析</h4>
-      </a>
-    </div>
-  
-
-  
-    <div class="waves-block waves-effect next">
-      <a href="/2018/08/30/AQS 深入分析/" id="post-next" class="post-nav-link">
-        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">AQS 深入分析</h4>
-      </a>
-    </div>
-  
-</nav>
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</article>
-
-
-
-</div>
-
-        <footer class="footer">
-    <div class="top">
-        
-<p>
-    <span id="busuanzi_container_site_uv" style='display:none'>
-        站点总访客数：<span id="busuanzi_value_site_uv"></span>
-    </span>
-    <span id="busuanzi_container_site_pv" style='display:none'>
-        站点总访问量：<span id="busuanzi_value_site_pv"></span>
-    </span>
-</p>
-
-
-        <p>
-            
-                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
-            
-            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
-        </p>
-    </div>
-    <div class="bottom">
-        <p><span>Ares &copy; 2018</span>
-            <span>
-                
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
-            </span>
-        </p>
-    </div>
+  </div>
 </footer>
-
-    </main>
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
-
+    </div>
+  </div>
+  <script src="/script/lib/jquery/jquery-3.2.1.min.js"></script>
 
 
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.xxzp.tech/2018/09/01/GC 算法概述/&title=《GC 初步》 — Ares&pic=http://www.xxzp.tech/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.xxzp.tech/2018/09/01/GC 算法概述/&title=《GC 初步》 — Ares&source=1. 概述1.1 基本概念GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去..." data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.xxzp.tech/2018/09/01/GC 算法概述/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《GC 初步》 — Ares&url=http://www.xxzp.tech/2018/09/01/GC 算法概述/&via=http://www.xxzp.tech" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.xxzp.tech/2018/09/01/GC 算法概述/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
+  <script src="/script/lib/lightbox/js/lightbox.min.js"></script>
 
 
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://www.xxzp.tech/2018/09/01/GC 算法概述/" alt="微信分享二维码">
+
+
+
+
+
+
+<script src="/script/src/nlvi.js"></script>
+
+  <script src="/script/scheme/banderole.js"></script>
+
+<script src="/script/bootstarp.js"></script>
+
+
+<div class="backtop syuanpi melt toTop" id="backtop">
+    <i class="iconfont icon-up"></i>
+    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
 </div>
-
-
-
-
-    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-<script>
-var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
-
-
-</script>
-
-<script src="/js/main.min.js?v=1.7.2"></script>
-
-
-<div class="search-panel" id="search-panel">
-    <ul class="search-result" id="search-result"></ul>
-</div>
-<template id="search-tpl">
-<li class="item">
-    <a href="{path}" class="waves-block waves-effect">
-        <div class="title ellipsis" title="{title}">{title}</div>
-        <div class="flex-row flex-middle">
-            <div class="tags ellipsis">
-                {tags}
-            </div>
-            <time class="flex-col time">{date}</time>
-        </div>
-    </a>
-</li>
-</template>
-
-<script src="/js/search.min.js?v=1.7.2" async></script>
-
-
-
-
-
-
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-<script>
-(function() {
-    var OriginTitile = document.title, titleTime;
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            document.title = '快回来！！！';
-            clearTimeout(titleTime);
-        } else {
-            document.title = 'xxzp';
-            titleTime = setTimeout(function() {
-                document.title = OriginTitile;
-            },2000);
-        }
-    });
-})();
-</script>
 
 
 
