@@ -1,276 +1,95 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-  <link rel="stylesheet" href="/style/style.css">
-<script>
-  var nlviconfig = {
-    title: "Ares",
-    author: "Ares",
-    baseUrl: "/",
-    theme: {
-      scheme: "banderole",
-      lightbox: true,
-      animate: true,
-      search: false,
-      friends: false,
-      reward: false,
-      lazy: false
-    }
-  }
-</script>
+  <meta charset="utf-8">
+  
 
-
-
-
-    <link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
-
-
-
-
-    <link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
-
-
-
-
-    <link rel="icon" href="/img/favicon.png">
-
-
-
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98059014-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-124198848-1');
-</script>
-
-
-
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="browsermode" content="application">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Ares">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="msapplication-navbutton-color" content="#666666">
-<meta name= "format-detection" content="telephone=no" />
-<meta name="keywords" content="nlvi, Nlvi" />
-
-  <link rel="apple-touch-icon"  sizes="72x72"  href="/img/favicon.png">
-  <link rel="apple-touch-icon-precomposed"  sizes="72x72"  href="/img/favicon.png">
-
-
-  <meta name="subtitle" content="Ares">
-
-
-
-
-  <meta name="keywords" content="java, jvm, lambda, Nlvi" />
-
-  <title> lambda实现机制分析 · Ares </title>
+  
+  <title>lambda实现机制分析 | Ares</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1. lambda代码与反编译1234567891011121314151617public class Lambda &amp;#123;  public static void main(String[] args) &amp;#123;    println1();    println2();  &amp;#125;  private static void println1() &amp;#123;    Consum">
+<meta name="keywords" content="java,jvm,lambda">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lambda实现机制分析">
+<meta property="og:url" content="http://www.xxzp.tech/2018/08/22/lambda实现机制分析/index.html">
+<meta property="og:site_name" content="Ares">
+<meta property="og:description" content="1. lambda代码与反编译1234567891011121314151617public class Lambda &amp;#123;  public static void main(String[] args) &amp;#123;    println1();    println2();  &amp;#125;  private static void println1() &amp;#123;    Consum">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-27T12:50:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lambda实现机制分析">
+<meta name="twitter:description" content="1. lambda代码与反编译1234567891011121314151617public class Lambda &amp;#123;  public static void main(String[] args) &amp;#123;    println1();    println2();  &amp;#125;  private static void println1() &amp;#123;    Consum">
+  
+    <link rel="alternate" href="/atom.xml" title="Ares" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
-  <div class="progress">
-  <div class="progress-inner"></div>
-</div>
-
-  
-    <div class="tagcloud-mask"></div>  
-<div class="tagcloud" id="tagcloud">
-  <div class="tagcloud-inner">
-    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
-  </div>
-</div>
-  
-
-  <div class="container" style="display:none;">
-
-    <header class="header" id="header">
-  <div class="header-wrapper">
-    <div class="logo">
-  <div class="logo-inner syuanpi tvIn">
-    <span><a href="/">Ares</a></span>
-    
-      <span id="subtitle">Ares</span>
-    
-  </div>
-</div>
-    <nav class="main-nav">
-  
-  <ul class="main-nav-list syuanpi tvIn">
-  
-  
-    
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Ares</a>
+      </h1>
       
-    
-    <li class="menu-item">
-      <a href="/" id="article">
-        <span class="base-name">article</span>
-        
-          <span class="menu-item-label">article</span>
-        
-      </a>
-    </li>
-  
-    
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Ares</a>
+        </h2>
       
-    
-    <li class="menu-item">
-      <a href="/categories/gc/" id="gc">
-        <span class="base-name">gc</span>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <span class="menu-item-label">gc</span>
+          <a class="main-nav-link" href="/">Home</a>
         
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="javascript:;" id="tags">
-        <span class="base-name">tags</span>
+          <a class="main-nav-link" href="/archives">Archives</a>
         
-          <span class="menu-item-label">tags</span>
+      </nav>
+      <nav id="sub-nav">
         
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="/about" id="about">
-        <span class="base-name">about</span>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-          <span class="menu-item-label">about</span>
-        
-      </a>
-    </li>
-  
-  </ul>
-  
-</nav>
-
-    
-    
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.xxzp.tech"></form>
+      </div>
+    </div>
   </div>
 </header>
-<div class="mobile-header">
-  <div class="mobile-header-body">
-    <div class="mobile-header-list">
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/">
-                    <span>文章</span>
-                    
-                        <span class="menu-item-label">article</span>
-                    
-                </a>
-            </div>
-        
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/categories/gc/">
-                    <span>nav.gc</span>
-                    
-                        <span class="menu-item-label">gc</span>
-                    
-                </a>
-            </div>
-        
-      
-        
-          <div class="mobile-nav-item inner-cloud">
-            <div class="mobile-nav-tag">
-              <a href="javascript:;" id="mobile-tags">
-                <span>标签</span>
-                
-                    <span class="menu-item-label">tags</span>
-                
-              </a>
-            </div>
-            <div class="mobile-nav-tagcloud">
-              <div class="mobile-tagcloud-inner">
-                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
-              </div>
-            </div>
-          </div>
-        
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/about">
-                    <span>关于</span>
-                    
-                        <span class="menu-item-label">about</span>
-                    
-                </a>
-            </div>
-        
-      
-    </div>
-  </div>
-  <div class="mobile-header-nav">
-    <div class="mobile-header-item" id="mobile-left">
-      <div class="header-menu-item">
-        <span class="header-menu-line"></span>
-      </div>
-    </div>
-    <h1 class="mobile-header-title">
-      <a href="/">Ares</a>
-    </h1>
-    <div class="mobile-header-item"></div>
-  </div>
-</div>
-    <div class="container-inner">
-      <main class="main" id="main">
-        <div class="main-wrapper">
-          
+      <div class="outer">
+        <section id="main"><article id="post-lambda实现机制分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/22/lambda实现机制分析/" class="article-date">
+  <time datetime="2018-08-21T16:00:00.000Z" itemprop="datePublished">2018-08-22</time>
+</a>
     
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-  <article class="
-  post
-   is_post 
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-22</span>
-          
-          
-            
-              <aside class="post-tags syuanpi fadeInUpShort back-3">
-              
-                <a href="/tags/java/">java</a>
-              
-                <a href="/tags/jvm/">jvm</a>
-              
-                <a href="/tags/lambda/">lambda</a>
-              
-              </aside>
-            
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          lambda实现机制分析
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
+    <h1 class="article-title" itemprop="name">
+      lambda实现机制分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
       
         <h2 id="1-lambda代码与反编译"><a href="#1-lambda代码与反编译" class="headerlink" title="1. lambda代码与反编译"></a>1. lambda代码与反编译</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Lambda</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    println1();</span><br><span class="line">    println2();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Consumer&lt;String&gt; consumer = System.out::println;</span><br><span class="line">    consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Consumer&lt;String&gt; consumer = str -&gt; System.out.println(str);</span><br><span class="line">    consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
@@ -308,159 +127,146 @@
 <p>从上现可看到，System.out::println 不会再单独生成一个方法，而 str -&gt; System.out.println(str) 会生成一个 lambda$println2$0 用来保存 Lambda 表达式的内容，其参数列表不仅包含原本 Lambda 表达式的参数，还包含它所捕获的变量。Lambda 表达式是否捕获其他变量，启动方法生成的适配器类以及所链接的方法句柄皆不同。如果该 Lambda 表达式没有捕获其他变量，那么可以认为它是上下文无关的。因此，启动方法将新建一个适配器类的实例，并且生成一个特殊的方法句柄，始终返回该实例。如果该 Lambda 表达式捕获了其他变量，那么每次执行该 invokedynamic 指令，我们都要更新这些捕获了的变量，以防止它们发生了变化。其实二者的区别主要在于是否对变量进行捕获。</p>
 
       
-    
     </div>
-    
+    <footer class="article-footer">
+      <a data-url="http://www.xxzp.tech/2018/08/22/lambda实现机制分析/" data-id="cjsb3jt1u000t7isy9go1m35d" class="article-share-link">Share</a>
       
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lambda/">lambda</a></li></ul>
 
-      
-  <hr class="copy-line">
-  <div class="post-copyright">
-    <div class="copy-author">
-      <span>作者 :</span>
-      <span>Ares</span>
-    </div>
-    <div class="copy-url">
-      <span>地址 :</span>
-      <a href="http://www.xxzp.tech/2018/08/22/lambda实现机制分析/">http://www.xxzp.tech/2018/08/22/lambda实现机制分析/</a>
-    </div>
-    <div class="copy-origin">
-      <span>来源 :</span>
-      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
-    </div>
-    <div class="copy-license">
-      
-      著作权归作者所有，转载请联系作者获得授权。
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/23/lambda实践/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          lambda 实践总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/21/反射与动态代理/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">反射与动态代理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/gc/">gc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/redis/">redis</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/redis/spring-boot/">spring boot</a></li></ul></li></ul></li></ul>
     </div>
   </div>
 
-    
-  </article>
+
   
     
-  <nav class="article-page">
-    
-      <a href="/2018/08/23/lambda实践/" id="art-left" class="art-left">
-        <span class="next-title">
-          <i class="iconfont icon-left"></i>lambda 实践总结
-        </span>
-      </a>
-    
-    
-      <a href="/2018/08/21/反射与动态代理/" id="art-right" class="art-right">
-        <span class="prev-title"> 
-          反射与动态代理<i class="iconfont icon-right"></i>  
-        </span>
-      </a>
-    
-  </nav>
-
-    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JPA/">JPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gc/">gc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lambda/">lambda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/">spring boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li></ul>
+    </div>
+  </div>
 
 
   
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JPA/" style="font-size: 12.5px;">JPA</a> <a href="/tags/gc/" style="font-size: 15px;">gc</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/jvm/" style="font-size: 17.5px;">jvm</a> <a href="/tags/lambda/" style="font-size: 12.5px;">lambda</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 12.5px;">spring boot</a> <a href="/tags/并发/" style="font-size: 15px;">并发</a>
+    </div>
+  </div>
+
   
     
-  
-  <aside class="post-toc">
-    <span class="title" id="toc-switch"><span>文章导航</span></span>
-    <div class="toc-inner syuanpi back-1" style="display:none;">
-      <li class="title-link"><a href="javascript:;" class="toTop">lambda实现机制分析</a></li>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-lambda代码与反编译"><span class="toc-text">1. lambda代码与反编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-分析"><span class="toc-text">2. 分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-方法调用指令"><span class="toc-text">2.1 方法调用指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-BootstrapMethods与MethodHandle"><span class="toc-text">2.2 BootstrapMethods与MethodHandle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-LambdaMetafactory"><span class="toc-text">2.3 LambdaMetafactory</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-方法引用"><span class="toc-text">3. 方法引用</span></a></li></ol>
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li></ul>
     </div>
-  </aside>
-
+  </div>
 
 
   
-
-
-        </div>
-      </main>
-
-      <footer class="footer syuanpi fadeIn" id="footer">
-  <hr>
-  <div class="footer-wrapper">
-    <div class="left">
-      <div class="contact-icon">
     
-    
-    
-    
-    
-    
-    
-    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
         
-            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
+          <li>
+            <a href="/2018/10/10/java服务线上问题排查思路/">java服务线上问题排查思路</a>
+          </li>
         
+          <li>
+            <a href="/2018/09/25/java常用命令/">jvm 自带命令工具</a>
+          </li>
         
+          <li>
+            <a href="/2018/09/05/redis 分布式锁实现/">redis 分布式锁实现</a>
+          </li>
         
+          <li>
+            <a href="/2018/09/02/分代GC算法分析/">分代 GC 分析</a>
+          </li>
         
+          <li>
+            <a href="/2018/09/02/CMS 深入/">CMS 深入分析</a>
+          </li>
         
-        
-        
-    
-</div>
+      </ul>
     </div>
-    <div class="right">
-      <div class="copyright">
-    <div class="info">
-        <span>&copy;</span>
-        <span>2018 ~ 2019</span>
-        <span>❤</span>
-        <span>Ares</span>
-    </div>
-    <div class="theme">
-        <span>
-            动力来源于
-            <a href="http://hexo.io/" target="_blank">Hexo </a>
-        </span>
-        <span>
-            主题
-            <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
-        </span>
-    </div>
-    
-    <div class="visit_count">
-        <i class="iconfont icon-visit"></i>
-        <span id="busuanzi_value_site_uv"></span>
-        <i class="iconfont icon-people"></i>
-        <span id="busuanzi_value_site_pv"></span>
-    </div>
-    
-</div>
+  </div>
 
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Ares<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
     </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
   </div>
-  <script src="/script/lib/jquery/jquery-3.2.1.min.js"></script>
-
-
-  <script src="/script/lib/lightbox/js/lightbox.min.js"></script>
-
-
-
-
-
-
-
-
-<script src="/script/src/nlvi.js"></script>
-
-  <script src="/script/scheme/banderole.js"></script>
-
-<script src="/script/bootstarp.js"></script>
-
-
-<div class="backtop syuanpi melt toTop" id="backtop">
-    <i class="iconfont icon-up"></i>
-    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
-</div>
-
-
-
 </body>
 </html>
