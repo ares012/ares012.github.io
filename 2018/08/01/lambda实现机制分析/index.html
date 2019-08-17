@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="UA-124198848-1">
+    
+    
+    
+    <link rel="canonical" href="https://www.xxzp.tech//2018/08/01/lambda实现机制分析/">
+    
+    
+    <title>lambda实现机制分析 | Ares | go,go,go~~~</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="java,jvm,lambda">
+    <meta name="description" content="1. lambda代码与反编译1234567891011121314151617public class Lambda &amp;#123;  public static void main(String[] args) &amp;#123;    println1();    println2();  &amp;#125;  private static void println1() &amp;#123;    Consum">
+<meta name="keywords" content="java,jvm,lambda">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lambda实现机制分析">
+<meta property="og:url" content="http://www.xxzp.tech/2018/08/01/lambda实现机制分析/index.html">
+<meta property="og:site_name" content="Ares">
+<meta property="og:description" content="1. lambda代码与反编译1234567891011121314151617public class Lambda &amp;#123;  public static void main(String[] args) &amp;#123;    println1();    println2();  &amp;#125;  private static void println1() &amp;#123;    Consum">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-17T04:53:24.726Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lambda实现机制分析">
+<meta name="twitter:description" content="1. lambda代码与反编译1234567891011121314151617public class Lambda &amp;#123;  public static void main(String[] args) &amp;#123;    println1();    println2();  &amp;#125;  private static void println1() &amp;#123;    Consum">
+    
+        <link rel="alternate" type="application/atom+xml" title="Ares" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Ares</h5>
+          <a href="mailto:ares012@sina.com" title="ares012@sina.com" class="mail">ares012@sina.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ares012" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">lambda实现机制分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">lambda实现机制分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-07-31T16:00:00.000Z" itemprop="datePublished" class="page-time">
+  2018-08-01
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-lambda代码与反编译"><span class="post-toc-text">1. lambda代码与反编译</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-分析"><span class="post-toc-text">2. 分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-方法调用指令"><span class="post-toc-text">2.1 方法调用指令</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-BootstrapMethods与MethodHandle"><span class="post-toc-text">2.2 BootstrapMethods与MethodHandle</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3-LambdaMetafactory"><span class="post-toc-text">2.3 LambdaMetafactory</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-方法引用"><span class="post-toc-text">3. 方法引用</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-lambda实现机制分析"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">lambda实现机制分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-08-01 00:00:00" datetime="2018-07-31T16:00:00.000Z"  itemprop="datePublished">2018-08-01</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="1-lambda代码与反编译"><a href="#1-lambda代码与反编译" class="headerlink" title="1. lambda代码与反编译"></a>1. lambda代码与反编译</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Lambda</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    println1();</span><br><span class="line">    println2();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Consumer&lt;String&gt; consumer = System.out::println;</span><br><span class="line">    consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Consumer&lt;String&gt; consumer = str -&gt; System.out.println(str);</span><br><span class="line">    consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+<p><strong>javap -c -p -v Lambda 查看反编译：</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">Classfile /Users/ares/ares/ares/src/main/java/com/xxzp/ares/utils/reflect/Lambda.class</span><br><span class="line">  Last modified <span class="number">2018</span>-<span class="number">8</span>-<span class="number">23</span>; size <span class="number">1371</span> bytes</span><br><span class="line">  MD5 checksum <span class="number">620</span>c826160c973c61dbf9d1b8fd37ad3</span><br><span class="line">  Compiled from <span class="string">"Lambda.java"</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">xxzp</span>.<span class="title">ares</span>.<span class="title">utils</span>.<span class="title">reflect</span>.<span class="title">Lambda</span></span></span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: <span class="number">52</span></span><br><span class="line">  flags: ACC_PUBLIC, ACC_SUPER</span><br><span class="line">Constant pool:</span><br><span class="line">   ..........<span class="comment">//省略常量池</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span> com.xxzp.ares.utils.reflect.Lambda();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">1</span>, locals=<span class="number">1</span>, args_size=<span class="number">1</span></span><br><span class="line">         <span class="number">0</span>: aload_0</span><br><span class="line">         1: invokespecial #1                  // Method java/lang/Object."&lt;init&gt;":()V</span><br><span class="line">         <span class="number">4</span>: <span class="keyword">return</span></span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line <span class="number">5</span>: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(java.lang.String[])</span></span>;</span><br><span class="line">    descriptor: ([Ljava/lang/String;)V</span><br><span class="line">    flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">0</span>, locals=<span class="number">1</span>, args_size=<span class="number">1</span></span><br><span class="line">         0: invokestatic  #2                  // Method println1:()V</span><br><span class="line">         3: invokestatic  #3                  // Method println2:()V</span><br><span class="line">         <span class="number">6</span>: <span class="keyword">return</span></span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line <span class="number">8</span>: <span class="number">0</span></span><br><span class="line">        line <span class="number">9</span>: <span class="number">3</span></span><br><span class="line">        line <span class="number">10</span>: <span class="number">6</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println1</span><span class="params">()</span></span>;</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PRIVATE, ACC_STATIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">2</span>, locals=<span class="number">1</span>, args_size=<span class="number">0</span></span><br><span class="line">         0: getstatic     #4                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">         <span class="number">3</span>: dup</span><br><span class="line">         4: invokevirtual #5                  // Method java/lang/Object.getClass:()Ljava/lang/Class;</span><br><span class="line">         <span class="number">7</span>: pop</span><br><span class="line">         8: invokedynamic #6,  0              // InvokeDynamic #0:accept:(Ljava/io/PrintStream;)Ljava/util/function/Consumer;</span><br><span class="line">        <span class="number">13</span>: astore_0</span><br><span class="line">        <span class="number">14</span>: aload_0</span><br><span class="line">        15: ldc           #7                  // String test</span><br><span class="line">        17: invokeinterface #8,  2            // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V</span><br><span class="line">        <span class="number">22</span>: <span class="keyword">return</span></span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line <span class="number">13</span>: <span class="number">0</span></span><br><span class="line">        line <span class="number">14</span>: <span class="number">14</span></span><br><span class="line">        line <span class="number">15</span>: <span class="number">22</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println2</span><span class="params">()</span></span>;</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PRIVATE, ACC_STATIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">2</span>, locals=<span class="number">1</span>, args_size=<span class="number">0</span></span><br><span class="line">         0: invokedynamic #9,  0              // InvokeDynamic #1:accept:()Ljava/util/function/Consumer;</span><br><span class="line">         <span class="number">5</span>: astore_0</span><br><span class="line">         <span class="number">6</span>: aload_0</span><br><span class="line">         7: ldc           #7                  // String test</span><br><span class="line">         9: invokeinterface #8,  2            // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V</span><br><span class="line">        <span class="number">14</span>: <span class="keyword">return</span></span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line <span class="number">18</span>: <span class="number">0</span></span><br><span class="line">        line <span class="number">19</span>: <span class="number">6</span></span><br><span class="line">        line <span class="number">20</span>: <span class="number">14</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> lambda$println2$<span class="number">0</span>(java.lang.String);</span><br><span class="line">    descriptor: (Ljava/lang/String;)V</span><br><span class="line">    flags: ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">2</span>, locals=<span class="number">1</span>, args_size=<span class="number">1</span></span><br><span class="line">         0: getstatic     #4                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">         <span class="number">3</span>: aload_0</span><br><span class="line">         4: invokevirtual #10                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">         <span class="number">7</span>: <span class="keyword">return</span></span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line <span class="number">18</span>: <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line">SourceFile: <span class="string">"Lambda.java"</span></span><br><span class="line">InnerClasses:</span><br><span class="line">     public static final #66= #65 of #69; //Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles</span><br><span class="line">BootstrapMethods:</span><br><span class="line">  0: #32 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;</span><br><span class="line">    Method arguments:</span><br><span class="line">      #33 (Ljava/lang/Object;)V</span><br><span class="line">      #34 invokevirtual java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">      #35 (Ljava/lang/String;)V</span><br><span class="line">  1: #32 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;</span><br><span class="line">    Method arguments:</span><br><span class="line">      #33 (Ljava/lang/Object;)V</span><br><span class="line">      #40 invokestatic com/xxzp/ares/utils/reflect/Lambda.lambda$println2$0:(Ljava/lang/String;)V</span><br><span class="line">      #35 (Ljava/lang/String;)V</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-分析"><a href="#2-分析" class="headerlink" title="2. 分析"></a>2. 分析</h2><h3 id="2-1-方法调用指令"><a href="#2-1-方法调用指令" class="headerlink" title="2.1 方法调用指令"></a>2.1 方法调用指令</h3><ul>
+<li><p><strong>invokespecial:</strong> 调用实例构造方法<init>，私有方法和父类方法</init></p>
+</li>
+<li><p><strong>invokestatic:</strong> 调用静态方法</p>
+</li>
+<li><p><strong>invokevirtual:</strong> 调用虚方法</p>
+</li>
+<li><p><strong>invokedynamic:</strong> 运行时动态解析调用，主要是为了支持动态语言的方法调用在jdk7中增加</p>
+</li>
+<li><p><strong>invokeinterface:</strong> 调用接口方法，在运行时再确定一个实现此接口的对象</p>
+</li>
+</ul>
+<p>从上面可以看到，Consumer.ccept 是通过 invokedynamic 去调用的，第一次执行 invokedynamic 指令时，Java 虚拟机会调用该指令所对应的启动方法（BootStrap Method），来生成前面提到的调用点，并且将之绑定至该 invokedynamic 指令中。在之后的运行过程中，Java 虚拟机则会直接调用绑定的调用点所链接的方法句柄。</p>
+<h3 id="2-2-BootstrapMethods与MethodHandle"><a href="#2-2-BootstrapMethods与MethodHandle" class="headerlink" title="2.2 BootstrapMethods与MethodHandle"></a>2.2 BootstrapMethods与MethodHandle</h3><p><strong>BootstrapMethods：</strong> 启动方法是用方法句柄来指定的，这个方法句柄指向一个返回类型为调用点的静态方法，由上面可看到invokedynamic最终通过LambdaMetafactory.metafactory找到目标对象。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0: #32 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;</span><br></pre></td></tr></table></figure>
+
+<p><strong>MethodHandle方法句柄：</strong>强类型的，能够被直接执行的引用，该引用可以指向常规的静态方法或者实例方法，也可以指向构造器或者字段。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CONSTANT_MethodHandle_info &#123;</span><br><span class="line">    u1 tag;</span><br><span class="line">    u1 reference_kind;</span><br><span class="line">    u2 reference_index;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>tag: 标记项值为CONSTANT_MethodHandle</li>
+<li>reference_kind：其值必须在1到9的范围内，表示此方法句柄的类型(MethodType)，即其字节码的行为。<ul>
+<li>Field：1 (REF_getField), 2 (REF_getStatic), 3 (REF_putField),  4 (REF_putStatic)</li>
+<li>Method：5 (REF_invokeVirtual), 6 (REF_invokeStatic), 7 (REF_invokeSpecial), 8 (REF_newInvokeSpecial), 9 (REF_invokeInterface)</li>
+</ul>
+</li>
+<li>reference_index：值必须是constant_pool表的有效索引</li>
+</ul>
+<h3 id="2-3-LambdaMetafactory"><a href="#2-3-LambdaMetafactory" class="headerlink" title="2.3 LambdaMetafactory"></a>2.3 LambdaMetafactory</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CallSite <span class="title">metafactory</span><span class="params">(MethodHandles.Lookup caller,</span></span></span><br><span class="line"><span class="function"><span class="params">                                       String invokedName,</span></span></span><br><span class="line"><span class="function"><span class="params">                                       MethodType invokedType,</span></span></span><br><span class="line"><span class="function"><span class="params">                                       MethodType samMethodType,</span></span></span><br><span class="line"><span class="function"><span class="params">                                       MethodHandle implMethod,</span></span></span><br><span class="line"><span class="function"><span class="params">                                       MethodType instantiatedMethodType)</span><span class="keyword">throws</span> LambdaConversionException </span>&#123;</span><br><span class="line">    AbstractValidatingLambdaMetafactory mf;</span><br><span class="line">    mf = <span class="keyword">new</span> InnerClassLambdaMetafactory(caller, invokedType,</span><br><span class="line">                                         invokedName, samMethodType,</span><br><span class="line">                                         implMethod, instantiatedMethodType,</span><br><span class="line">                                         <span class="keyword">false</span>, EMPTY_CLASS_ARRAY, EMPTY_MT_ARRAY);</span><br><span class="line">    mf.validateMetafactoryArgs();</span><br><span class="line">    <span class="keyword">return</span> mf.buildCallSite();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面代码可看到，metafactory就是核心方法，该方法通过InnerClassLambdaMetafactory每个lambda调用点动态创建一个类内部类的类。</p>
+<h2 id="3-方法引用"><a href="#3-方法引用" class="headerlink" title="3. 方法引用"></a>3. 方法引用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   Consumer&lt;String&gt; consumer = System.out::println;</span><br><span class="line">   consumer.accept(<span class="string">"test"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     Consumer&lt;String&gt; consumer = str -&gt; System.out.println(str);</span><br><span class="line">     consumer.accept(<span class="string">"test"</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>反汇编结果如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//println1</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println1</span><span class="params">()</span></span>;</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    Code:</span><br><span class="line">       0: getstatic     #4                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">       <span class="number">3</span>: dup</span><br><span class="line">       4: invokevirtual #5                  // Method java/lang/Object.getClass:()Ljava/lang/Class;</span><br><span class="line">       <span class="number">7</span>: pop</span><br><span class="line">       8: invokedynamic #6,  0              // InvokeDynamic #0:accept:(Ljava/io/PrintStream;)Ljava/util/function/Consumer;</span><br><span class="line">      <span class="number">13</span>: astore_0</span><br><span class="line">      <span class="number">14</span>: aload_0</span><br><span class="line">      15: ldc           #7                  // String test</span><br><span class="line">      17: invokeinterface #8,  2            // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V</span><br><span class="line">      <span class="number">22</span>: <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//println2</span></span><br><span class="line"> <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println2</span><span class="params">()</span></span>;</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    Code:</span><br><span class="line">       0: invokedynamic #9,  0              // InvokeDynamic #1:accept:()Ljava/util/function/Consumer;</span><br><span class="line">       <span class="number">5</span>: astore_0</span><br><span class="line">       <span class="number">6</span>: aload_0</span><br><span class="line">       7: ldc           #7                  // String test</span><br><span class="line">       9: invokeinterface #8,  2            // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V</span><br><span class="line">      <span class="number">14</span>: <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> lambda$println2$<span class="number">0</span>(java.lang.String);</span><br><span class="line">    descriptor: (Ljava/lang/String;)V</span><br><span class="line">    Code:</span><br><span class="line">       0: getstatic     #4                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">       <span class="number">3</span>: aload_0</span><br><span class="line">       4: invokevirtual #10                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">       <span class="number">7</span>: <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上现可看到，System.out::println 不会再单独生成一个方法，而 str -&gt; System.out.println(str) 会生成一个 lambda$println2$0 用来保存 Lambda 表达式的内容，其参数列表不仅包含原本 Lambda 表达式的参数，还包含它所捕获的变量。Lambda 表达式是否捕获其他变量，启动方法生成的适配器类以及所链接的方法句柄皆不同。如果该 Lambda 表达式没有捕获其他变量，那么可以认为它是上下文无关的。因此，启动方法将新建一个适配器类的实例，并且生成一个特殊的方法句柄，始终返回该实例。如果该 Lambda 表达式捕获了其他变量，那么每次执行该 invokedynamic 指令，我们都要更新这些捕获了的变量，以防止它们发生了变化。其实二者的区别主要在于是否对变量进行捕获。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="http://www.xxzp.tech">
+            <img src="/img/avatar.jpg" alt="Ares">
+            Ares
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lambda/">lambda</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.xxzp.tech/2018/08/01/lambda实现机制分析/&title=《lambda实现机制分析》 — Ares&pic=http://www.xxzp.tech/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.xxzp.tech/2018/08/01/lambda实现机制分析/&title=《lambda实现机制分析》 — Ares&source=1. lambda代码与反编译1234567891011121314151617public class Lambda &#123;  public st..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.xxzp.tech/2018/08/01/lambda实现机制分析/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lambda实现机制分析》 — Ares&url=http://www.xxzp.tech/2018/08/01/lambda实现机制分析/&via=http://www.xxzp.tech" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.xxzp.tech/2018/08/01/lambda实现机制分析/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/08/05/lambda实践/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">lambda 实践总结</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/07/21/反射与动态代理/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">反射与动态代理</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+         <!--
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    -->
+    </div>
+    <div class="bottom">
+        <p><span>Ares &copy; 2018 - 2019</span>
+             <!--
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
+            </span>
+        -->
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.xxzp.tech/2018/08/01/lambda实现机制分析/&title=《lambda实现机制分析》 — Ares&pic=http://www.xxzp.tech/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.xxzp.tech/2018/08/01/lambda实现机制分析/&title=《lambda实现机制分析》 — Ares&source=1. lambda代码与反编译1234567891011121314151617public class Lambda &#123;  public st..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.xxzp.tech/2018/08/01/lambda实现机制分析/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lambda实现机制分析》 — Ares&url=http://www.xxzp.tech/2018/08/01/lambda实现机制分析/&via=http://www.xxzp.tech" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.xxzp.tech/2018/08/01/lambda实现机制分析/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACK0lEQVR42u3aQY6DQAwFUe5/aWY7owxQ34ZItKtXURLALwunbfe24bV/rN/vH70mVx09ZXtiyZAh47WM/XTxsM6DSH8CHpsMGTLmMI4eTG59/v27kvhFzDJkyJDx8Z2jd2qbSP5cGTJkyEgZfFNINpFpuStDhoxpjDRd9mHn93mwFpchQ8YLGbzr/v3Xj8w3ZMiQ8SrGHq672nD8HRSVDBkylmbUmvidMpWHHscjQ4aMpRlp6VgrU3kZTMI9pMqQIWNRRnosjKTg2kggHRL8878hQ4aMRRn9B6cHKUjiTjeXMmTIWJXRP/SQwkhjjidxtH+UIUPGyxlpEdsJizfUWqNNGTJkLMeolaydRMw/5U09GTJkzGHwQWMtFNIy4/dHRawMGTIWZXQGkzy9pgfOLlKwDBkylmbw1MbZtdK3lnBlyJAxgdFJlySUGphvHP9sDWXIkLEooxY6T5ppK63WzpMhQ8Y0Bk98nc0fT7LBpzJkyBjAIFu6fouNt8/io2MyZMgYwOAjybTpTxIxKYAv4pEhQ8YAxl3tsNpYlG8uZciQMZlBelmEmh7X6McgQ4aMtRl7uGoDA3KQK23nyZAhYw6DL1528tI0nUXy7aYMGTLWY5AkGxzPCkPpj0hlyJAxh1FLfORQBQHzf4CLUlaGDBkywq3evXe+oMqQIUPGaTJNMWkNjZqAMmTIGMAgRexdxWp6pAO1/2TIkLE0g1/WKjLxmIFfJUOGjAGMH8Km2xkpV3KdAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<!--
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'xxzp！！！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'xxzp';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
