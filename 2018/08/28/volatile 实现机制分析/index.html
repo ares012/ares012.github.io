@@ -27,7 +27,7 @@ ga('send', 'pageview');
     <link rel="canonical" href="https://www.xxzp.tech//2018/08/28/volatile 实现机制分析/">
     
     
-    <title>volatile 实现机制分析 | Ares | 技术不容易，一步一步往前走</title>
+    <title>volatile 实现机制分析 | Ares | go,go,go~~~</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -174,7 +174,7 @@ ga('send', 'pageview');
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-volatile-原理分析"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. volatile 原理分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-volatile-的-happens-before-语义"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1 volatile 的 happens before 语义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-volatile-读写的内存语义"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.2 volatile 读写的内存语义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3-JMM-如何实现-volatile-写-读"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">2.3 JMM 如何实现 volatile 写/读</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-text">1. 概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-volatile-原理分析"><span class="post-toc-text">2. volatile 原理分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-volatile-的-happens-before-语义"><span class="post-toc-text">2.1 volatile 的 happens before 语义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-volatile-读写的内存语义"><span class="post-toc-text">2.2 volatile 读写的内存语义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-3-JMM-如何实现-volatile-写-读"><span class="post-toc-text">2.3 JMM 如何实现 volatile 写/读</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -395,19 +395,23 @@ ga('send', 'pageview');
 </p>
 
 
+         <!--
         <p>
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
             <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
+    -->
     </div>
     <div class="bottom">
         <p><span>Ares &copy; 2018 - 2019</span>
+             <!--
             <span>
                 
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
             </span>
+        -->
         </p>
     </div>
 </footer>
@@ -458,7 +462,7 @@ ga('send', 'pageview');
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://www.xxzp.tech/2018/08/28/volatile 实现机制分析/" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJUlEQVR42u3ayW7DIBQF0P7/T7tSt1Hce4EOhsMqUojN2by8gY+PeF1f6/Xz/f7Xdf+E152LFwYGxmMZ1+16x8iPMv/b+7NhYGCcw0iC7OvO+z35E8ZCMwYGBsb949pD5wfCwMDAWBVw1zLun4OBgYGRF7FtkZk84Q9qcQwMjAcyZgYDP/35l+YbGBgY/5hxlSunjgXTwVNhYGBszUgaXklrrE37kkZeWwxjYGDsymiD2v1xk6CZD0SLnRgYGFsz8gb9WEFbvH5mJICBgXEMo84oJ142dnUDAwPjTMbMOHBskJkXtEW4x8DAOICRt97y8nWscTZY9GJgYBzAaDHtK9uRQPI38HYSi4GBsSkjSfXae1ltkG0vhGFgYJzDWBVe86QwH1ImpSwGBsY5jKRQbC9SrBpStmwMDIz9GPONszaYthe/orQSAwPjAMZMsz4paJPkry2VMTAwzmGsGlW2Vy5Wlb7FHRAMDIyHM4ph4VADrg21+UAUAwPjBEbblB9LE9s23GA6iIGBsTUj/1me5OVDhRnwN11DDAyMLRhjJetYKlmH0fbJGBgYmzKucuXsNuFLEtC332JgYGzNyFfbsm8Hk3mgb8M0BgbGHox26DgfTJOCth45YGBgHMCYeWUbQMfSOwwMDIy8Bb/qcsbYzvrOCAYGxpGMdkiZp5VtoTsVcDEwMB7ImBkGtOAcmbf5MDAw9maMhbwk4CYDg/lBJgYGxtaMT1XI+ggVh4jwAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 
@@ -498,7 +502,10 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 
 
+<!--
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 

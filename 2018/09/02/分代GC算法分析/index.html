@@ -27,7 +27,7 @@ ga('send', 'pageview');
     <link rel="canonical" href="https://www.xxzp.tech//2018/09/02/分代GC算法分析/">
     
     
-    <title>分代 GC 分析 | Ares | 技术不容易，一步一步往前走</title>
+    <title>分代 GC 分析 | Ares | go,go,go~~~</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -175,7 +175,7 @@ ga('send', 'pageview');
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-jvm-分代策略"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. jvm 分代策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-新生代"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1 新生代</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-老年代"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.2 老年代</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-内存分配过程"><span class="post-toc-number">3.</span> <span class="post-toc-text">3. 内存分配过程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-gc-收集器与策略"><span class="post-toc-number">4.</span> <span class="post-toc-text">4. gc 收集器与策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1-垃圾收集器"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">4.1 垃圾收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2-gc-策略"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">4.2 gc 策略</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-text">1. 概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-jvm-分代策略"><span class="post-toc-text">2. jvm 分代策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-新生代"><span class="post-toc-text">2.1 新生代</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-老年代"><span class="post-toc-text">2.2 老年代</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-内存分配过程"><span class="post-toc-text">3. 内存分配过程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-gc-收集器与策略"><span class="post-toc-text">4. gc 收集器与策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-1-垃圾收集器"><span class="post-toc-text">4.1 垃圾收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-2-gc-策略"><span class="post-toc-text">4.2 gc 策略</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -438,19 +438,23 @@ ga('send', 'pageview');
 </p>
 
 
+         <!--
         <p>
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
             <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
+    -->
     </div>
     <div class="bottom">
         <p><span>Ares &copy; 2018 - 2019</span>
+             <!--
             <span>
                 
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
             </span>
+        -->
         </p>
     </div>
 </footer>
@@ -500,7 +504,7 @@ ga('send', 'pageview');
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://www.xxzp.tech/2018/09/02/分代GC算法分析/" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJUlEQVR42u3aQW7DMAwEwP7/0+61QBF3V3SLRhqdgsSxOT4QpKiPj3hdX9b9Na+uf/W5fcpoYWBgvC3jul15WPdB3N8zv/PLp2BgYBzASBJoElByfXL/PDYMDAyMnJQnx/YFYWBgYLSMpIm9/z4pIjEwMDDWmtik1EtSbZuOH+7FMTAw3pCR77r//edfmW9gYGC8FeMq12RuuDZgiKLCwMDYmtE2qPdlXDLOTEaki/FgYGBsysjDajfOksQ62ZjDwMA4jTE/BNamyDZx//AiMDAwDma048Y2QS+OKr//ioGBcSRjshvfjjwfGEVgYGBszXjqiENbYs4HA8WsFQMDYztGUtjl17flY3v/lwkXAwNjI0aSzvJr2ga4HRjUZ0YwMDC2YLRpcdL0Tg6T5WAMDIz9GO3gsA0ib4AnxSUGBsYJjPZh+a9rjW475sTAwNib0QbRBpoPDIp9QQwMjMMYbdG2tnH/QIfdzjQwMDA2YsyLxfm2fl0C5mUiBgbGRow2lPb7/F/Ja4rGAxgYGFszEthaIp4MBkaDTAwMjI0Ya6G3g4TJcY0o4WJgYGzHuMq11qy2aT25Q3TYAgMDYwvGJNm1CXRtbJlQMTAwTmA8lWQnY9EHEi4GBsYBjHxja+0QRntELB+yYmBgYOTVZb4Z176sonrFwMDAKO8w4dUFKAYGxgGMvIBrW9Z8Gy4fo2JgYJzGWKu71jbp5q3sw+UjBgbGf2d8AkiWk2Hel/pCAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 
@@ -540,7 +544,10 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 
 
+<!--
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 

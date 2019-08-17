@@ -27,7 +27,7 @@ ga('send', 'pageview');
     <link rel="canonical" href="https://www.xxzp.tech//2018/09/05/redis 分布式锁实现/">
     
     
-    <title>redis 分布式锁实现 | Ares | 技术不容易，一步一步往前走</title>
+    <title>redis 分布式锁实现 | Ares | go,go,go~~~</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -173,7 +173,7 @@ ga('send', 'pageview');
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-redis-分布式锁实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. redis 分布式锁实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-spring-boot-配置"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1 spring-boot 配置</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-2-基于-redis-分布式锁实现"><span class="post-toc-number">3.</span> <span class="post-toc-text">2.2 基于 redis 分布式锁实现</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-text">1. 概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-redis-分布式锁实现"><span class="post-toc-text">2. redis 分布式锁实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-spring-boot-配置"><span class="post-toc-text">2.1 spring-boot 配置</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-2-基于-redis-分布式锁实现"><span class="post-toc-text">2.2 基于 redis 分布式锁实现</span></a></li></ol>
         </nav>
     </aside>
 
@@ -362,19 +362,23 @@ ga('send', 'pageview');
 </p>
 
 
+         <!--
         <p>
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
             <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
+    -->
     </div>
     <div class="bottom">
         <p><span>Ares &copy; 2018 - 2019</span>
+             <!--
             <span>
                 
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
             </span>
+        -->
         </p>
     </div>
 </footer>
@@ -424,7 +428,7 @@ ga('send', 'pageview');
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://www.xxzp.tech/2018/09/05/redis 分布式锁实现/" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJUlEQVR42u3aS44CMQxFUfa/6eoxQqTus0NL5dyMSkCncxiY+PN64XV9rG/vrl/5fF7vs3nJkCHjsYxruQiDHIK8++15fTYZMmScw6htTcLrOkLy55szy5AhQwZ+XodsEoJlyJAh49cMsk+aDMuQIUMGT2J5sYwntPzSuS0XlyFDxgMZvOr+/88/6W/IkCHjUYwrXCT5TEtvZJ+bU8mQIWM0Iy3i14pufDd+7ZMhQ8Y5jLT41b+t8ZZA8EkZMmQcwOBNgk6WTL6ytEnwFnBlyJAxmpGW6XnKykv8abi/+d2QIUPGIAYZidgFIG0GXp676cfKkCHjMEYaENNktV96kyFDxjmMzrBFmqDytJl/RoYMGVMZ5IrWeZ2XzDoDGTJkyJjN4GlkWizrtDb5GZBVhgwZ4xjkoPzSloba1k1WhgwZhzF2FfrTZkPn/8qQIeMERjpm2gmUZOe4MSBDhoyhDD56lY5z1RLRWulNhgwZsxlpUawWInc1GIpprQwZMkYwyCWvM3jBL4619qcMGTLOYfBBUpKa8tGxGliGDBlnMmpJZpqIpl/NtmELGTJkPJZxhasWWNPCXDzkIUOGjNEMvlJe2iroj27IkCFjNoMfsV/WT4/YKrfJkCFjHKPWAEgntXiYTtsSMmTIkFGb4KgV42p/K0OGDBnxpjhNTYPsTRIrQ4aM0Yy0lEauhunXke4vQ4aMcxi7Qh5vW/IUN/0ZkCFDxjjGHz+Vk2Ef0HOyAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 
@@ -464,7 +468,10 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 
 
+<!--
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 

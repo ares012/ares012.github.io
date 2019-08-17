@@ -27,7 +27,7 @@ ga('send', 'pageview');
     <link rel="canonical" href="https://www.xxzp.tech//2018/09/01/GC 算法概述/">
     
     
-    <title>GC 初步 | Ares | 技术不容易，一步一步往前走</title>
+    <title>GC 初步 | Ares | go,go,go~~~</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -175,7 +175,7 @@ ga('send', 'pageview');
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-1-基本概念"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.1 基本概念</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-2-gc-指标"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">1.2 gc 指标</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-对象存活判定"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. 对象存活判定</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-引用计数"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1 引用计数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-可达性分析"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.2 可达性分析</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-基本回收算法"><span class="post-toc-number">3.</span> <span class="post-toc-text">3. 基本回收算法</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-text">1. 概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-1-基本概念"><span class="post-toc-text">1.1 基本概念</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-2-gc-指标"><span class="post-toc-text">1.2 gc 指标</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-对象存活判定"><span class="post-toc-text">2. 对象存活判定</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-1-引用计数"><span class="post-toc-text">2.1 引用计数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-2-可达性分析"><span class="post-toc-text">2.2 可达性分析</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-基本回收算法"><span class="post-toc-text">3. 基本回收算法</span></a></li></ol>
         </nav>
     </aside>
 
@@ -373,19 +373,23 @@ ga('send', 'pageview');
 </p>
 
 
+         <!--
         <p>
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
             <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
+    -->
     </div>
     <div class="bottom">
         <p><span>Ares &copy; 2018 - 2019</span>
+             <!--
             <span>
                 
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
             </span>
+        -->
         </p>
     </div>
 </footer>
@@ -435,7 +439,7 @@ ga('send', 'pageview');
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://www.xxzp.tech/2018/09/01/GC 算法概述/" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKUlEQVR42u3aQVLDMAwFUO5/6TLDigWY/+XCUPt5lek4iV8WqiX57S0ej4/x+Xo91net37KeszUwMDBelpEvaIbJP0T7yTAwMG5j5EF2fe8Mtv5Y67VhYGBgrK9bdh6CMTAwMJ7FWAfTNinFwMDAWDPyxDJ5aBtqZ6U9DAyMexizxsDfXP96fwMDA+PfMx7lmG0Tk83iY2NgYGCczXhWqStpebbpaz0TAwPjUEbeVsyLaPmhijwo/8DDwMA4mtFu4PJt3Kxw1jY1v+VhYGAcxNg/qtWGxYRRh2wMDIyjGW3JbCc0t83OpDCHgYFxA2M9NX9NHjTzIJ6n0xgYGHcy2lCYbOCSsDt8JgYGxtGM/BhEm762xf1ZuxQDA+MGRrvoupU4Wla+BgwMjBsY+8cj2qCcNwbaNWBgYJzKSB60f4Sr3SC2IRgDA+MeRlt0y+c8q5H5Qw8WAwPjUMZO4X6/qZkX2oq/BAwMjAsYO2nnLETOWhHffgIMDIzjGHl5K/m9OMg1agkUSSwGBsahjCT5fG4dfpbEfvEcDAyMoxn5a5JyW94A2CnqFV1ZDAyMIxiPcrT5cbv1HDZHMTAwjmbMAuKsQJZvKPMWBQYGxj2MnQZA2/LMf8lDMwYGxj2MnSCbhNS8lDZMdzEwMDBGxyxmaWp+aGwYcDEwMC5gzF6fJLf5ATIMDIw7Ge1C203hTlMzSpIxMDCOZsxSx/x4RH5XUtQbAjAwMF6V8Q7WvmWrR3/g1AAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 
@@ -475,7 +479,10 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 
 
+<!--
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 

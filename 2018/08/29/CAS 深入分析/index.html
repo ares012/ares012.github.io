@@ -27,7 +27,7 @@ ga('send', 'pageview');
     <link rel="canonical" href="https://www.xxzp.tech//2018/08/29/CAS 深入分析/">
     
     
-    <title>CAS 深入分析 | Ares | 技术不容易，一步一步往前走</title>
+    <title>CAS 深入分析 | Ares | go,go,go~~~</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -171,7 +171,7 @@ ga('send', 'pageview');
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-CAS-实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. CAS 实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-compareAndSwapInt-在-jvm-中实现"><span class="post-toc-number">3.</span> <span class="post-toc-text">3. compareAndSwapInt 在 jvm 中实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-ABA问题"><span class="post-toc-number">4.</span> <span class="post-toc-text">4. ABA问题</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-text">1. 概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-CAS-实现"><span class="post-toc-text">2. CAS 实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-compareAndSwapInt-在-jvm-中实现"><span class="post-toc-text">3. compareAndSwapInt 在 jvm 中实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-ABA问题"><span class="post-toc-text">4. ABA问题</span></a></li></ol>
         </nav>
     </aside>
 
@@ -356,19 +356,23 @@ ga('send', 'pageview');
 </p>
 
 
+         <!--
         <p>
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
             <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
+    -->
     </div>
     <div class="bottom">
         <p><span>Ares &copy; 2018 - 2019</span>
+             <!--
             <span>
                 
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
             </span>
+        -->
         </p>
     </div>
 </footer>
@@ -418,7 +422,7 @@ ga('send', 'pageview');
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://www.xxzp.tech/2018/08/29/CAS 深入分析/" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKklEQVR42u3aQW4CMRAEQP7/aXKNlGC67SXR2uUTCoR1cWiNPfN4xOv5bf38y9y7yVMuXhgYGLdlPIcrYYw38QqQvx7vDQMD4xzGqwTLIzLZytz/jveGgYGB0TKScByXgBgYGBjrjHHp1obyvwUuBgbGDRn5BVn+bgv7o7M4BgbGDRn5rfvfv/5IfwMDA+NWjGe52lhMtpW3P18+BQMDY2tGHnD5UbMtDeeGLTAwME5j5FvJi7mrLtFqMAYGxnaMccGXX5DlR9/2Oi/5sTAwMPZmJDG3PhDWNiHaMhEDA+M0xtxXty3PJOLrnxgDA2NrRjtyMTd4kfwQ9ShY287EwMC4IeOqNmQSke27SWn4y1kcAwNjO8Z6dq0H7lXFKAYGxt6MuYIvL+nyArQdJovmQTAwMG7OWGkczjUA2u+J9oCBgbE1Y24Yq+V9YrCsHrbAwMDYgpGEXX7ETUJ8pfH5purEwMDYiNFe08+x8whuGwkYGBgnMPIHP+LVxm4+8vVmVxgYGMcw8nZmWziuH5LffAYDA+MYxtxgVrKh8bbaYzAGBsbJjCTsks+3+JVBDQwMjL0Zz3J9bqMrZSgGBsbejPYSbeVL58L6sj4tBgbGzRlJyLZNx5VR1LaRgIGBcQ4jv4Jvr/XnSs82uDEwMDDmxljzeG1jPZrywMDAwCiv3lauyZJBWAwMjBMYSXS2B8t2XCMfC8PAwDiNkUdeNLsxNbSxXlZiYGBsyvgCyoj6CFfaoIQAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
@@ -458,7 +462,10 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 
 
+<!--
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 

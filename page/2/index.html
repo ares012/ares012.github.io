@@ -27,7 +27,7 @@ ga('send', 'pageview');
     <link rel="canonical" href="https://www.xxzp.tech//page/2/">
     
     
-    <title>Ares | 技术不容易，一步一步往前走</title>
+    <title>Ares | go,go,go~~~</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -146,7 +146,7 @@ ga('send', 'pageview');
         <h1 class="title">Ares</h1>
         <h5 class="subtitle">
             
-                技术不容易，一步一步往前走
+                go,go,go~~~
             
         </h5>
     </div>
@@ -159,196 +159,6 @@ ga('send', 'pageview');
 <div class="container body-wrap">
 
     <ul class="post-list">
-    
-        <li class="post-list-item fade">
-            <article id="post-AQS 深入分析"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-08-30 00:00:00" datetime="2018-08-29T16:00:00.000Z"  itemprop="datePublished">2018-08-30</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/08/30/AQS 深入分析/">AQS 深入分析</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        1. 概述AQS：AbstractQueuedSynchronizer，即队列同步器，是构建锁或者其他同步组件的基础框架，JUC并发包的实现基础。下图都是基于 aqs 实现的，Semaphore，ReentrantLock，ReentrantReadWriteLock，Worker 等。
-
-                
-                    
-                    
-                
-                
-            
-
-AQS主要使用方式是继承，子类通过继承同步器并实现它的抽象方法来管理同步状态。在内部使用（volatile int） state来表示同步状态，当state&gt;0时表示已经获取了锁，当state = 0时表示释放了锁。同时提供了getState()、setState(int newState)、compareAndSetState(int expect,int update）来对同步状态state进行操作。通过 FIFO 同步队列来完成线程的排队，如果当前线程获取同步状态失败（锁）时，AQS则会将当前线程以及等待状态等信息构造成一个节点（Node）并将其加入同步队列，同时会阻塞当前线程，当同步状态释放时，则会把节点中的线程唤醒，使其再次尝试获取同步状态。
-    
-
-        <a href="/2018/08/30/AQS 深入分析/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-CAS 深入分析"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-08-29 00:00:00" datetime="2018-08-28T16:00:00.000Z"  itemprop="datePublished">2018-08-29</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/08/29/CAS 深入分析/">CAS 深入分析</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        1. 概述** CAS：** 指CompareAndSwap或CompareAndSet，即比较并交换。比较的是当前内存中存储的值与预期原值，交换的是新值与内存中的值。这个操作是硬件层面的指令，因此能够保证原子性。Java通过JNI（本地方法调用）来使用这个原子操作。先看一段计数的代码：
-    
-
-        <a href="/2018/08/29/CAS 深入分析/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post- synchronized 实现机制分析"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-08-28 00:00:00" datetime="2018-08-27T16:00:00.000Z"  itemprop="datePublished">2018-08-28</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/08/28/ synchronized 实现机制分析/">synchronized 实现机制分析</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        1. 概述synchronized 关键字用来对程序进行加锁，它既可以用来声明一个 synchronized 代码块，也可以直接标记静态方法或者实例方法，被 synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。先通过一段代码看下 jvm 层面的控制：
-    
-
-        <a href="/2018/08/28/ synchronized 实现机制分析/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-volatile 实现机制分析"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-08-28 00:00:00" datetime="2018-08-27T16:00:00.000Z"  itemprop="datePublished">2018-08-28</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/08/28/volatile 实现机制分析/">volatile 实现机制分析</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        1. 概述在上篇总结了JMM理论基础，在本篇要分析 volatile 的实现机制。首先看下下面代码：
-12345678910111213141516171819public class LazyInitializedSingleton &#123;  private static LazyInitializedSingleton instance;   private LazyInitializedSingleton() &#123;  &#125;  public static LazyInitializedSingleton getInstanceUsingDoubleLocking() &#123;    if (Objects.isNull(instance )) &#123;      synchronized (LazyInitializedSingleton.class) &#123;        if (Objects.isNull(instance )) &#123;          //可能出现重排序导致线程安全问题          instance = new LazyInitializedSingleton();        &#125;      &#125;    &#125;    return instance;  &#125;&#125;
-    
-
-        <a href="/2018/08/28/volatile 实现机制分析/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
     
         <li class="post-list-item fade">
             <article id="post-java 内存模型"
@@ -446,12 +256,301 @@ AQS主要使用方式是继承，子类通过继承同步器并实现它的抽�
 
         </li>
     
+        <li class="post-list-item fade">
+            <article id="post-lambda实践"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-08-23 00:00:00" datetime="2018-08-22T16:00:00.000Z"  itemprop="datePublished">2018-08-23</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/08/23/lambda实践/">lambda 实践总结</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        1. 按key值过滤：1234public static &lt;T&gt; Predicate&lt;T&gt; distinctByKey(Function&lt;? super T, Object&gt; function) &#123;    Map&lt;Object, Boolean&gt; map = new ConcurrentHashMap&lt;&gt;();    return t -&gt; map.putIfAbsent(function.apply(t), Boolean.TRUE) == null;&#125;
+    
+
+        <a href="/2018/08/23/lambda实践/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lambda/">lambda</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-lambda实现机制分析"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-08-22 00:00:00" datetime="2018-08-21T16:00:00.000Z"  itemprop="datePublished">2018-08-22</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/08/22/lambda实现机制分析/">lambda实现机制分析</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        1. lambda代码与反编译1234567891011121314151617public class Lambda &#123;  public static void main(String[] args) &#123;    println1();    println2();  &#125;  private static void println1() &#123;    Consumer&lt;String&gt; consumer = System.out::println;    consumer.accept("test");  &#125;  private static void println2() &#123;    Consumer&lt;String&gt; consumer = str -&gt; System.out.println(str);    consumer.accept("test");  &#125;&#125;
+    
+
+        <a href="/2018/08/22/lambda实现机制分析/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lambda/">lambda</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-反射与动态代理"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-08-21 00:00:00" datetime="2018-08-20T16:00:00.000Z"  itemprop="datePublished">2018-08-21</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/08/21/反射与动态代理/">反射与动态代理</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        1. 反射概述Java反射机制可以动态地获取类的结构，动态地调用对象的方法，是java语言一个动态化的机制。其功能场景：
+
+运行时构造一个类的对象
+运行时获取一个类信息，如方法，属性
+实现动态代理，很多框架都有基于动态代理实现
+
+1.1 反射获取类信息获取类信息方式：
+1234Class&lt;TestReflect&gt; clazz1 = TestReflect.class;Class&lt;?&gt; clazz2 = Class.forName("com.xxzp.ares.utils.reflect.TestReflect");TestReflect testReflect = new TestReflect();Class&lt;?&gt; clazz3 = testReflect.getClass();
+    
+
+        <a href="/2018/08/21/反射与动态代理/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-java类加载"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-08-20 00:00:00" datetime="2018-08-19T16:00:00.000Z"  itemprop="datePublished">2018-08-20</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/08/20/java类加载/">java类加载机制</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        1. 类加载过程(加载—&gt;链接—&gt;初始化)加载： 是指查找字节流，并且据此创建类的过程。链接： 是指将创建成的类合并至 Java 虚拟机中，使之能够执行的过程。它可分为验证、准备以及解析三个阶段。
+
+验证：确保被加载类能够满足 Java 虚拟机的约束条件。
+准备：为被加载类的静态字段分配内存。Java 代码中对静态字段的具体初始化，则会在稍后的初始化阶段中进行。
+解析：将符号引用解析成为实际引用，如果符号引用指向一个未被加载的类，或者未被加载类的字段或方法，那么解析将触发这个类的加载
+
+初始化： 是指给常量值的字段赋值，以及执行 &lt; clinit &gt; 方法的过程。Java 虚拟机会通过加锁来确保类的 &lt; clinit &gt; 方法仅被执行一次。初始化完成之后，类才正式成为可执行的状态。
+    
+
+        <a href="/2018/08/20/java类加载/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-jpa深入"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-08-19 00:00:00" datetime="2018-08-18T16:00:00.000Z"  itemprop="datePublished">2018-08-19</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/08/19/jpa深入/">JPA深入</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        1. JpaRepository继承关系JpaRepository继承了PagingAndSortingRepository和QueryByExampleExecutor，具体描述如下：PagingAndSortingRepository 支持分页与排序，包含方法:
+123Iterable&lt;T&gt; findAll(Sort sort);//Pageable包含分页信息Page&lt;T&gt; findAll(Pageable pageable);
+
+使用示例如下：
+123Sort sort = new Sort(Direction.DESC, "id");PageRequest pageRequest = new PageRequest(pageNo, pageSize, sort);Page page = userRepository.findAll(pageRequest);
+    
+
+        <a href="/2018/08/19/jpa深入/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JPA/">JPA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/">spring boot</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-jpa简单实践"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2018-08-18 00:00:00" datetime="2018-08-17T16:00:00.000Z"  itemprop="datePublished">2018-08-18</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2018/08/18/jpa简单实践/">JPA初步</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        1. 概述Spring data jpa是JPA规范的再次封装抽象，底层使用了Hibernate的JPA技术实现，引用JPQL（Java Persistence Query Language查询语言，属于 Spring 的整个生态体系的一部分。Spring Data JPA作为Spring生态的部分，使用起来比较方便，加快了开发的效率，使开发者不需要关系和配置更多的东西，完全可以沉浸在 Spring 的完整生态标准的实现下，上手简单、开发效率高，对象的支持比较好，有较大的灵活性，市场的认可度越来越高。
+2. Spring boot集成JPAgradle添加依赖：
+123456dependencies &#123;	compile('org.springframework.boot:spring-boot-starter-web')	compile('org.springframework.boot:spring-boot-starter-data-jpa')	runtime('mysql:mysql-connector-java')	testCompile('org.springframework.boot:spring-boot-starter-test')&#125;
+    
+
+        <a href="/2018/08/18/jpa简单实践/" class="post-more waves-effect waves-button">
+            阅读全文…
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JPA/">JPA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring-boot/">spring boot</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
     </ul>
 
     
 <nav id="page-nav">
     <div class="inner">
-    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
     </div>
 </nav>
 
@@ -471,19 +570,23 @@ AQS主要使用方式是继承，子类通过继承同步器并实现它的抽�
 </p>
 
 
+         <!--
         <p>
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
             <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
+    -->
     </div>
     <div class="bottom">
         <p><span>Ares &copy; 2018 - 2019</span>
+             <!--
             <span>
                 
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
             </span>
+        -->
         </p>
     </div>
 </footer>
@@ -533,7 +636,7 @@ AQS主要使用方式是继承，子类通过继承同步器并实现它的抽�
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://www.xxzp.tech/page/2/" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABzUlEQVR42u3aQY7DIAwF0N7/0p3tSJ0k33agGemxqloaHllY2Ob1isf71/j8/nxmMufmgYuLO+a+T8fnkjn96Nej558bcHFx93OrCyTh7IhyNCd5Mi4u7pO5F+GmuElcXNz/y+1tr5cg4eLiPoGbJD9JISNKYILt3ZCr4eLiDrh5lXLd5yX1XVxc3Bb33RrV41EveP2xLi4u7hZuNegki+WFj/w4hYuL+11u8rhe27WaXDWbrLi4uGNutXXaC08JMUqKcHFxt3CT9kbeFOk1SJpzcHFxl3GrJY/5hYxeWbZ85sLFxb2J20t+8k2eh7noabi4uFu4ediqXtdY0SHFxcXdye01POZbrR6ncHFx93Dzg0v1ktZdwTF6K7i4uMu4vatXE27ysi4iLi4u7gJuoanZKnBUD0yFzjAuLu4y7r0N0WQbo//i4uJu4ebJzOQ6ZjVoXjwNFxd3MXfS2KgWT3vN11E3BhcXt8XNR3I1My+z9oqtuLi4O7lJ8KpexMxTqWStw9tkuLi4i7m9Zmr1Wmdvw7i4uE/m5tBe66VcxcHFxX0At3rxojon+hUXF3cjt5f8TFoszdeBi4u7hTtKRYIF8tTo5vouLi5uh/sD6lku5QRoPRkAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
@@ -573,7 +676,10 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 
 
+<!--
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 

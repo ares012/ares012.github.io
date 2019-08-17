@@ -27,7 +27,7 @@ ga('send', 'pageview');
     <link rel="canonical" href="https://www.xxzp.tech//2018/08/28/ synchronized 实现机制分析/">
     
     
-    <title>synchronized 实现机制分析 | Ares | 技术不容易，一步一步往前走</title>
+    <title>synchronized 实现机制分析 | Ares | go,go,go~~~</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -173,7 +173,7 @@ ga('send', 'pageview');
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">1. 概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-实现原理分析（monitor）"><span class="post-toc-number">2.</span> <span class="post-toc-text">2. 实现原理分析（monitor）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-锁优化"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">3. 锁优化</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-概述"><span class="post-toc-text">1. 概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-实现原理分析（monitor）"><span class="post-toc-text">2. 实现原理分析（monitor）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-锁优化"><span class="post-toc-text">3. 锁优化</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -360,19 +360,23 @@ ga('send', 'pageview');
 </p>
 
 
+         <!--
         <p>
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
             <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
+    -->
     </div>
     <div class="bottom">
         <p><span>Ares &copy; 2018 - 2019</span>
+             <!--
             <span>
                 
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
             </span>
+        -->
         </p>
     </div>
 </footer>
@@ -422,7 +426,7 @@ ga('send', 'pageview');
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://www.xxzp.tech/2018/08/28/ synchronized 实现机制分析/" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACpUlEQVR42u3aQU7DQAwF0N7/0mULQiTf9rhk8bKqAk38BmnG2H694utdvH5/6/ud68/Jdw9feHh4eEdDv/6d3ouvn3wdWx4zHh4e3jYvCeI6uGro10/ID5UbCx4eHt4jeb3DI9rWi+k1Hh4e3jN5SXJcTZerCTceHh7eE3jb23q1uFBNuw/UWvDw8PBiXq/w+r+fV/p7eHh4eGsDAdXk+9Tzy9Hi4eHhLfDyDTcfLJgXEZIiRRInHh4e3gZv0qSPVm68uVeX8kfMeHh4eGu8vBmWDA2cHZzKD4mos4eHh4c35k3aS9HWPBiu6i3KTX8PDw8P7yO8JF3e2I2P9fTw8PDwjvLyUadeySBpmFVLG4Ulw8PDw1vj5Vt/vhzVssL8WLqpteDh4eEd4k1GppJtvZr9Vt8bRYWHh4d3lFcNN0lwJ0Xe6oBX9HfDw8PDW+Pl/+T3kJNxgWYMeHh4eAu8aoI7SbV7gwXVltsof8fDw8MrlnEnCW41EZ+XkpNkHQ8PD2+bl2/0p1Lt9YEDPDw8vDVeb6wqT3CT46dafY2WDA8PD2+B1xuN6v30M0dCM2fHw8PDO1TnTDBJ2bd32ESb/vUS4+Hh4a3xesnrpM2fb/3JovwZDx4eHt4CL29x9UapJiNc1aW5KUbg4eHhLfAKjaVDLbFe+SO5M+ub4eHh4dV4vQGC+dhW3tbKm3B4eHh427z8Eb2DpFe2qGL+bIPh4eHhHeK9i1dCrS5QL5mOno+Hh4e3wOvlpacGCHoDW00AHh4e3lFetT0/HxpI7k8WAg8PD+8zvDzxrW7WvZGp3slWGB3Aw8PD+yCvWlaYp8ij5+Dh4eE9jDcJrjqU0Dw88PDw8NZ4+WhUL0WeVFwnS4mHh4e3wctfnDfGTh0PvRjw8PDw1nhftkHaT89WfIsAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
@@ -462,7 +466,10 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 
 
+<!--
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
