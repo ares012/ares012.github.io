@@ -1,798 +1,800 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.9.0">
-    
-<!-- Google Analytics -->
+  <link rel="stylesheet" href="/style/style.css">
 <script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'true', 'auto');
-ga('send', 'pageview');
+  var nlviconfig = {
+    title: "Ares",
+    author: "Ares",
+    baseUrl: "/",
+    theme: {
+      scheme: "banderole",
+      lightbox: true,
+      animate: true,
+      search: false,
+      friends: false,
+      reward: false,
+      lazy: false
+    }
+  }
 </script>
-<script async src="https://www.google-analytics.com/analytics.js"></script>
-<!-- End Google Analytics -->
-
-
-    
-
-    
 
 
 
-    <meta charset="utf-8">
-    
-    <meta name="google-site-verification" content="UA-124198848-1">
-    
-    
-    
-    <link rel="canonical" href="https://www.xxzp.tech//">
-    
-    
-    <title>Ares | go,go,go~~~</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-    <meta name="theme-color" content="#3F51B5">
-    
-    
-    <meta name="keywords" content>
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Ares">
-<meta property="og:url" content="http://www.xxzp.tech/index.html">
-<meta property="og:site_name" content="Ares">
-<meta property="og:locale" content="zh-CN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ares">
-    
-        <link rel="alternate" type="application/atom+xml" title="Ares" href="/atom.xml">
-    
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
-    <script>window.lazyScripts=[]</script>
 
-    <!-- custom head -->
-    
+    <link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
 
+
+
+
+    <link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
+
+
+
+
+    <link rel="icon" href="/img/favicon.png">
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98059014-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-124198848-1');
+</script>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="browsermode" content="application">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ares">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="msapplication-navbutton-color" content="#666666">
+<meta name="format-detection" content="telephone=no">
+<meta name="keywords" content="nlvi, Nlvi">
+
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/favicon.png">
+
+
+  <meta name="subtitle" content="go,go,go~~~">
+
+
+
+
+  <title>
+  Ares
+  
+    | go,go,go~~~
+  
+</title>
 </head>
-
 <body>
-    <div id="loading" class="active"></div>
+  <div class="progress">
+  <div class="progress-inner"></div>
+</div>
 
-    <aside id="menu"  >
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/img/avatar.jpg">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname">Ares</h5>
-          <a href="mailto:ares012@sina.com" title="ares012@sina.com" class="mail">ares012@sina.com</a>
-        </hgroup>
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
-        
-            <li class="waves-block waves-effect active">
-              <a href="/"  >
-                <i class="icon icon-lg icon-home"></i>
-                主页
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/archives"  >
-                <i class="icon icon-lg icon-archives"></i>
-                归档
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/tags"  >
-                <i class="icon icon-lg icon-tags"></i>
-                标签
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="/categories"  >
-                <i class="icon icon-lg icon-th-list"></i>
-                分类
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="https://github.com/ares012" target="_blank" >
-                <i class="icon icon-lg icon-github"></i>
-                Github
-              </a>
-            </li>
-        
-      </ul>
-    </div>
+  
+    <div class="tagcloud-mask"></div>  
+<div class="tagcloud" id="tagcloud">
+  <div class="tagcloud-inner">
+    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
   </div>
-</aside>
-
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row">
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">Ares</div>
-        
-        <div class="search-wrap" id="search-wrap">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
-                <i class="icon icon-lg icon-chevron-left"></i>
-            </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
-                <i class="icon icon-lg icon-search"></i>
-            </a>
-        </div>
-        
-        
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
-            <i class="icon icon-lg icon-share-alt"></i>
-        </a>
-        
-    </div>
-</header>
-<header class="content-header index-header">
-
-    <div class="container fade-scale">
-        <h1 class="title">Ares</h1>
-        <h5 class="subtitle">
-            
-                go,go,go~~~
-            
-        </h5>
-    </div>
-
-    
-
-
-</header>
-
-<div class="container body-wrap">
-
-    <ul class="post-list">
-    
-        <li class="post-list-item fade">
-            <article id="post-java服务线上问题排查思路"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-12-07 00:00:00" datetime="2018-12-06T16:00:00.000Z"  itemprop="datePublished">2018-12-07</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/12/07/java服务线上问题排查思路/">java服务线上问题排查思路</a>
-    </h3>
+</div>
   
 
+  <div class="container" style="display:none;">
 
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
+    <header class="header" id="header">
+  <div class="header-wrapper">
+    <div class="logo">
+  <div class="logo-inner syuanpi tvIn">
+    <span><a href="/">Ares</a></span>
     
-        1. 常见问题Java 服务的线上问题从系统表象来看归结起来总共有四方面：CPU、内存、磁盘、网络，可以分为两大类：
-
-系统问题：CPU 使用率过高、CPU 上下文切换频率次数较高、磁盘空间不够、磁盘 I/O 频繁、网络流量异常、系统可用内存过低等
-业务问题：PV 量过高、服务调用耗时异常、线程死锁、多线程并发问题、频繁进行 Full GC等
+      <span id="subtitle">go,go,go~~~</span>
     
-
-        <a href="/2018/12/07/java服务线上问题排查思路/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gc/">gc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-java常用命令"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-11-21 00:00:00" datetime="2018-11-20T16:00:00.000Z"  itemprop="datePublished">2018-11-21</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/gc/">gc</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
+  </div>
+</div>
+    <nav class="main-nav">
   
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/11/21/java常用命令/">jvm 自带命令工具</a>
-    </h3>
+  <ul class="main-nav-list syuanpi tvIn">
   
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        1. jpsjava程序在启动以后，会在 java.io.tmpdir 指定的目录下，就是临时文件夹里，生成 /tmp/hsperfdata_{userName}/），这个目录下会放着所有对 java 进程的 pid。
-1234567jps -hillegal argument: -husage: jps [-help]       jps [-q] [-mlvV] [&lt;hostid&gt;]Definitions:    &lt;hostid&gt;:      &lt;hostname&gt;[:&lt;port&gt;]
-    
-
-        <a href="/2018/11/21/java常用命令/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gc/">gc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-redis 分布式锁实现"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-11-15 00:00:00" datetime="2018-11-14T16:00:00.000Z"  itemprop="datePublished">2018-11-15</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/">java</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/redis/">redis</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/java/redis/spring-boot/">spring boot</a></li></ul></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
   
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/11/15/redis 分布式锁实现/">redis 分布式锁实现</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
     
-        1. 概述我们对于 redis 设计的原则是，在设计 key 时必须设置过期时间，因此在用 setnx 和 expire 时是两个操作，不符合锁的原子性操作，所以我们在设计分布式锁的时候必须把两个命令一起提交给 redis 服务端，而不是在客户端操作。基于 redis 是单线程运行，而 lua 脚本执行过程是顺序执行的，所以我们可以考虑结合 lua 脚本提交，保证客户端的操作是原子的，而 redis 服务端可以保证提交的操作是原子性和顺序性。
+      
     
-
-        <a href="/2018/11/15/redis 分布式锁实现/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
+    <li class="menu-item">
+      <a href="/" id="article">
+        <span class="base-name">article</span>
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-CMS 深入"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-11-03 00:00:00" datetime="2018-11-02T16:00:00.000Z"  itemprop="datePublished">2018-11-03</time>
-
+          <span class="menu-item-label">article</span>
         
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/gc/">gc</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
+      </a>
+    </li>
   
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/11/03/CMS 深入/">CMS 深入分析</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
     
-        1. 概述CMS(Concurrent Mark Sweep): 并发收集器，，作用于老年代，通常与ParNew配合使用。CMS收集器工作的整个流程分为以下4个步骤：
-
-初始标记（CMS initial mark）：仅仅只是标记一下GC Roots能直接关联到的对象，速度很快，需要 Stop The World
-并发标记（CMS concurrent mark）：进行GC Roots Tracing的过程，在整个过程中耗时最长
-重新标记（CMS remark）：为了修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长一些，但远比并发标记的时间短。此阶段也需要 Stop The World
-并发清除（CMS concurrent sweep）
+      
     
-
-        <a href="/2018/11/03/CMS 深入/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
+    <li class="menu-item">
+      <a href="/archives" id="archives">
+        <span class="base-name">archives</span>
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gc/">gc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-分代GC算法分析"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-10-26 00:00:00" datetime="2018-10-25T16:00:00.000Z"  itemprop="datePublished">2018-10-26</time>
-
+          <span class="menu-item-label">archives</span>
         
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/gc/">gc</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
+      </a>
+    </li>
   
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/10/26/分代GC算法分析/">分代 GC 分析</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
     
-        1. 概述分代回收的基本思路，大部分对象都会在短时间内成为垃圾，而经过一定时间依然存活的对象往往存活时间较长。Java程序运行的过程中，会产生大量的对象，其中一些全局对象和连接池相关的对象生命周期比较长。但是还有一些对象，主要是程序运行过程中生成的局部变量而且占大部分，这些对象生命周期会比较短。针对这样的特性，对于生命周期比较短的对象存放在特定的内存区域，重点扫描回收这样可以更有效的回收非活对象。
+      
     
-
-        <a href="/2018/10/26/分代GC算法分析/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
+    <li class="menu-item">
+      <a href="javascript:;" id="tags">
+        <span class="base-name">tags</span>
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gc/">gc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-GC 算法概述"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-10-15 00:00:00" datetime="2018-10-14T16:00:00.000Z"  itemprop="datePublished">2018-10-15</time>
-
+          <span class="menu-item-label">tags</span>
         
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/gc/">gc</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
+      </a>
+    </li>
   
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/10/15/GC 算法概述/">GC 初步</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
     
-        1. 概述1.1 基本概念GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去关注 gc，然而在遇到各种内存溢出、内存泄漏问题时，当垃圾收集称为系统达到更高并发量的瓶颈时，只有深入理解 gc 和内存分配，才能对这些“自动化”的技术实施必要的监控和调节。 在深入之前我们先看几个基础概念：
+      
     
-
-        <a href="/2018/10/15/GC 算法概述/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
+    <li class="menu-item">
+      <a href="/about" id="about">
+        <span class="base-name">about</span>
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gc/">gc</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-AQS 深入分析"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-09-27 00:00:00" datetime="2018-09-26T16:00:00.000Z"  itemprop="datePublished">2018-09-27</time>
-
+          <span class="menu-item-label">about</span>
         
-
-
-    </div>
-
-    
-
-
+      </a>
+    </li>
   
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/09/27/AQS 深入分析/">AQS 深入分析</a>
-    </h3>
+  </ul>
   
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        1. 概述AQS：AbstractQueuedSynchronizer，即队列同步器，是构建锁或者其他同步组件的基础框架，JUC并发包的实现基础。下图都是基于 aqs 实现的，Semaphore，ReentrantLock，ReentrantReadWriteLock，Worker 等。
-
-                
-                    
-                    
-                
-                
-            
-
-AQS主要使用方式是继承，子类通过继承同步器并实现它的抽象方法来管理同步状态。在内部使用（volatile int） state来表示同步状态，当state&gt;0时表示已经获取了锁，当state = 0时表示释放了锁。同时提供了getState()、setState(int newState)、compareAndSetState(int expect,int update）来对同步状态state进行操作。通过 FIFO 同步队列来完成线程的排队，如果当前线程获取同步状态失败（锁）时，AQS则会将当前线程以及等待状态等信息构造成一个节点（Node）并将其加入同步队列，同时会阻塞当前线程，当同步状态释放时，则会把节点中的线程唤醒，使其再次尝试获取同步状态。
-    
-
-        <a href="/2018/09/27/AQS 深入分析/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-CAS 深入分析"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-09-20 00:00:00" datetime="2018-09-19T16:00:00.000Z"  itemprop="datePublished">2018-09-20</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/09/20/CAS 深入分析/">CAS 深入分析</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        1. 概述** CAS：** 指CompareAndSwap或CompareAndSet，即比较并交换。比较的是当前内存中存储的值与预期原值，交换的是新值与内存中的值。这个操作是硬件层面的指令，因此能够保证原子性。Java通过JNI（本地方法调用）来使用这个原子操作。先看一段计数的代码：
-    
-
-        <a href="/2018/09/20/CAS 深入分析/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post- synchronized 实现机制分析"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-09-13 00:00:00" datetime="2018-09-12T16:00:00.000Z"  itemprop="datePublished">2018-09-13</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/09/13/ synchronized 实现机制分析/">synchronized 实现机制分析</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        1. 概述synchronized 关键字用来对程序进行加锁，它既可以用来声明一个 synchronized 代码块，也可以直接标记静态方法或者实例方法，被 synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。先通过一段代码看下 jvm 层面的控制：
-    
-
-        <a href="/2018/09/13/ synchronized 实现机制分析/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-volatile 实现机制分析"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2018-09-05 00:00:00" datetime="2018-09-04T16:00:00.000Z"  itemprop="datePublished">2018-09-05</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2018/09/05/volatile 实现机制分析/">volatile 实现机制分析</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        1. 概述在上篇总结了JMM理论基础，在本篇要分析 volatile 的实现机制。首先看下下面代码：
-12345678910111213141516171819public class LazyInitializedSingleton &#123;  private static LazyInitializedSingleton instance;   private LazyInitializedSingleton() &#123;  &#125;  public static LazyInitializedSingleton getInstanceUsingDoubleLocking() &#123;    if (Objects.isNull(instance )) &#123;      synchronized (LazyInitializedSingleton.class) &#123;        if (Objects.isNull(instance )) &#123;          //可能出现重排序导致线程安全问题          instance = new LazyInitializedSingleton();        &#125;      &#125;    &#125;    return instance;  &#125;&#125;
-    
-
-        <a href="/2018/09/05/volatile 实现机制分析/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-    </ul>
-
-    
-<nav id="page-nav">
-    <div class="inner">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
-    </div>
 </nav>
 
-
-</div>
-
-        <footer class="footer">
-    <div class="top">
+    
+    
+  </div>
+</header>
+<div class="mobile-header">
+  <div class="mobile-header-body">
+    <div class="mobile-header-list">
+      
         
-<p>
-    <span id="busuanzi_container_site_uv" style='display:none'>
-        站点总访客数：<span id="busuanzi_value_site_uv"></span>
-    </span>
-    <span id="busuanzi_container_site_pv" style='display:none'>
-        站点总访问量：<span id="busuanzi_value_site_pv"></span>
-    </span>
-</p>
-
-
-         <!--
-        <p>
-            
-                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
-            
-            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
-        </p>
-    -->
-    </div>
-    <div class="bottom">
-        <p><span>Ares &copy; 2018 - 2019</span>
-             <!--
-            <span>
-                
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
-            </span>
-        -->
-        </p>
-    </div>
-</footer>
-
-    </main>
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
-
-
-
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.xxzp.tech/&title=Ares&pic=http://www.xxzp.tech/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.xxzp.tech/&title=Ares&source=" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.xxzp.tech/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=Ares&url=http://www.xxzp.tech/&via=http://www.xxzp.tech" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.xxzp.tech/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAABY0lEQVR42u3aQQ7CMAwFUe5/6SKxrbDm24CEM1lVpZDXBU5i+/HA43qN+537/fun7575wJAlaxHrKkc9TX1NfuctXZasI1l1UKgDBMHxuWTJklWz6jvklWTJkvUpFp/mpwFClqwVLLJp7h1cv76XlyVrBStNJE2uv5jfkiXrb1lXa5BAMJlFlqzTWHxzPCmo8Dvxnl2WrBWsevrJlnqSLJYl6zRWeqRMQwY/+jZP1bJkrWDxBXXSTBAni2XJOoxV/+1JASb91qj1R5aspazJ8jx5pWa1R5aspSxS3UiLKDwopAFIlqytrF5pJF2q4wVblqzDWCQ0pIWTdJMdp3dlyVrHarYCAGj6JDq+ypK1lNVrwuOlUH7clSVLFm8p4CWWSUuQLFkns5rFSBBK0q2zLFmyeMtO2nAQF0plyZKFj5ckWKRJKFmyTmbxn0jTuLxsM9rLy5L156xJIqlHDMKELFn7WU/pIdqCkdVOygAAAABJRU5ErkJggg==" alt="微信分享二维码">
-</div>
-
-
-
-
-    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-<script>
-var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
-
-
-</script>
-
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
-
-
-<div class="search-panel" id="search-panel">
-    <ul class="search-result" id="search-result"></ul>
-</div>
-<template id="search-tpl">
-<li class="item">
-    <a href="{path}" class="waves-block waves-effect">
-        <div class="title ellipsis" title="{title}">{title}</div>
-        <div class="flex-row flex-middle">
-            <div class="tags ellipsis">
-                {tags}
+            <div class="mobile-nav-item">
+                <a href="/">
+                    <span>文章</span>
+                    
+                        <span class="menu-item-label">article</span>
+                    
+                </a>
             </div>
-            <time class="flex-col time">{date}</time>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/archives">
+                    <span>归档</span>
+                    
+                        <span class="menu-item-label">archives</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+          <div class="mobile-nav-item inner-cloud">
+            <div class="mobile-nav-tag">
+              <a href="javascript:;" id="mobile-tags">
+                <span>标签</span>
+                
+                    <span class="menu-item-label">tags</span>
+                
+              </a>
+            </div>
+            <div class="mobile-nav-tagcloud">
+              <div class="mobile-tagcloud-inner">
+                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
+              </div>
+            </div>
+          </div>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/about">
+                    <span>关于</span>
+                    
+                        <span class="menu-item-label">about</span>
+                    
+                </a>
+            </div>
+        
+      
+    </div>
+  </div>
+  <div class="mobile-header-nav">
+    <div class="mobile-header-item" id="mobile-left">
+      <div class="header-menu-item">
+        <span class="header-menu-line"></span>
+      </div>
+    </div>
+    <h1 class="mobile-header-title">
+      <a href="/">Ares</a>
+    </h1>
+    <div class="mobile-header-item"></div>
+  </div>
+</div>
+    <div class="container-inner">
+      <main class="main" id="main">
+        <div class="main-wrapper">
+          
+  
+
+<section class="posts">
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-12-07</span>
+          
+          
         </div>
-    </a>
-</li>
-</template>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/12/07/java服务线上问题排查思路/">java服务线上问题排查思路</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-常见问题"><a href="#1-常见问题" class="headerlink" title="1. 常见问题"></a>1. 常见问题</h2><p>Java 服务的线上问题从系统表象来看归结起来总共有四方面：CPU、内存、磁盘、网络，可以分为两大类：</p>
+<ul>
+<li>系统问题：CPU 使用率过高、CPU 上下文切换频率次数较高、磁盘空间不够、磁盘 I/O 频繁、网络流量异常、系统可用内存过低等</li>
+<li>业务问题：PV 量过高、服务调用耗时异常、线程死锁、多线程并发问题、频繁进行 Full GC等
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/12/07/java服务线上问题排查思路/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </li></ul></div>
+    
+  </article>
+  
+  
+    
+  
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-11-21</span>
+          
+            
+              <span class="post-category"><a href="/categories/gc/">gc</a></span>
+            
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/11/21/java常用命令/">jvm 自带命令工具</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-jps"><a href="#1-jps" class="headerlink" title="1. jps"></a>1. jps</h2><p>java程序在启动以后，会在 java.io.tmpdir 指定的目录下，就是临时文件夹里，生成 /tmp/hsperfdata_{userName}/），这个目录下会放着所有对 java 进程的 pid。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">jps -h</span><br><span class="line">illegal argument: -h</span><br><span class="line">usage: jps [-help]</span><br><span class="line">       jps [-q] [-mlvV] [&lt;hostid&gt;]</span><br><span class="line"></span><br><span class="line">Definitions:</span><br><span class="line">    &lt;hostid&gt;:      &lt;hostname&gt;[:&lt;port&gt;]</span><br></pre></td></tr></table></figure>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/11/21/java常用命令/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-11-15</span>
+          
+            
+              <span class="post-category"><a href="/categories/java/">java</a></span>
+            
+              <span class="post-category"><a href="/categories/java/redis/">redis</a></span>
+            
+              <span class="post-category"><a href="/categories/java/redis/spring-boot/">spring boot</a></span>
+            
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/11/15/redis 分布式锁实现/">redis 分布式锁实现</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>我们对于 redis 设计的原则是，在设计 key 时必须设置过期时间，因此在用 setnx 和 expire 时是两个操作，不符合锁的原子性操作，所以我们在设计分布式锁的时候必须把两个命令一起提交给 redis 服务端，而不是在客户端操作。基于 redis 是单线程运行，而 lua 脚本执行过程是顺序执行的，所以我们可以考虑结合 lua 脚本提交，保证客户端的操作是原子的，而 redis 服务端可以保证提交的操作是原子性和顺序性。</p>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/11/15/redis 分布式锁实现/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-11-03</span>
+          
+            
+              <span class="post-category"><a href="/categories/gc/">gc</a></span>
+            
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/11/03/CMS 深入/">CMS 深入分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>CMS(Concurrent Mark Sweep): 并发收集器，，作用于老年代，通常与ParNew配合使用。CMS收集器工作的整个流程分为以下4个步骤：</p>
+<ul>
+<li>初始标记（CMS initial mark）：仅仅只是标记一下GC Roots能直接关联到的对象，速度很快，需要 Stop The World</li>
+<li>并发标记（CMS concurrent mark）：进行GC Roots Tracing的过程，在整个过程中耗时最长</li>
+<li>重新标记（CMS remark）：为了修正并发标记期间因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长一些，但远比并发标记的时间短。此阶段也需要 Stop The World</li>
+<li>并发清除（CMS concurrent sweep）
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/11/03/CMS 深入/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </li></ul></div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-10-26</span>
+          
+            
+              <span class="post-category"><a href="/categories/gc/">gc</a></span>
+            
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/10/26/分代GC算法分析/">分代 GC 分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>分代回收的基本思路，大部分对象都会在短时间内成为垃圾，而经过一定时间依然存活的对象往往存活时间较长。Java程序运行的过程中，会产生大量的对象，其中一些全局对象和连接池相关的对象生命周期比较长。但是还有一些对象，主要是程序运行过程中生成的局部变量而且占大部分，这些对象生命周期会比较短。针对这样的特性，对于生命周期比较短的对象存放在特定的内存区域，重点扫描回收这样可以更有效的回收非活对象。</p>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/10/26/分代GC算法分析/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-10-15</span>
+          
+            
+              <span class="post-category"><a href="/categories/gc/">gc</a></span>
+            
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/10/15/GC 算法概述/">GC 初步</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><h3 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1 基本概念"></a>1.1 基本概念</h3><p>GC（Garbage Collection ）：垃圾回收。现代语言都把内存回收交给底层去处理，使得程序员在开发过程中不必过多的去关注 gc，然而在遇到各种内存溢出、内存泄漏问题时，当垃圾收集称为系统达到更高并发量的瓶颈时，只有深入理解 gc 和内存分配，才能对这些“自动化”的技术实施必要的监控和调节。 在深入之前我们先看几个基础概念：</p>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/10/15/GC 算法概述/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-09-27</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/09/27/AQS 深入分析/">AQS 深入分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>AQS：AbstractQueuedSynchronizer，即队列同步器，是构建锁或者其他同步组件的基础框架，JUC并发包的实现基础。下图都是基于 aqs 实现的，Semaphore，ReentrantLock，ReentrantReadWriteLock，Worker 等。</p>
+<p><img src="/img/aqs.png" alt></p>
+<p>AQS主要使用方式是继承，子类通过继承同步器并实现它的抽象方法来管理同步状态。在内部使用（volatile int） state来表示同步状态，当state&gt;0时表示已经获取了锁，当state = 0时表示释放了锁。同时提供了getState()、setState(int newState)、compareAndSetState(int expect,int update）来对同步状态state进行操作。通过 FIFO 同步队列来完成线程的排队，如果当前线程获取同步状态失败（锁）时，AQS则会将当前线程以及等待状态等信息构造成一个节点（Node）并将其加入同步队列，同时会阻塞当前线程，当同步状态释放时，则会把节点中的线程唤醒，使其再次尝试获取同步状态。</p>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/09/27/AQS 深入分析/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-09-20</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/09/20/CAS 深入分析/">CAS 深入分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>** CAS：** 指CompareAndSwap或CompareAndSet，即比较并交换。比较的是当前内存中存储的值与预期原值，交换的是新值与内存中的值。这个操作是硬件层面的指令，因此能够保证原子性。Java通过JNI（本地方法调用）来使用这个原子操作。先看一段计数的代码：</p>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/09/20/CAS 深入分析/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-09-13</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/09/13/ synchronized 实现机制分析/">synchronized 实现机制分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>synchronized 关键字用来对程序进行加锁，它既可以用来声明一个 synchronized 代码块，也可以直接标记静态方法或者实例方法，被 synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。先通过一段代码看下 jvm 层面的控制：</p>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/09/13/ synchronized 实现机制分析/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+    
+  
+  <article class="
+  post
+  
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-09-05</span>
+          
+          
+        </div>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          <a href="/2018/09/05/volatile 实现机制分析/">volatile 实现机制分析</a>
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>在上篇总结了<a href="http://localhost:4000/2018/08/27/java%20%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" target="_blank" rel="noopener">JMM</a>理论基础，在本篇要分析 volatile 的实现机制。首先看下下面代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyInitializedSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> LazyInitializedSingleton instance;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">LazyInitializedSingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LazyInitializedSingleton <span class="title">getInstanceUsingDoubleLocking</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Objects.isNull(instance )) &#123;</span><br><span class="line">      <span class="keyword">synchronized</span> (LazyInitializedSingleton.class) &#123;</span><br><span class="line">        <span class="keyword">if</span> (Objects.isNull(instance )) &#123;</span><br><span class="line">          <span class="comment">//可能出现重排序导致线程安全问题</span></span><br><span class="line">          instance = <span class="keyword">new</span> LazyInitializedSingleton();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+      
+    
+      <p class="content-link">
+        <a href="/2018/09/05/volatile 实现机制分析/#more">
+          <span>继续阅读</span>
+        </a>
+      </p>
+    
+    </div>
+    
+  </article>
+  
+  
+    
+  
+
+  
+</section>
+  
+  <nav class="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 ></a>
+  </nav>
+
+
+        </div>
+      </main>
+
+      <footer class="footer syuanpi fadeIn" id="footer">
+  <hr>
+  <div class="footer-wrapper">
+    <div class="left">
+      <div class="contact-icon">
+    
+    
+    
+    
+    
+    
+    
+    
+        
+            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
+        
+        
+        
+        
+        
+        
+        
+    
+</div>
+    </div>
+    <div class="right">
+      <div class="copyright">
+    <div class="info">
+        <span>&copy;</span>
+        <span> ~ 2020</span>
+        <span>❤</span>
+        <span>Ares</span>
+    </div>
+    <div class="theme">
+        <span>
+            动力来源于
+            <a href="http://hexo.io/" target="_blank">Hexo </a>
+        </span>
+        <span>
+            主题
+            <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
+        </span>
+    </div>
+    
+    <div class="visit_count">
+        <i class="iconfont icon-visit"></i>
+        <span id="busuanzi_value_site_uv"></span>
+        <i class="iconfont icon-people"></i>
+        <span id="busuanzi_value_site_pv"></span>
+    </div>
+    
+</div>
+
+    </div>
+  </div>
+</footer>
+    </div>
+  </div>
+  <script src="/script/lib/jquery/jquery-3.2.1.min.js"></script>
+
+
+  <script src="/script/lib/lightbox/js/lightbox.min.js"></script>
+
+
+
+  <script src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"], ["\\(","\\)"]]}});</script>
 
 
 
 
 
 
-<!--
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
--->
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="/script/src/nlvi.js"></script>
+
+  <script src="/script/scheme/banderole.js"></script>
+
+<script src="/script/bootstarp.js"></script>
 
 
-
-<script>
-(function() {
-    var OriginTitile = document.title, titleTime;
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            document.title = 'xxzp！！！';
-            clearTimeout(titleTime);
-        } else {
-            document.title = 'xxzp';
-            titleTime = setTimeout(function() {
-                document.title = OriginTitile;
-            },2000);
-        }
-    });
-})();
-</script>
+<div class="backtop syuanpi melt toTop" id="backtop">
+    <i class="iconfont icon-up"></i>
+    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
+</div>
 
 
 
