@@ -209,13 +209,13 @@ template {
   background-color: #fff;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(94,176,255,0.7);
+  background-color: rgba(112,188,104,0.7);
 }
 ::selection {
-  background-color: rgba(94,176,255,0.2);
+  background-color: rgba(112,188,104,0.2);
 }
 ::-webkit-selection {
-  background-color: rgba(94,176,255,0.2);
+  background-color: rgba(112,188,104,0.2);
 }
 body {
   font-family: STHeiti , 'Microsoft YaHei' , "微软雅黑" , serif;
@@ -471,7 +471,7 @@ h6 {
 }
 .copy-line {
   border: none;
-  border-bottom: 2px dashed #73b7f9;
+  border-bottom: 2px dashed #70fc77;
   height: 16px;
 }
 .post-copyright .copy-author,
@@ -494,7 +494,7 @@ h6 {
 .post-copyright .copy-url a:hover,
 .post-copyright .copy-origin a:hover,
 .post-copyright .copy-license a:hover {
-  color: #5eb0ff;
+  color: #70bc68;
 }
 .post-reward {
   width: 100%;
@@ -507,7 +507,7 @@ h6 {
   margin: 8px auto;
   padding: 8px 16px;
   text-align: center;
-  background-color: rgba(94,176,255,0.7);
+  background-color: rgba(112,188,104,0.7);
   color: #fff;
   font-size: 14px;
   font-weight: 600;
@@ -519,7 +519,7 @@ h6 {
   -webkit-transition: box-shadow 0.2s ease-in, background-color 0.2s ease-in;
 }
 .post-reward .reward-btn:hover {
-  background-color: #5eb0ff;
+  background-color: #70bc68;
   box-shadow: 0 1px 1px #d5d5d5;
 }
 .post-reward .reward-wrapper {
@@ -551,7 +551,7 @@ h6 {
 }
 .mobile-header .mobile-header-nav {
   background-color: #fff;
-  color: #5eb0ff;
+  color: #70bc68;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -606,7 +606,7 @@ h6 {
 }
 .mobile-header .mobile-header-body .mobile-header-list .mobile-nav-item a {
   text-decoration: none;
-  color: #5eb0ff;
+  color: #70bc68;
 }
 .mobile-header .mobile-header-body .mobile-header-list .mobile-nav-item .mobile-nav-tagcloud {
   position: absolute;
@@ -640,7 +640,7 @@ h6 {
 .mobile-header .header-menu-item .header-menu-line {
   position: absolute;
   top: 50%;
-  background-color: #5eb0ff;
+  background-color: #70bc68;
   height: 1px;
   width: 24px;
 }
@@ -648,7 +648,7 @@ h6 {
   content: '';
   position: absolute;
   top: -6px;
-  background-color: #5eb0ff;
+  background-color: #70bc68;
   height: 1px;
   width: 24px;
   transition: transform 0.3s;
@@ -662,7 +662,7 @@ h6 {
   content: '';
   position: absolute;
   top: 6px;
-  background-color: #5eb0ff;
+  background-color: #70bc68;
   height: 1px;
   width: 24px;
   transition-property: top, transform;
@@ -720,7 +720,7 @@ h6 {
   padding: 16px;
   display: flex;
   align-items: center;
-  background-color: rgba(94,176,255,0.1);
+  background-color: rgba(112,188,104,0.1);
 }
 @media screen and (max-width: 650px) {
   .header {
@@ -799,7 +799,7 @@ h6 {
   text-align: center;
 }
 .header .main-nav-list .menu-item a:hover {
-  color: #73b7f9;
+  color: #70fc77;
 }
 .header .main-nav-list .menu-item .menu-item-label {
   font-size: 12px;
@@ -813,8 +813,8 @@ h6 {
 .footer hr {
   border: none;
   height: 1px;
-  background-color: #5eb0ff;
-  background-image: -webkit-linear-gradient(0deg, #fff, #aed7ff, #fff);
+  background-color: #70bc68;
+  background-image: -webkit-linear-gradient(0deg, #fff, #b7ddb3, #fff);
 }
 .footer .footer-wrapper {
   display: flex;
@@ -836,8 +836,8 @@ h6 {
 .footer .left {
   flex: 1;
   padding: 16px;
-  border-right: 1px solid #aed7ff;
-  border-image: -webkit-linear-gradient(#fff, #aed7ff, #fff) 0 10 0 0;
+  border-right: 1px solid #b7ddb3;
+  border-image: -webkit-linear-gradient(#fff, #b7ddb3, #fff) 0 10 0 0;
 }
 @media screen and (max-width: 650px) {
   .footer .left {
@@ -899,7 +899,7 @@ h6 {
 .footer .right .copyright a {
   font-family: Arial;
   text-decoration: none;
-  color: #5eb0ff;
+  color: #70bc68;
 }
 .footer .right .copyright a:hover {
   color: $theme-color-highlight;
@@ -971,7 +971,7 @@ h6 {
   display: inline;
   padding-left: 8px;
   font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-  color: #5eb0ff;
+  color: #70bc68;
 }
 .post .post-tags a {
   position: relative;
@@ -1036,7 +1036,7 @@ h6 {
 }
 .post .post-content .content-link a {
   position: relative;
-  color: #8bb4dc;
+  color: #94ba90;
   font-weight: 500;
   text-decoration: none;
 }
@@ -1049,7 +1049,7 @@ h6 {
   bottom: -4px;
   left: 50%;
   right: 50%;
-  background-color: #5eb0ff;
+  background-color: #70bc68;
   height: 2px;
   transition: all 0.15s linear;
   -moz-transition: all 0.15s linear;
@@ -1067,7 +1067,7 @@ h6 {
   font-weight: 600;
 }
 .post .post-content a {
-  color: #5eb0ff;
+  color: #70bc68;
   text-decoration: none;
   margin: 0 4px;
 }
@@ -1082,8 +1082,8 @@ h6 {
   display: inline;
 }
 .post .post-content code {
-  background-color: rgba(94,176,255,0.1);
-  color: #395b7c;
+  background-color: rgba(112,188,104,0.1);
+  color: #387e3b;
   font-family: $custom-code-font;
   margin: 0 4px;
   padding: 0 4px;
@@ -1092,9 +1092,9 @@ h6 {
   position: relative;
   margin: 8px 16px;
   padding: 2px 8px;
-  background-color: rgba(94,176,255,0.1);
-  border-left: 4px solid #5eb0ff;
-  color: #436b92;
+  background-color: rgba(112,188,104,0.1);
+  border-left: 4px solid #70bc68;
+  color: #4c7147;
 }
 .post .post-content blockquote:before {
   content: '';
@@ -1112,7 +1112,7 @@ h6 {
   margin: 8px 0;
 }
 #com-switch {
-  color: #5eb0ff;
+  color: #70bc68;
 }
 #disqus_thread a {
   color: #49545f;
@@ -1125,7 +1125,7 @@ h6 {
   margin: 0;
   font-family: inherit;
   font-weight: 400;
-  color: #5eb0ff;
+  color: #70bc68;
 }
 .archive .archive-num {
   margin: 8px;
@@ -1158,11 +1158,11 @@ h6 {
   padding-left: 16px;
 }
 .archive .archive-list .archive-post:hover .archive-post-link {
-  color: #49729a;
+  color: #52784e;
 }
 .archive .archive-list .archive-post:before {
   content: '';
-  background-color: rgba(174,215,255,0.3);
+  background-color: rgba(183,221,179,0.3);
   border-radius: 0 6px 6px 0;
   position: absolute;
   top: 0;
@@ -1183,7 +1183,7 @@ h6 {
   opacity: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-left: 10px solid #aed7ff;
+  border-left: 10px solid #b7ddb3;
   transition: all 0.3s linear 0.1s;
   -moz-transition: all 0.3s linear 0.1s;
   -webkit-transition: all 0.3s linear 0.1s;
@@ -1194,7 +1194,7 @@ h6 {
 }
 .archive .archive-list .archive-post .archive-post-link {
   line-height: 1.8;
-  color: #5eb0ff;
+  color: #70bc68;
 }
 .archive .archive-list .archive-post .archive-post-link a {
   margin: 0 8px;
@@ -1208,7 +1208,7 @@ h6 {
   position: fixed;
   bottom: 32px;
   right: 32px;
-  color: #5eb0ff;
+  color: #70bc68;
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
@@ -1248,7 +1248,7 @@ h6 {
   float: right;
 }
 .pagination .extend.next:hover {
-  color: #5eb0ff;
+  color: #70bc68;
   transform: translateX(10%);
   -ms-transform: translateX(10%);
   -moz-transform: translateX(10%);
@@ -1258,7 +1258,7 @@ h6 {
   float: left;
 }
 .pagination .extend.prev:hover {
-  color: #5eb0ff;
+  color: #70bc68;
   transform: translateX(-10%);
   -ms-transform: translateX(-10%);
   -moz-transform: translateX(-10%);
@@ -1290,7 +1290,7 @@ h6 {
   }
 }
 .article-page a:hover {
-  color: #5eb0ff;
+  color: #70bc68;
 }
 .article-page .next-title i,
 .article-page .prev-title i {
@@ -1391,7 +1391,7 @@ h6 {
   left: 0;
   right: 100%;
   cursor: pointer;
-  background: #73b7f9;
+  background: #70fc77;
   transition-property: right;
   animation: lane-right 0.35s linear both;
 }
@@ -1406,7 +1406,7 @@ h6 {
   font-size: 14px;
 }
 .post-toc .title-link a.active {
-  border-left: 2px solid #5eb0ff;
+  border-left: 2px solid #70bc68;
 }
 .post-toc .toc {
   margin: 0;
@@ -1423,7 +1423,7 @@ h6 {
   font-size: 14px;
 }
 .post-toc .toc .toc-item .toc-link.active {
-  border-left: 2px solid #5eb0ff;
+  border-left: 2px solid #70bc68;
 }
 @media screen and (max-width: 650px) {
   .post-toc {
@@ -1482,7 +1482,7 @@ h6 {
   text-align: center;
   box-sizing: border-box;
   background-color: rgba(255,255,255,0.9);
-  box-shadow: 0px 2px 6px #aed7ff;
+  box-shadow: 0px 2px 6px #b7ddb3;
   transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -webkit-transition: all 0.3s ease-out;
@@ -1523,7 +1523,7 @@ h6 {
 .tagcloud-inner a {
   flex: 0 0 20%;
   text-decoration: none;
-  color: #5eb0ff;
+  color: #70bc68;
 }
 .tagcloud-inner a:before {
   content: '#';
