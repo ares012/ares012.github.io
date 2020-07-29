@@ -1,281 +1,205 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
-  <link rel="stylesheet" href="/style/style.css">
+<html>
+<head>
+    
+<!-- Google Analytics -->
 <script>
-  var nlviconfig = {
-    title: "Ares",
-    author: "Ares",
-    baseUrl: "/",
-    theme: {
-      scheme: "banderole",
-      lightbox: true,
-      animate: true,
-      search: false,
-      friends: false,
-      reward: false,
-      lazy: false
-    }
-  }
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
 </script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
 
 
 
+    <meta charset="utf-8">
+    
+    <meta name="google-site-verification" content="UA-124198848-1">
+    
+    
+    
+    <link rel="canonical" href="https://www.xxzp.tech//2018/08/05/lambda%E5%AE%9E%E8%B7%B5/">
+    
+    
+    <title>lambda 实践总结 | Ares | go,go,go~~~</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="java,lambda">
+    <meta name="description" content="1. 按key值过滤：1234public static &lt;T&gt; Predicate&lt;T&gt; distinctByKey(Function&lt;? super T, Object&gt; function) &amp;#123;    Map&lt;Object, Boolean&gt; map &#x3D; new ConcurrentHashMap&lt;&gt;();    retur">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lambda 实践总结">
+<meta property="og:url" content="http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="Ares">
+<meta property="og:description" content="1. 按key值过滤：1234public static &lt;T&gt; Predicate&lt;T&gt; distinctByKey(Function&lt;? super T, Object&gt; function) &amp;#123;    Map&lt;Object, Boolean&gt; map &#x3D; new ConcurrentHashMap&lt;&gt;();    retur">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-08-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-08-17T04:53:33.374Z">
+<meta property="article:author" content="Ares">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="lambda">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="Ares" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
 
-    <link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
+    <!-- custom head -->
+    
 
+<meta name="generator" content="Hexo 4.2.1"></head>
 
-
-
-    <link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
-
-
-
-
-    <link rel="icon" href="/img/favicon.png">
-
-
-
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98059014-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-124198848-1');
-</script>
-
-
-
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="browsermode" content="application">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Ares">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="msapplication-navbutton-color" content="#666666">
-<meta name="format-detection" content="telephone=no">
-<meta name="keywords" content="nlvi, Nlvi">
-
-  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicon.png">
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/favicon.png">
-
-
-  <meta name="subtitle" content="go,go,go~~~">
-
-
-
-
-  <meta name="keywords" content="java, lambda, Nlvi">
-
-  <title> lambda 实践总结 · Ares </title>
-</head>
 <body>
-  <div class="progress">
-  <div class="progress-inner"></div>
-</div>
+    <div id="loading" class="active"></div>
 
-  
-    <div class="tagcloud-mask"></div>  
-<div class="tagcloud" id="tagcloud">
-  <div class="tagcloud-inner">
-    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
-  </div>
-</div>
-  
-
-  <div class="container" style="display:none;">
-
-    <header class="header" id="header">
-  <div class="header-wrapper">
-    <div class="logo">
-  <div class="logo-inner syuanpi tvIn">
-    <span><a href="/">Ares</a></span>
-    
-      <span id="subtitle">go,go,go~~~</span>
-    
-  </div>
-</div>
-    <nav class="main-nav">
-  
-  <ul class="main-nav-list syuanpi tvIn">
-  
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="/" id="article">
-        <span class="base-name">article</span>
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Ares</h5>
+          <a href="mailto:ares012@sina.com" title="ares012@sina.com" class="mail">ares012@sina.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-          <span class="menu-item-label">article</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="/archives" id="archives">
-        <span class="base-name">archives</span>
-        
-          <span class="menu-item-label">archives</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="javascript:;" id="tags">
-        <span class="base-name">tags</span>
-        
-          <span class="menu-item-label">tags</span>
-        
-      </a>
-    </li>
-  
-    
-      
-    
-    <li class="menu-item">
-      <a href="/about" id="about">
-        <span class="base-name">about</span>
-        
-          <span class="menu-item-label">about</span>
-        
-      </a>
-    </li>
-  
-  </ul>
-  
-</nav>
-
-    
-    
-  </div>
-</header>
-<div class="mobile-header">
-  <div class="mobile-header-body">
-    <div class="mobile-header-list">
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/">
-                    <span>文章</span>
-                    
-                        <span class="menu-item-label">article</span>
-                    
-                </a>
-            </div>
-        
-      
-        
-            <div class="mobile-nav-item">
-                <a href="/archives">
-                    <span>归档</span>
-                    
-                        <span class="menu-item-label">archives</span>
-                    
-                </a>
-            </div>
-        
-      
-        
-          <div class="mobile-nav-item inner-cloud">
-            <div class="mobile-nav-tag">
-              <a href="javascript:;" id="mobile-tags">
-                <span>标签</span>
-                
-                    <span class="menu-item-label">tags</span>
-                
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
               </a>
-            </div>
-            <div class="mobile-nav-tagcloud">
-              <div class="mobile-tagcloud-inner">
-                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/并发/" style="font-size: 14px;">并发</a>
-              </div>
-            </div>
-          </div>
+            </li>
         
-      
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
         
-            <div class="mobile-nav-item">
-                <a href="/about">
-                    <span>关于</span>
-                    
-                        <span class="menu-item-label">about</span>
-                    
-                </a>
-            </div>
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
         
-      
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/ares012" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
     </div>
   </div>
-  <div class="mobile-header-nav">
-    <div class="mobile-header-item" id="mobile-left">
-      <div class="header-menu-item">
-        <span class="header-menu-line"></span>
-      </div>
-    </div>
-    <h1 class="mobile-header-title">
-      <a href="/">Ares</a>
-    </h1>
-    <div class="mobile-header-item"></div>
-  </div>
-</div>
-    <div class="container-inner">
-      <main class="main" id="main">
-        <div class="main-wrapper">
-          
-    
-  
-  <article class="
-  post
-   is_post 
-  ">
-    <header class="post-header">
-      <div class="post-time syuanpi fadeInUpShort back-1">
-        <div class="post-time-wrapper">
-          <span>2018-08-05</span>
-          
-          
-            
-              <aside class="post-tags syuanpi fadeInUpShort back-3">
-              
-                <a href="/tags/java/">java</a>
-              
-                <a href="/tags/lambda/">lambda</a>
-              
-              </aside>
-            
-          
-        </div>
-      </div>
-      <h1 class="post-title syuanpi fadeInUpShort back-2">
-        
-          lambda 实践总结
-        
-      </h1>
-    </header>
-    <div class="post-content syuanpi fadeInUpShort back-3">
-      
-        <h2 id="1-按key值过滤："><a href="#1-按key值过滤：" class="headerlink" title="1. 按key值过滤："></a>1. 按key值过滤：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Predicate&lt;T&gt; <span class="title">distinctByKey</span><span class="params">(Function&lt;? <span class="keyword">super</span> T, Object&gt; function)</span> </span>&#123;</span><br><span class="line">    Map&lt;Object, Boolean&gt; map = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">return</span> t -&gt; map.putIfAbsent(function.apply(t), Boolean.TRUE) == <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</aside>
 
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">lambda 实践总结</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">lambda 实践总结</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-08-04T16:00:00.000Z" itemprop="datePublished" class="page-time">
+  2018-08-05
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-按key值过滤："><span class="post-toc-text">1. 按key值过滤：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-lambda自定义捕获异常"><span class="post-toc-text">2. lambda自定义捕获异常</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-lambda实践"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">lambda 实践总结</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-08-05 00:00:00" datetime="2018-08-04T16:00:00.000Z"  itemprop="datePublished">2018-08-05</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="1-按key值过滤："><a href="#1-按key值过滤：" class="headerlink" title="1. 按key值过滤："></a>1. 按key值过滤：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Predicate&lt;T&gt; <span class="title">distinctByKey</span><span class="params">(Function&lt;? <span class="keyword">super</span> T, Object&gt; function)</span> </span>&#123;</span><br><span class="line">    Map&lt;Object, Boolean&gt; map = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">return</span> t -&gt; map.putIfAbsent(function.apply(t), Boolean.TRUE) == <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>示例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    User user1 = <span class="keyword">new</span> User(<span class="number">1L</span>, <span class="string">"test1"</span>);</span><br><span class="line">    User user2 = <span class="keyword">new</span> User(<span class="number">2L</span>, <span class="string">"test2"</span>);</span><br><span class="line">    User user3 = <span class="keyword">new</span> User(<span class="number">1L</span>, <span class="string">"test1"</span>);</span><br><span class="line">    List&lt;User&gt; users = Arrays.asList(user1, user2, user3);</span><br><span class="line">    List&lt;User&gt; userList = users.stream()</span><br><span class="line">        .filter(CollectionUtils.distinctByKey(u -&gt; u.getUserId().toString() + u.getUserName()))</span><br><span class="line">        .collect(Collectors.toList());</span><br><span class="line">    userList.forEach(System.out::println);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>输出结果如下：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User:&#123;userId:1, userName:test1&#125;</span><br><span class="line">User:&#123;userId:2, userName:test2&#125;</span><br></pre></td></tr></table></figure>
 
@@ -283,165 +207,269 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    User user1 = <span class="keyword">new</span> User(<span class="number">1L</span>, <span class="string">"test1"</span>);</span><br><span class="line">    User user2 = <span class="keyword">new</span> User(<span class="number">2L</span>, <span class="string">"test2"</span>);</span><br><span class="line">    User user3 = <span class="keyword">new</span> User(<span class="number">3L</span>, <span class="string">"test3"</span>);</span><br><span class="line">    List&lt;User&gt; users = Arrays.asList(user1, user2, user3);</span><br><span class="line">    List&lt;String&gt; strings = users.stream().map(u -&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> getUserName(u);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">    &#125;).collect(Collectors.toList());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getUserName</span><span class="params">(User user)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (user.getUserId() == <span class="number">1</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"test exception"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"test"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printUserInfo</span><span class="params">(User user)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (user.getUserId() == <span class="number">1</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"test exception"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>优化：使用函数式接口对异常进行封装处理</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExceptionsUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Logger logger = LoggerFactory.getLogger(ExceptionsUtils.class);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@FunctionalInterface</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UncheckedFunction</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//带默认值的异常封装</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T, R&gt; <span class="function">Function&lt;T, R&gt; <span class="title">of</span><span class="params">(UncheckedFunction&lt;T, R&gt; function, R defaultR)</span> </span>&#123;</span><br><span class="line">    Objects.requireNonNull(function);</span><br><span class="line">    <span class="keyword">return</span> t -&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> function.apply(t);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">        logger.error(<span class="string">"处理异常"</span>, ex);</span><br><span class="line">        <span class="keyword">return</span> defaultR;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@FunctionalInterface</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UncheckedConsumer</span>&lt;<span class="title">T</span>, <span class="title">E</span> <span class="keyword">extends</span> <span class="title">Exception</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(T t)</span> <span class="keyword">throws</span> E</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//不带默认值的异常封装</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Consumer&lt;T&gt; <span class="title">of</span><span class="params">(UncheckedConsumer&lt;T, Exception&gt; consumer)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> i -&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        consumer.accept(i);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">        logger.error(<span class="string">"处理异常"</span>, ex);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExceptionsUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Logger logger = LoggerFactory.getLogger(ExceptionsUtils<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@FunctionalInterface</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UncheckedFunction</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//带默认值的异常封装</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T, R&gt; <span class="function">Function&lt;T, R&gt; <span class="title">of</span><span class="params">(UncheckedFunction&lt;T, R&gt; function, R defaultR)</span> </span>&#123;</span><br><span class="line">    Objects.requireNonNull(function);</span><br><span class="line">    <span class="keyword">return</span> t -&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> function.apply(t);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">        logger.error(<span class="string">"处理异常"</span>, ex);</span><br><span class="line">        <span class="keyword">return</span> defaultR;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@FunctionalInterface</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UncheckedConsumer</span>&lt;<span class="title">T</span>, <span class="title">E</span> <span class="keyword">extends</span> <span class="title">Exception</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(T t)</span> <span class="keyword">throws</span> E</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//不带默认值的异常封装</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Consumer&lt;T&gt; <span class="title">of</span><span class="params">(UncheckedConsumer&lt;T, Exception&gt; consumer)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> i -&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        consumer.accept(i);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">        logger.error(<span class="string">"处理异常"</span>, ex);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>优化后客户端处理：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//带默认值</span></span><br><span class="line">List&lt;String&gt; strings = users.stream()</span><br><span class="line">        .map(ExceptionsUtils.of(u -&gt; getUserName(u), <span class="string">"exception handle"</span>))</span><br><span class="line">        .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"><span class="comment">//不带默认值</span></span><br><span class="line">users.forEach(ExceptionsUtils.of(u-&gt;printUserInfo(u)));</span><br></pre></td></tr></table></figure>
-      
-    
-    </div>
-    
-      
+        </div>
 
-      
-  <hr class="copy-line">
-  <div class="post-copyright">
-    <div class="copy-author">
-      <span>作者 :</span>
-      <span>Ares</span>
-    </div>
-    <div class="copy-url">
-      <span>地址 :</span>
-      <a href="http://www.xxzp.tech/2018/08/05/lambda实践/">http://www.xxzp.tech/2018/08/05/lambda实践/</a>
-    </div>
-    <div class="copy-origin">
-      <span>来源 :</span>
-      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
-    </div>
-    <div class="copy-license">
-      
-      著作权归作者所有，转载请联系作者获得授权。
-    </div>
-  </div>
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="http://www.xxzp.tech">
+            <img src="/img/avatar.jpg" alt="Ares">
+            Ares
+        </a>
+    </footer>
+</blockquote>
 
-    
-  </article>
-  
-    
-  <nav class="article-page">
-    
-      <a href="/2018/08/15/java 对象分析/" id="art-left" class="art-left">
-        <span class="next-title">
-          <i class="iconfont icon-left"></i>java 对象分析
-        </span>
-      </a>
-    
-    
-      <a href="/2018/08/01/lambda实现机制分析/" id="art-right" class="art-right">
-        <span class="prev-title"> 
-          lambda实现机制分析<i class="iconfont icon-right"></i>  
-        </span>
-      </a>
-    
-  </nav>
-
-    
+        
 
 
-  
-  
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lambda/" rel="tag">lambda</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
     
-  
-  <aside class="post-toc">
-    <span class="title" id="toc-switch"><span>文章导航</span></span>
-    <div class="toc-inner syuanpi back-1" style="display:none;">
-      <li class="title-link"><a href="javascript:;" class="toTop">lambda 实践总结</a></li>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-按key值过滤："><span class="toc-text">1. 按key值过滤：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-lambda自定义捕获异常"><span class="toc-text">2. lambda自定义捕获异常</span></a></li></ol>
-    </div>
-  </aside>
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/&title=《lambda 实践总结》 — Ares&pic=http://www.xxzp.tech/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/&title=《lambda 实践总结》 — Ares&source=1. 按key值过滤：1234public static &lt;T&gt; Predicate&lt;T&gt; distinctByKey(Funct..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lambda 实践总结》 — Ares&url=http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/&via=http://www.xxzp.tech" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
 
 
 
-  
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
 
 
         </div>
-      </main>
+    </div>
 
-      <footer class="footer syuanpi fadeIn" id="footer">
-  <hr>
-  <div class="footer-wrapper">
-    <div class="left">
-      <div class="contact-icon">
     
-    
-    
-    
-    
-    
-    
-    
-        
-            <a href="https://github.com/ares012" class="iconfont icon-github" title="github"></a>
-        
-        
-        
-        
-        
-        
-        
-    
-</div>
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/08/15/java%20%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">java 对象分析</h4>
+      </a>
     </div>
-    <div class="right">
-      <div class="copyright">
-    <div class="info">
-        <span>&copy;</span>
-        <span> ~ 2020</span>
-        <span>❤</span>
-        <span>Ares</span>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/08/01/lambda%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">lambda实现机制分析</h4>
+      </a>
     </div>
-    <div class="theme">
-        <span>
-            动力来源于
-            <a href="http://hexo.io/" target="_blank">Hexo </a>
-        </span>
-        <span>
-            主题
-            <a href="https://github.com/ColMugX/hexo-theme-Nlvi"> Nlvi </a>
-        </span>
-    </div>
+  
+</nav>
+
+
+
     
-    <div class="visit_count">
-        <i class="iconfont icon-visit"></i>
-        <span id="busuanzi_value_site_uv"></span>
-        <i class="iconfont icon-people"></i>
-        <span id="busuanzi_value_site_pv"></span>
-    </div>
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
 </div>
 
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+         <!--
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    -->
     </div>
-  </div>
+    <div class="bottom">
+        <p><span>Ares &copy; 2018 - 2020</span>
+             <!--
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
+            </span>
+        -->
+        </p>
+    </div>
 </footer>
-    </div>
-  </div>
-  <script src="/script/lib/jquery/jquery-3.2.1.min.js"></script>
 
-
-  <script src="/script/lib/lightbox/js/lightbox.min.js"></script>
-
-
-
-  <script src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  <script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"], ["\\(","\\)"]]}});</script>
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
 
 
 
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/&title=《lambda 实践总结》 — Ares&pic=http://www.xxzp.tech/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/&title=《lambda 实践总结》 — Ares&source=1. 按key值过滤：1234public static &lt;T&gt; Predicate&lt;T&gt; distinctByKey(Funct..." data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《lambda 实践总结》 — Ares&url=http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/&via=http://www.xxzp.tech" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.xxzp.tech/2018/08/05/lambda%E5%AE%9E%E8%B7%B5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
 
 
-
-<script src="/script/src/nlvi.js"></script>
-
-  <script src="/script/scheme/banderole.js"></script>
-
-<script src="/script/bootstarp.js"></script>
-
-
-<div class="backtop syuanpi melt toTop" id="backtop">
-    <i class="iconfont icon-up"></i>
-    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKUlEQVR42u3azY6DMAxFYd7/pZntSB3CuTYdCedkhSoK+bpw/ZPjwOv8WL8/v7om37p6y/GNJUOGjNcyzuW6esF60+kW05/jj+fIkCFjA0bn0fz+dbRcX9/sWYYMGTLCxI5v/fMeGTJkyOgz+CfrO2vvlSFDxs4M3iBbl7jrgHvi9cVaXIYMGS9k8K77/19/Zb4hQ4aMVzHOcPXbcGnrH+1KhgwZoxk8wKVlJ08N+RD0Zj8yZMgYzSBNMXL8ov9d3pi7pMqQIWMco3bwC/0qYSOPAC7fLkOGjNGMtOnPwbWBQZqMypAhYwcGCZe14MvZ5O3F0yIyZMgYwegE3LSJlpbKvGCWIUPGbEYwIARpXBq4+6OCYBIrQ4aMEYx0GJme16oVq+hbMmTI2JJRG0z2RwW10CxDhowdGDxEpmODNNEsJqMyZMjYksGL1VrQjJM/fmZEhgwZGzD45niaWMMExbMMGTI2ZjwFrpXBD5wZkSFDxggGCXadgWW/0C0evJAhQ8Y4xrODxjSt5G2+m59MhgwZGzBI2H226OXBXYYMGTJIS6vfekuzOL4HGTJkzGac4SKkNFjzEvqSLUOGjNEMvkjrjaR3PLDytFWGDBk7MHiQ5a0xXqbWAm787yFDhowRDB740iZd7XhHGo5lyJAhoxN8O08uHgiTIUOGjLAO7rfJ0PhBhgwZGzD4MCAdSfIDZxwsQ4aM3Rhp0Oyc7Ci20hpHNGTIkPFyxg/qixkG8YOUrwAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<!--
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+-->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'xxzp！！！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'xxzp';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
 
 
 
