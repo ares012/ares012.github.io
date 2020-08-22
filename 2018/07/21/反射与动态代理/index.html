@@ -1,201 +1,280 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    
-<!-- Google Analytics -->
+  
+<link rel="stylesheet" href="/style/style.css">
+
 <script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'true', 'auto');
-ga('send', 'pageview');
+  var nlviconfig = {
+    title: "Ares",
+    author: "Ares",
+    baseUrl: "/",
+    theme: {
+      scheme: "banderole",
+      lightbox: true,
+      animate: true,
+      search: false,
+      friends: false,
+      reward: false,
+      lazy: false
+    }
+  }
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-<!-- End Google Analytics -->
-
-
-    
-
-    
 
 
 
-    <meta charset="utf-8">
-    
-    <meta name="google-site-verification" content="UA-124198848-1">
-    
-    
-    
-    <link rel="canonical" href="https://www.xxzp.tech//2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
-    
-    
-    <title>反射与动态代理 | Ares | go,go,go~~~</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-    <meta name="theme-color" content="#3F51B5">
-    
-    
-    <meta name="keywords" content="java">
-    <meta name="description" content="1. 反射概述Java反射机制可以动态地获取类的结构，动态地调用对象的方法，是java语言一个动态化的机制。其功能场景：  运行时构造一个类的对象 运行时获取一个类信息，如方法，属性 实现动态代理，很多框架都有基于动态代理实现  1.1 反射获取类信息获取类信息方式： 1234Class&lt;TestReflect&gt; clazz1 &#x3D; TestReflect.class;Class&lt;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="反射与动态代理">
-<meta property="og:url" content="http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/index.html">
-<meta property="og:site_name" content="Ares">
-<meta property="og:description" content="1. 反射概述Java反射机制可以动态地获取类的结构，动态地调用对象的方法，是java语言一个动态化的机制。其功能场景：  运行时构造一个类的对象 运行时获取一个类信息，如方法，属性 实现动态代理，很多框架都有基于动态代理实现  1.1 反射获取类信息获取类信息方式： 1234Class&lt;TestReflect&gt; clazz1 &#x3D; TestReflect.class;Class&lt;">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-07-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2019-08-17T04:53:05.766Z">
-<meta property="article:author" content="Ares">
-<meta property="article:tag" content="java">
-<meta name="twitter:card" content="summary">
-    
-        <link rel="alternate" type="application/atom+xml" title="Ares" href="/atom.xml">
-    
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
-    <script>window.lazyScripts=[]</script>
 
-    <!-- custom head -->
     
+<link rel="stylesheet" href="/script/lib/lightbox/css/lightbox.min.css">
 
+
+
+
+
+    
+<link rel="stylesheet" href="/syuanpi/syuanpi.min.css">
+
+
+
+
+
+    <link rel="icon" href="/img/favicon.png">
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-98059014-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-124198848-1');
+</script>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="browsermode" content="application">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ares">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="msapplication-navbutton-color" content="#666666">
+<meta name= "format-detection" content="telephone=no" />
+<meta name="keywords" content="nlvi, Nlvi" />
+
+  <link rel="apple-touch-icon"  sizes="72x72"  href="/img/favicon.png">
+  <link rel="apple-touch-icon-precomposed"  sizes="72x72"  href="/img/favicon.png">
+
+
+  <meta name="subtitle" content="go,go,go~~~">
+
+
+
+
+  <meta name="keywords" content="java, Nlvi" />
+
+  <title> 反射与动态代理 · Ares </title>
 <meta name="generator" content="Hexo 4.2.1"></head>
-
 <body>
-    <div id="loading" class="active"></div>
+  <div class="progress">
+  <div class="progress-inner"></div>
+</div>
 
-    <aside id="menu"  >
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/img/avatar.jpg">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname">Ares</h5>
-          <a href="mailto:ares012@sina.com" title="ares012@sina.com" class="mail">ares012@sina.com</a>
-        </hgroup>
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
+  
+    <div class="tagcloud-mask"></div>  
+<div class="tagcloud" id="tagcloud">
+  <div class="tagcloud-inner">
+    <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 14px;">并发</a>
+  </div>
+</div>
+  
+
+  <div class="container" style="display:none;">
+
+    <header class="header" id="header">
+  <div class="header-wrapper">
+    <div class="logo">
+  <div class="logo-inner syuanpi tvIn">
+    <span><a href="/">Ares</a></span>
+    
+      <span id="subtitle">go,go,go~~~</span>
+    
+  </div>
+</div>
+    <nav class="main-nav">
+  
+  <ul class="main-nav-list syuanpi tvIn">
+  
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/" id="article">
+        <span class="base-name">article</span>
         
-            <li class="waves-block waves-effect">
-              <a href="/"  >
-                <i class="icon icon-lg icon-home"></i>
-                主页
+          <span class="menu-item-label">article</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/archives" id="archives">
+        <span class="base-name">archives</span>
+        
+          <span class="menu-item-label">archives</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="javascript:;" id="tags">
+        <span class="base-name">tags</span>
+        
+          <span class="menu-item-label">tags</span>
+        
+      </a>
+    </li>
+  
+    
+      
+    
+    <li class="menu-item">
+      <a href="/about" id="about">
+        <span class="base-name">about</span>
+        
+          <span class="menu-item-label">about</span>
+        
+      </a>
+    </li>
+  
+  </ul>
+  
+</nav>
+
+    
+    
+  </div>
+</header>
+<div class="mobile-header">
+  <div class="mobile-header-body">
+    <div class="mobile-header-list">
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/">
+                    <span>文章</span>
+                    
+                        <span class="menu-item-label">article</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+            <div class="mobile-nav-item">
+                <a href="/archives">
+                    <span>归档</span>
+                    
+                        <span class="menu-item-label">archives</span>
+                    
+                </a>
+            </div>
+        
+      
+        
+          <div class="mobile-nav-item inner-cloud">
+            <div class="mobile-nav-tag">
+              <a href="javascript:;" id="mobile-tags">
+                <span>标签</span>
+                
+                    <span class="menu-item-label">tags</span>
+                
               </a>
-            </li>
+            </div>
+            <div class="mobile-nav-tagcloud">
+              <div class="mobile-tagcloud-inner">
+                <a href="/tags/JPA/" style="font-size: 14px;">JPA</a> <a href="/tags/gc/" style="font-size: 14px;">gc</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/jvm/" style="font-size: 14px;">jvm</a> <a href="/tags/lambda/" style="font-size: 14px;">lambda</a> <a href="/tags/redis/" style="font-size: 14px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 14px;">spring boot</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 14px;">并发</a>
+              </div>
+            </div>
+          </div>
         
-            <li class="waves-block waves-effect">
-              <a href="/archives"  >
-                <i class="icon icon-lg icon-archives"></i>
-                归档
-              </a>
-            </li>
+      
         
-            <li class="waves-block waves-effect">
-              <a href="/tags"  >
-                <i class="icon icon-lg icon-tags"></i>
-                标签
-              </a>
-            </li>
+            <div class="mobile-nav-item">
+                <a href="/about">
+                    <span>关于</span>
+                    
+                        <span class="menu-item-label">about</span>
+                    
+                </a>
+            </div>
         
-            <li class="waves-block waves-effect">
-              <a href="/categories"  >
-                <i class="icon icon-lg icon-th-list"></i>
-                分类
-              </a>
-            </li>
-        
-            <li class="waves-block waves-effect">
-              <a href="https://github.com/ares012" target="_blank" >
-                <i class="icon icon-lg icon-github"></i>
-                Github
-              </a>
-            </li>
-        
-      </ul>
+      
     </div>
   </div>
-</aside>
-
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row">
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">反射与动态代理</div>
-        
-        <div class="search-wrap" id="search-wrap">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
-                <i class="icon icon-lg icon-chevron-left"></i>
-            </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
-                <i class="icon icon-lg icon-search"></i>
-            </a>
-        </div>
-        
-        
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
-            <i class="icon icon-lg icon-share-alt"></i>
-        </a>
-        
+  <div class="mobile-header-nav">
+    <div class="mobile-header-item" id="mobile-left">
+      <div class="header-menu-item">
+        <span class="header-menu-line"></span>
+      </div>
     </div>
-</header>
-<header class="content-header post-header">
-
-    <div class="container fade-scale">
-        <h1 class="title">反射与动态代理</h1>
-        <h5 class="subtitle">
-            
-                <time datetime="2018-07-20T16:00:00.000Z" itemprop="datePublished" class="page-time">
-  2018-07-21
-</time>
-
-
-            
-        </h5>
-    </div>
-
+    <h1 class="mobile-header-title">
+      <a href="/">Ares</a>
+    </h1>
+    <div class="mobile-header-item"></div>
+  </div>
+</div>
+    <div class="container-inner">
+      <main class="main" id="main">
+        <div class="main-wrapper">
+          
     
-
-
-</header>
-
-
-<div class="container body-wrap">
-    
-    <aside class="post-widget">
-        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-反射概述"><span class="post-toc-text">1. 反射概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-1-反射获取类信息"><span class="post-toc-text">1.1 反射获取类信息</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-2-基本使用"><span class="post-toc-text">1.2 基本使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-理解反射调用的实现机制-method-invoke-Object-obj-Object…-args"><span class="post-toc-text">2. 理解反射调用的实现机制(method.invoke(Object obj, Object… args))</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-JDK动态代理"><span class="post-toc-text">3. JDK动态代理</span></a></li></ol>
-        </nav>
-    </aside>
-
-
-<article id="post-反射与动态代理"
-  class="post-article article-type-post fade" itemprop="blogPost">
-
-    <div class="post-card">
-        <h1 class="post-card-title">反射与动态代理</h1>
-        <div class="post-meta">
-            <time class="post-time" title="2018-07-21 00:00:00" datetime="2018-07-20T16:00:00.000Z"  itemprop="datePublished">2018-07-21</time>
-
+  
+  <article class="
+  post
+   is_post 
+  ">
+    <header class="post-header">
+      <div class="post-time syuanpi fadeInUpShort back-1">
+        <div class="post-time-wrapper">
+          <span>2018-07-21</span>
+          
+          
             
-
-
+              <aside class="post-tags syuanpi fadeInUpShort back-3">
+              
+                <a href="/tags/java/">java</a>
+              
+              </aside>
             
-<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
-    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
-</span>
-
-
+          
         </div>
-        <div class="post-content" id="post-content" itemprop="postContent">
-            <h2 id="1-反射概述"><a href="#1-反射概述" class="headerlink" title="1. 反射概述"></a>1. 反射概述</h2><p>Java反射机制可以动态地获取类的结构，动态地调用对象的方法，是java语言一个动态化的机制。其功能场景：</p>
+      </div>
+      <h1 class="post-title syuanpi fadeInUpShort back-2">
+        
+          反射与动态代理
+        
+      </h1>
+    </header>
+    <div class="post-content syuanpi fadeInUpShort back-3">
+      
+        <h2 id="1-反射概述"><a href="#1-反射概述" class="headerlink" title="1. 反射概述"></a>1. 反射概述</h2><p>Java反射机制可以动态地获取类的结构，动态地调用对象的方法，是java语言一个动态化的机制。其功能场景：</p>
 <ul>
 <li>运行时构造一个类的对象</li>
 <li>运行时获取一个类信息，如方法，属性</li>
@@ -237,272 +316,171 @@ ga('send', 'pageview');
 
 
 
-        </div>
-
-        <blockquote class="post-copyright">
+      
     
-    <footer>
-        <a href="http://www.xxzp.tech">
-            <img src="/img/avatar.jpg" alt="Ares">
-            Ares
-        </a>
-    </footer>
-</blockquote>
+    </div>
+    
+      
 
-        
+      
+  <hr class="copy-line">
+  <div class="post-copyright">
+    <div class="copy-author">
+      <span>作者 :</span>
+      <span>Ares</span>
+    </div>
+    <div class="copy-url">
+      <span>地址 :</span>
+      <a href="http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</a>
+    </div>
+    <div class="copy-origin">
+      <span>来源 :</span>
+      <a href="http://www.xxzp.tech">http://www.xxzp.tech</a>
+    </div>
+    <div class="copy-license">
+      
+      著作权归作者所有，转载请联系作者获得授权。
+    </div>
+  </div>
 
+    
+  </article>
+  
+    
+  <nav class="article-page">
+    
+      <a href="/2018/08/01/lambda%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" id="art-left" class="art-left">
+        <span class="next-title">
+          <i class="iconfont icon-left"></i>lambda实现机制分析
+        </span>
+      </a>
+    
+    
+      <a href="/2018/07/15/java%E7%B1%BB%E5%8A%A0%E8%BD%BD/" id="art-right" class="art-right">
+        <span class="prev-title"> 
+          java类加载机制<i class="iconfont icon-right"></i>  
+        </span>
+      </a>
+    
+  </nav>
 
-        <div class="post-footer">
-            
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-
-            
-<div class="page-share-wrap">
     
 
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/&title=《反射与动态代理》 — Ares&pic=http://www.xxzp.tech/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/&title=《反射与动态代理》 — Ares&source=1. 反射概述Java反射机制可以动态地获取类的结构，动态地调用对象的方法，是java语言一个动态化的机制。其功能场景：
 
-运行时构造一个类的对象
-运行时..." data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《反射与动态代理》 — Ares&url=http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/&via=http://www.xxzp.tech" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
+  
+  
+    
+  
+  <aside class="post-toc">
+    <span class="title" id="toc-switch"><span>文章导航</span></span>
+    <div class="toc-inner syuanpi back-1" style="display:none;">
+      <li class="title-link"><a href="javascript:;" class="toTop">反射与动态代理</a></li>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-反射概述"><span class="toc-text">1. 反射概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-反射获取类信息"><span class="toc-text">1.1 反射获取类信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-基本使用"><span class="toc-text">1.2 基本使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-理解反射调用的实现机制-method-invoke-Object-obj-Object…-args"><span class="toc-text">2. 理解反射调用的实现机制(method.invoke(Object obj, Object… args))</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-JDK动态代理"><span class="toc-text">3. JDK动态代理</span></a></li></ol>
+    </div>
+  </aside>
 
 
 
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
-</div>
-
+  
 
 
         </div>
-    </div>
+      </main>
 
+      <footer class="footer syuanpi fadeIn" id="footer">
+  <hr>
+  <div class="footer-wrapper">
+    <div class="left">
+      <div class="contact-icon">
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2018/08/01/lambda%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">lambda实现机制分析</h4>
-      </a>
-    </div>
-  
-
-  
-    <div class="waves-block waves-effect next">
-      <a href="/2018/07/15/java%E7%B1%BB%E5%8A%A0%E8%BD%BD/" id="post-next" class="post-nav-link">
-        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">java类加载机制</h4>
-      </a>
-    </div>
-  
-</nav>
-
-
-
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</article>
-
-
-
+    
+    
+    
+    
+    
+    
+        
+            <a href="https://github.com/ares012" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        
+        
+        
+        
+        
+        
+        
+    
+</div>
+    </div>
+    <div class="right">
+      <div class="copyright">
+    <div class="info">
+        <span>&copy;</span>
+        <span> ~ 2020</span>
+        <span>❤</span>
+        <span>Ares</span>
+    </div>
+    <div class="theme">
+        <span>
+            动力来源于
+            <a href="http://hexo.io/" target="_blank">Hexo </a>
+        </span>
+        <span>
+            主题
+            <a href="https://github.com/ColMugX/hexo-theme-Nlvi" target="_blank" rel="noopener"> Nlvi </a>
+        </span>
+    </div>
+    
+    <div class="visit_count">
+        <i class="iconfont icon-visit"></i>
+        <span id="busuanzi_value_site_uv"></span>
+        <i class="iconfont icon-people"></i>
+        <span id="busuanzi_value_site_pv"></span>
+    </div>
+    
 </div>
 
-        <footer class="footer">
-    <div class="top">
-        
-<p>
-    <span id="busuanzi_container_site_uv" style='display:none'>
-        站点总访客数：<span id="busuanzi_value_site_uv"></span>
-    </span>
-    <span id="busuanzi_container_site_pv" style='display:none'>
-        站点总访问量：<span id="busuanzi_value_site_pv"></span>
-    </span>
-</p>
-
-
-         <!--
-        <p>
-            
-                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
-            
-            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
-        </p>
-    -->
     </div>
-    <div class="bottom">
-        <p><span>Ares &copy; 2018 - 2020</span>
-             <!--
-            <span>
-                
-                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>     
-            </span>
-        -->
-        </p>
-    </div>
+  </div>
 </footer>
-
-    </main>
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
-
-
-
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/&title=《反射与动态代理》 — Ares&pic=http://www.xxzp.tech/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/&title=《反射与动态代理》 — Ares&source=1. 反射概述Java反射机制可以动态地获取类的结构，动态地调用对象的方法，是java语言一个动态化的机制。其功能场景：
-
-运行时构造一个类的对象
-运行时..." data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《反射与动态代理》 — Ares&url=http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/&via=http://www.xxzp.tech" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.xxzp.tech/2018/07/21/%E5%8F%8D%E5%B0%84%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
+    </div>
+  </div>
+  
+<script src="/script/lib/jquery/jquery-3.2.1.min.js"></script>
 
 
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADKklEQVR42u3awY7iQAwE0Pn/n56V9raaDVTZGQmalxMKkPQLB+Nyf33Fx/ff4+rM1evHZ36ev7rv1efz6wwPbGxs7Ddhfz88cuTP11dnHi+0vf7j85d3xMbGxj6Ondx+v/RNkcvXmRRgbGxs7M9k5//t8zNtq5MUMGxsbGzsvLVoi00eCd31gLCxsbE/h52ESi0s/+4sfspbJmxsbOyz2e2g95Vf/+J8GxsbG/sl2d/lMWtUkjAov/Js5f9cBxsbG/sgdj523dxsds1kPat4CxsbG/sIdl4Y2rhns5Uzf3e2DQgbGxv7JPZsPJCPZuullCUtH2ZgY2Njfw57FgO18X3+gNqRQF7wsLGxsc9gbzbitLHOLIRqG4+k4GFjY2Ofx87/vrdL2Yx48yu3DwUbGxv7VHYb3Oefz8+30VJSMuvJNjY2NvZbsVv8vhXZLLotgU8eHDY2Nvah7N94fdcgYR9LYWNjY5/HzsvAbHybA9ry0+KxsbGxz2Zv2oB2Q88wAIoDqeSHwcbGxj6VnWOSlqMdCbQtzSqowsbGxj6UvWknNsPjTWsxe8TY2NjYp7LboKd99674qR1C/Ocz2NjY2Aex232JeQFLzretTvKIN48JGxsb+93Z9R/68mZtqUsecT5IuPwuNjY29kHsfHA7W0p7naTN2P9s2NjY2Cex2wAoH/HmJapdyWxEgY2NjX0SO//LPtvck4DbgGk2WsbGxsb+HPYslMk34uSbddrBcLE2bGxs7IPY+zK2+dYNGVgZTmFjY2Ofx55FOfmmmbYVaUOr4bAZGxsb+yB2/rVZtJRfcxZC5cFTUbexsbGx34qdL3S29M3Gmv1A4kndxsbGxj6IvdkK2UZLsw2asytcfh4bGxv7OHZbtPKIv42fNqF/3q5gY2Njn8TeF5J98JSMbzcBUxI2YWNjY787Oy9aN2x5LNuGlhRt2cHGxsY+lL2PnGZbc/KRQBtRPbkvNjY29key89KS9zqzwW3e/GBjY2Njz2B5hDSL9duCd1v3g42Njf3C7Ha4uxnKbtawWfMwS8PGxsZ+eXY76G3D+tlS2kXPhhzY2NjYb87+A62WZBc/PkeXAAAAAElFTkSuQmCC" alt="微信分享二维码">
+
+  
+<script src="/script/lib/lightbox/js/lightbox.min.js"></script>
+
+
+
+
+  <script src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"], ["\\(","\\)"]]}});</script>
+
+
+
+
+
+
+
+<script src="/script/src/nlvi.js"></script>
+
+
+  
+<script src="/script/scheme/banderole.js"></script>
+
+
+
+<script src="/script/bootstarp.js"></script>
+
+
+
+<div class="backtop syuanpi melt toTop" id="backtop">
+    <i class="iconfont icon-up"></i>
+    <span style="text-align:center;font-family:Georgia;"><span style="font-family:Georgia;" id="scrollpercent">1</span>%</span>
 </div>
-
-
-
-
-    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-<script>
-var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
-
-
-</script>
-
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
-
-
-<div class="search-panel" id="search-panel">
-    <ul class="search-result" id="search-result"></ul>
-</div>
-<template id="search-tpl">
-<li class="item">
-    <a href="{path}" class="waves-block waves-effect">
-        <div class="title ellipsis" title="{title}">{title}</div>
-        <div class="flex-row flex-middle">
-            <div class="tags ellipsis">
-                {tags}
-            </div>
-            <time class="flex-col time">{date}</time>
-        </div>
-    </a>
-</li>
-</template>
-
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
-
-
-
-
-
-
-<!--
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
--->
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-<script>
-(function() {
-    var OriginTitile = document.title, titleTime;
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            document.title = 'xxzp！！！';
-            clearTimeout(titleTime);
-        } else {
-            document.title = 'xxzp';
-            titleTime = setTimeout(function() {
-                document.title = OriginTitile;
-            },2000);
-        }
-    });
-})();
-</script>
 
 
 
